@@ -1,0 +1,13 @@
+.header {
+    font-size: 200%;
+    display: block;
+    text-align: center;
+}
+.header:hover {
+    color: rgb(73, 79, 82);
+    font-size: 220%;
+}
+.headerImg {
+    height: 40px;
+    margin: 0 20px ;
+}
