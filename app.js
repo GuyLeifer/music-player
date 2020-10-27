@@ -3,6 +3,12 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
+app.use('/songs', require('./routes/songRoute'));
+app.use('/albums', require('./routes/albumRoute'));
+app.use('/artists', require('./routes/artistRoute'));
+app.use('/playlists', require('./routes/playlistRoute'));
+app.use('/playlistsongs', require('./routes/playlistSongsRoute'));
+
 app.get('/', (req, res) => {
   res.send('You entered to the Server Port!')
 });
