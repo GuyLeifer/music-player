@@ -1,11 +1,22 @@
 import React from 'react';
 import './App.css';
+
+//packages
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
+//components
 import Header from './components/header/Header';
+import HomePage from './components/HomePage'
 
 function App() {
   return (
     <div className="App">
-      <Header />
+      <Router>
+        <Header />
+        <Switch>
+          <Route path="/" exact component = {HomePage} />
+        </Switch>
+      </Router>
     </div>
   );
 }

@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Artist.init({
     name: DataTypes.STRING,
-    coverImg: DataTypes.STRING
+    coverImg: DataTypes.STRING(8000)
   }, {
     sequelize,
     modelName: 'Artist',

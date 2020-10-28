@@ -11,14 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.My_playlist_song, {
+      this.hasMany(models.PlaylistSongs, {
         foreignKey: 'playlistId'
       });
     }
   };
   Playlist.init({
     name: DataTypes.STRING,
-    coverImg: DataTypes.STRING
+    coverImg: DataTypes.STRING(8000)
   }, {
     sequelize,
     modelName: 'Playlist',
