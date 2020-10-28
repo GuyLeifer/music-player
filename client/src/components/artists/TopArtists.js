@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Carousel from 'styled-components-carousel';
 import axios from 'axios';
 import Artist from './Artist';
+import './Artists.css';
 
 function TopArtists() {
     const [artists, setArtists] = useState([]);

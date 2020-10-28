@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Carousel from 'styled-components-carousel';
 import axios from 'axios';
 import Playlist from './Playlist';
+import './Playlists.css';
 
 function TopPlaylists() {
     const [playlists, setPlaylists] = useState([]);

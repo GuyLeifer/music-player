@@ -1,0 +1,22 @@
+.topSongs {
+    flex: 25%;
+    text-align: center;
+    border: 1px solid rgb(73, 79, 82);
+    margin: 10px;
+    padding: 10px;
+    min-width: 200px;
+}
+.song span {
+    margin: 10px;
+}
+.songTitle {
+    right: 0;
+}
+.song:hover {
+    font-size: 110%;
+    color: rgb(73, 79, 82);
+    font-weight: 600;
+}
+.songLength {
+    left: 0;
+}

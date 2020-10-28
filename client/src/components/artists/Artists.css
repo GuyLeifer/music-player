@@ -1,0 +1,23 @@
+.topArtists {
+    flex: 25%;
+    text-align: center;
+    border: 1px solid rgb(73, 79, 82);
+    margin: 10px;
+    padding: 10px;
+    min-width: 200px;
+}
+
+.artist:hover {
+    font-size: 110%;
+    color: rgb(73, 79, 82);
+    font-weight: 600;
+}
+.artistImg img {
+    margin: 10px;
+    height: 100px;
+    width: 100px;
+}
+.artistImg img:hover {
+    height: 120px;
+    width: 120px;
+}
