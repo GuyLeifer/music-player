@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Carousel from 'styled-components-carousel';
-import YouTube from 'react-youtube';
+import Song from '../songs/Song';
 
 function PlaylistId(match) {
     const [playlist, setPlaylist] = useState(null);
+    console.log("match:", match);
 
     useEffect(() => {
         fetchPlaylist();
     }, []);
 
     const fetchPlaylist = async() => {
-        const { data } = await axios.get(`/playlistsongs`);
-        const playlistSongs = data.filter((item) => item.playlistId == match.match.params.id);
-        setPlaylist(playlistSongs);
+        const { data } = await axios.get(`/playlistsongs/${ match.match.params.id}`);
+        setPlaylist(data);
     }
 
     const opts = {
@@ -33,8 +33,8 @@ function PlaylistId(match) {
                     <h3>Cover Image:</h3>
                     <img src={playlist[0].Playlist.coverImg}/>
                 </div>
-                <div>
-                    <h3>Songs:</h3>
+                <div className="songsOnPlaylistDiv">
+                    <h3 className="subHeader">Songs:</h3>
                     <Carousel
                     center
                     infinite
@@ -43,11 +43,9 @@ function PlaylistId(match) {
                     slidesToShow={3}>
                         {playlist.map((item) => {
                             return (
-                                <Link to={`/song/${item.Song.id}?playlist=${item.playlistId}`}> 
-                                    <p>{item.Song.title}</p>
-                                    <YouTube videoId={item.Song.youtubeLink} opts={opts} />
-                                    {/* <iframe src={`https://www.youtube.com/embed/${song.YouTube_Link}`}/>                            */}
-                                </Link>  
+                                <Link to={`/song/${item.SongId}?playlist=${item.PlaylistId}`}> 
+                                    <Song song={item.Song} />
+                                </Link> 
                             )
                         })}
                     </Carousel>

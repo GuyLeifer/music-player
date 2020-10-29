@@ -1,16 +1,18 @@
 const { Router } = require('express');
-const { Playlist } = require('../models');
+const { Playlist, PlaylistSongs } = require('../models');
 
 const router = Router();
 
 router.get('/', async (req, res) => {
   const allPlaylists = await Playlist.findAll({
+    include: [{ model: PlaylistSongs }]
   });
   return res.json(allPlaylists);
 });
 
 router.get('/:playlistId', async (req, res) => {
   const playlist = await Playlist.findByPk(req.params.playlistId , {
+    include: [{ model: PlaylistSongs }]
   });
   res.json(playlist)
 })

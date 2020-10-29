@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Carousel from 'styled-components-carousel';
 import axios from 'axios';
 import Album from './Album';
+import { Link } from 'react-router-dom';
 import './Albums.css';
 
 function TopAlbums() {
@@ -29,7 +30,11 @@ function TopAlbums() {
                 showIndicator
                 slidesToShow={3}>
                 {albums.map(album => {
-                    return <Album album={album} />
+                    return (
+                        <Link to = {`/album/${album.id}`}>
+                            <Album album={album} />
+                        </Link>
+                    )
                 })}
             </Carousel>
         </div>

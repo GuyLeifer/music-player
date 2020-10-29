@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Carousel from 'styled-components-carousel';
 import YouTube from 'react-youtube';
+import Album from '../albums/Album';
+import Song from '../songs/Song';
 
 function ArtistId(match) {
     console.log("match: ", match);
@@ -38,41 +40,39 @@ function ArtistId(match) {
                     <img src={artist.coverImg} alt={artist.name} />
                 </div>
             </div>
-            <div>
-            <h3>Songs:</h3>
-                <Carousel
-                center
-                infinite
-                showArrows
-                showIndicator
-                slidesToShow={5}>
-                {artist.Songs.map((song) => {
-                    return (
-                        <Link to={`/song/${song.id}?artist=${song.artistId}`}>
-                            <div className="songOnArtist">  
-                                        <p>{song.title}</p>
-                                        <YouTube videoId={song.youtubeLink} opts={opts} />
-                            </div>
-                        </Link>
-                    )
-                })}
-                </Carousel>
-                <div>
-                    <h3>Albums:</h3>
+            <div className="ArtistMasterpiece">
+                <div className="songsOnArtistDiv">
+                    <h3 className="subHeader">Songs:</h3>
+                        <Carousel
+                        center
+                        infinite
+                        showArrows
+                        showIndicator
+                        slidesToShow={3}>
+                        {artist.Songs.map((song) => {
+                            return (
+                                <Link to={`/song/${song.id}?artist=${song.artistId}`}>
+                                    <div className="songOnArtist">  
+                                        <Song song={song} />
+                                    </div>
+                                </Link>
+                            )
+                        })}
+                        </Carousel>
+                </div>
+                <div className="albumsOnArtistDiv">
+                    <h3 className="subHeader">Albums:</h3>
                     <Carousel
-                     center
-                     infinite
-                     showArrows
-                     showIndicator
-                     slidesToShow={3}>
+                    center
+                    infinite
+                    showArrows
+                    showIndicator
+                    slidesToShow={3}>
                         {artist.Albums.map((album) => {
                             return (
                                 <Link to={`/album/${album.id}?artist=${album.artistId}`}>
                                     <div className="albumOnArtist">
-                                        <p>{album.name}</p>
-                                        <div>
-                                            <img src={album.coverImg} alt={album.name}/>
-                                        </div>
+                                        <Album album={album} />
                                     </div>
                                 </Link>
                             )

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import YouTube from 'react-youtube';
 import './Songs.css';
 
@@ -11,7 +10,6 @@ function Song({song}) {
     }
     
     return (
-        <Link to = {`/song/${song.id}`}>
             <div className="song" >
                 <span className="songTitle">{song.title}</span> 
                 <span className="songLength">{song.length}</span>
@@ -20,7 +18,6 @@ function Song({song}) {
                     {/* <iframe src={`https://www.youtube.com/embed/${song.YouTube_Link}`}/> */}
                 </div>
             </div>
-        </Link>
     )
 }
 

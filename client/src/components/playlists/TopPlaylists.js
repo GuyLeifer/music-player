@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Carousel from 'styled-components-carousel';
 import axios from 'axios';
 import Playlist from './Playlist';
+import { Link } from 'react-router-dom';
 import './Playlists.css';
 
 function TopPlaylists() {
@@ -29,7 +30,11 @@ function TopPlaylists() {
                 showIndicator
                 slidesToShow={3}>
                 {playlists.map(playlist => {
-                    return <Playlist playlist={playlist} />
+                    return (
+                        <Link to = {`/playlist/${playlist.id}`}>
+                            <Playlist playlist={playlist} />
+                        </Link>
+                    ) 
                 })}
             </Carousel>    
         </div>

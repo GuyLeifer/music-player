@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Carousel from 'styled-components-carousel';
-import YouTube from 'react-youtube';
+import Song from '../songs/Song';
 
 function AlbumId(match) {
     const [album, setAlbum] = useState(null);
@@ -36,8 +36,8 @@ function AlbumId(match) {
                         <img src={album.coverImg} alt={album.name}/>
                     </div>
                 </div>
-                <div className="songsOnAlbum">
-                    <h3>Songs:</h3>
+                <div className="songsOnAlbumDiv">
+                    <h3 className="subHeader">Songs:</h3>
                     <Carousel
                     center
                     infinite
@@ -47,8 +47,7 @@ function AlbumId(match) {
                     {album.Songs.map((song) => {
                         return (
                             <Link to={`/song/${song.id}?album=${song.albumId}`}> 
-                                <p>{song.title}</p>
-                                <YouTube videoId={song.youtubeLink} opts={opts} />
+                                <Song song={song} />
                             </Link>  
                         )
                     })} 

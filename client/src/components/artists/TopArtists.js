@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Carousel from 'styled-components-carousel';
 import axios from 'axios';
 import Artist from './Artist';
+import { Link } from 'react-router-dom';
 import './Artists.css';
 
 function TopArtists() {
@@ -29,7 +30,11 @@ function TopArtists() {
                 showIndicator
                 slidesToShow={3}>
                 {artists.map(artist => {
-                    return <Artist artist={artist} />
+                    return (
+                        <Link to = {`/artist/${artist.id}`}>
+                            <Artist artist={artist} />
+                        </Link>
+                    )
                 })}
             </Carousel>
         </div>

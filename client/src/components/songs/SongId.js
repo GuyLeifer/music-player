@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Carousel from 'styled-components-carousel';
 import YouTube from 'react-youtube';
+import Song from './Song';
+import './Songs.css'
 
 function SongId(match) {
     console.log(match)
@@ -37,22 +39,22 @@ function SongId(match) {
     const fetchArtist = async() => {
         if (match.location.search.substring(1, 7) === "artist") {
             console.log("artist search: ", match.location.search.substring(1, 7))
-        const { data } = await axios.get(`/artists/${Number(match.location.search.substring(8))}`);
-        setArtist(data);
+            const { data } = await axios.get(`/artists/${Number(match.location.search.substring(8))}`);
+            setArtist(data);
         }
     }
     const fetchAlbum = async() => {
         if (match.location.search.substring(1, 6) === "album") {
-        const { data } = await axios.get(`/albums/${Number(match.location.search.substring(7))}`);
-        setAlbum(data);
+            const { data } = await axios.get(`/albums/${Number(match.location.search.substring(7))}`);
+            setAlbum(data);
         }
     }
     const fetchPlaylist = async() => {
         if (match.location.search.substring(1, 9) === "playlist") {
-        const { data } = await axios.get(`/playlistsongs`);
-        const playlistSongs = data.filter((item) => item.PlaylistId === Number(match.location.search.substring(10)) && item.SongId !== Number(match.match.params.id));
-        console.log("playlist songs: ", playlistSongs)
-        setPlaylist(playlistSongs);
+            const { data } = await axios.get(`/playlistsongs`);
+            const playlistSongs = data.filter((item) => item.PlaylistId === Number(match.location.search.substring(10)) && item.SongId !== Number(match.match.params.id));
+            console.log("playlist songs: ", playlistSongs)
+            setPlaylist(playlistSongs);
         }
     }
     const fetchPlaylists = async() => {
@@ -114,10 +116,10 @@ function SongId(match) {
                     </form>
                 )}
                 <Link to = {`/artist/${song.artistId}`}>
-                    <div>Artist Name: {song.Artist.name}</div>
+                    <div className="songLink">Artist Name: {song.Artist.name}</div>
                 </Link>
                 <Link to = {`/album/${song.albumId}`}>
-                    <div>Album Name: {song.Album.name}</div>
+                    <div className="songLink">Album Name: {song.Album.name}</div>
                 </Link>
                 <div>Created At: {song.createdAt}</div>
                 <div>Updated At: {song.updatedAt}</div>
@@ -125,8 +127,8 @@ function SongId(match) {
                 <div>Lyrics: <br />{song.lyrics}</div>
                 <>
                     {artist && (
-                        <div>
-                            <h3>Songs From Artist:</h3>
+                        <div className="songsFromSameDiv">
+                            <h3 className="subHeader">Songs From Artist:</h3>
                             <h4>Artist Name: {artist.name}
                                 <Link to = {`/artist/${artist.id}`}>
                                     <div>
@@ -145,9 +147,7 @@ function SongId(match) {
                                         return (
                                             <div>
                                                 <Link to = {`/song/${song.id}?artist=${song.artistId}`}>
-                                                    <div>{song.title}</div>
-                                                    <YouTube videoId={song.youtubeLink} opts={optsForOtherSong} />
-                                                    {/* <iframe src={`https://www.youtube.com/embed/${song.YouTube_Link}`}/> */}
+                                                    <Song song={song} />
                                                 </Link>
                                             </div>
                                         )
@@ -159,7 +159,7 @@ function SongId(match) {
                 <>
                     {album && (
                         <div>
-                            <h3>Songs From Album:</h3>
+                            <h3 className="subHeader">Songs From Album:</h3>
                             <h4>Album Name: {album.name}
                                 <Link to = {`/album/${album.id}`}>
                                     <div>
@@ -178,9 +178,7 @@ function SongId(match) {
                                         return (
                                             <div>
                                                 <Link to = {`/song/${song.id}?album=${song.albumId}`}>
-                                                    <div>{song.title}</div>
-                                                    <YouTube videoId={song.youtubeLink} opts={optsForOtherSong} />
-                                                    {/* <iframe src={`https://www.youtube.com/embed/${song.YouTube_Link}`}/> */}
+                                                    <Song song={song} />
                                                 </Link>
                                             </div>
                                         )
@@ -192,7 +190,7 @@ function SongId(match) {
                 <>
                     {playlist && (
                         <div>
-                            <h3>Songs From Same Playlist:</h3>
+                            <h3 className="subHeader">Songs From Same Playlist:</h3>
                             <h4>Playlist Name: {playlist[0].Playlist.Name}
                                 <Link to = {`/playlist/${playlist[0].PlaylistId}`}>
                                     <div>
@@ -211,8 +209,7 @@ function SongId(match) {
                                         return (
                                             <div onClick={() => {renderPage(song.SongId, song.PlaylistId)}}>
                                                 <Link to = {`/song/${song.SongId}?playlist=${song.PlaylistId}`}>
-                                                    <div>{song.Song.Title}</div>
-                                                    <YouTube videoId={song.Song.YouTube_Link} opts={optsForOtherSong} />
+                                                    <Song song={song} />
                                                 </Link>
                                             </div>
                                         )

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Carousel from 'styled-components-carousel';
 import axios from 'axios';
 import Song from './Song';
+import { Link } from 'react-router-dom';
 import './Songs.css';
 
 function TopSongs() {
@@ -30,7 +31,11 @@ function TopSongs() {
                 showIndicator
                 slidesToShow={3}>
                 {songs.map(song => {
-                    return <Song song={song} />
+                    return (
+                        <Link to = {`/song/${song.id}`}>
+                            <Song song={song} />
+                        </Link>
+                    )                  
                 })} 
             </Carousel>
         </div>   

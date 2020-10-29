@@ -25,3 +25,29 @@
 .songLength {
     left: 0;
 }
+
+/* SongId */
+.songsFromSameDiv {
+    flex: 50%;
+    text-align: center;
+    border: 1px solid rgb(73, 79, 82);
+    margin: 10px;
+    padding: 10px;
+    min-width: 200px;
+    background-color: rgb(10, 10, 10);
+    color: rgb(73, 79, 82);
+}
+.songLink {
+    color: rgb(73, 79, 82);
+}
+.subHeader {
+    text-decoration: underline;
+    font-size: 150%;
+    margin:10px;
+    color: aliceblue;
+}
+.subHeader:hover {
+    font-size: 200%;
+    color: rgb(73, 79, 82);
+    margin-top: 0;
+}
