@@ -13,8 +13,9 @@ function PlaylistId(match) {
     }, []);
 
     const fetchPlaylist = async() => {
-        const { data } = await axios.get(`/playlistsongs/${ match.match.params.id}`);
+        const { data } = await axios.get(`/playlistsongs/${match.match.params.id}`);
         setPlaylist(data);
+        console.log("data", data);
     }
 
     const opts = {

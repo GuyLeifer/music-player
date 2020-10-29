@@ -8,6 +8,9 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Header from './components/header/Header';
 import Navbar from './components/navbar/Navbar';
 import HomePage from './components/HomePage';
+import About from './components/about/About';
+import Footer from './components/footer/Footer';
+import GenericNotFound from './components/genericNotFound/GenericNotFound';
 
 import TopSongs from './components/songs/TopSongs';
 import TopArtists from './components/artists/TopArtists';
@@ -27,15 +30,18 @@ function App() {
         <Header />
         <Switch>
           <Route path="/" exact component = {HomePage} />
+          <Route path="/about" exact component = {About} />
           <Route path="/top_songs" exact component = {TopSongs} />
-        <Route path="/top_artists" exact component = {TopArtists} />
-        <Route path="/top_albums" exact component = {TopAlbums} />
-        <Route path="/top_playlists" exact component = {TopPlaylists} />
-        <Route path="/artist/:id" component = {ArtistId}/>
-        <Route path="/album/:id" component = {AlbumId}/>
-        <Route path="/song/:id" component = {SongId}/>
-        <Route path="/playlist/:id" exact component = {PlaylistId}/>
+          <Route path="/top_artists" exact component = {TopArtists} />
+          <Route path="/top_albums" exact component = {TopAlbums} />
+          <Route path="/top_playlists" exact component = {TopPlaylists} />
+          <Route path="/artist/:id" component = {ArtistId}/>
+          <Route path="/album/:id" component = {AlbumId}/>
+          <Route path="/song/:id" component = {SongId}/>
+          <Route path="/playlist/:id" exact component = {PlaylistId}/>
+          <Route path='*' exact={true} status={404} component={GenericNotFound}/>
         </Switch>
+        <Footer />
       </Router>
     </div>
   );
