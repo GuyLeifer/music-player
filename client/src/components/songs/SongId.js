@@ -69,8 +69,8 @@ function SongId(match) {
 
     const addToPlaylist = async(playlistId, songId) => {
         await axios.post('/playlistsongs', {
-            "PlaylistId": Number(playlistId),
-            "SongId": songId,
+            "playlistId": Number(playlistId),
+            "songId": songId,
         });
     }
 
