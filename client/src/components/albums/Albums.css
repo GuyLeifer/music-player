@@ -5,12 +5,20 @@
     margin: 10px;
     padding: 10px;
     min-width: 200px;
+    background-color: rgb(10, 10, 10);
+    color: rgb(73, 79, 82);
 }
 
+.albumName {
+    color: grey;
+    text-decoration: underline;
+}
 .albumImg img {
     margin: 10px;
     height: 100px;
     width: 100px;
+    background-color: aliceblue;
+    border: 1px solid aliceblue;
 }
 .albumImg img:hover {
     height: 120px;

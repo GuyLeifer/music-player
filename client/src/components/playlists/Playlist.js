@@ -8,7 +8,7 @@ function Playlist({playlist}) {
         <Link to = {`/playlist/${playlist.id}`}>
             <div className="playlist">
                <span className="playlistName">{playlist.name}</span>
-               <div className="albumImg">
+               <div className="playlistImg">
                     <img src={playlist.coverImg}/>
                 </div>
             </div>

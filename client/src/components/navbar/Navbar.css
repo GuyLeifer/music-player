@@ -6,6 +6,9 @@ nav {
     min-height: 10vh;
     background: rgb(73, 79, 82);
     color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 .nav-links {
     width: 70%;
