@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import Searchbar from './Searchbar';
 
 function Navbar() {
     const navStyle = {
@@ -33,6 +34,10 @@ function Navbar() {
                 <Link style={navStyle} to='/about'>
                     <li>About</li>
                 </Link>
+                <div style={{
+                    width: 200,}}>
+                    <Searchbar />
+                </div>
             </ul>
         </nav>
     )

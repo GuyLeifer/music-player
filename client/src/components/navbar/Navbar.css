@@ -20,3 +20,10 @@ nav {
 .navImg {
     height: 50px;
 }
+
+/* searchBox */
+.searchContainer {
+    position: absolute;
+    color: black;
+    top: 30px;
+}
