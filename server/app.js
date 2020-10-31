@@ -8,6 +8,7 @@ app.use('/albums', require('./routes/albumRoute'));
 app.use('/artists', require('./routes/artistRoute'));
 app.use('/playlists', require('./routes/playlistRoute'));
 app.use('/playlistsongs', require('./routes/playlistSongsRoute'));
+app.use('/search', require('./routes/searchRoute'));
 
 app.get('/', (req, res) => {
   res.send('You entered to the Server Port!')
