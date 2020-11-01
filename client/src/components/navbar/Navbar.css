@@ -19,4 +19,12 @@ nav {
 }
 .navImg {
     height: 50px;
+    border-radius: 30%;
+}
+
+/* searchBox */
+.searchContainer {
+    position: absolute;
+    color: black;
+    top: 30px;
 }

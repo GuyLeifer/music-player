@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Carousel from 'styled-components-carousel';
-import YouTube from 'react-youtube';
 import Album from '../albums/Album';
 import Song from '../songs/Song';
 
