@@ -9,7 +9,7 @@ app.use('/artists', require('./routes/artistRoute'));
 app.use('/playlists', require('./routes/playlistRoute'));
 app.use('/playlistsongs', require('./routes/playlistSongsRoute'));
 app.use('/users', require('./routes/userRoute'));
-app.use('/interactions', require('./routes/interactionRoute'));
+app.use('/interactions', require('./routes/interactionsRoutes'));
 app.use('/search', require('./routes/searchRoute'));
 
 app.get('/', (req, res) => {

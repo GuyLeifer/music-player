@@ -1,13 +1,27 @@
 const { Router } = require('express');
-const { Song, Interaction, User } = require('../models');
+const { Song, InteractionSong, User } = require('../../models');
+const sequelize = require('sequelize');
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const AllInteractions = await Interaction.findAll({
+  const AllInteractions = await InteractionSong.findAll({
     include: [{ model: User }, { model: Song }]
   });
     res.json(AllInteractions);
+});
+
+router.get('/topsongs', async (req, res) => {
+  const topTwentySongs = await InteractionSong.findAll({
+    attributes: ['songId', [sequelize.fn('count', sequelize.col('isLiked')), 'count']],
+    where: {isLiked: true},
+    include : [{ model : Song}],
+    group: 'songId',
+    order: sequelize.literal('count DESC'),
+    limit: 20
+  });
+
+  res.json(topTwentySongs);
 });
 
 // router.get('/:myPlaylistSongId', async (req, res) => {
@@ -18,7 +32,7 @@ router.get('/', async (req, res) => {
 // })
 
 router.get('/:interactionId', async (req, res) => {
-  const interaction = await Interaction.findAll({
+  const interaction = await InteractionSong.findAll({
     include: [{ model: User }, { model: Song }],
     where: {userId: req.params.interactionId}
   });
@@ -27,7 +41,7 @@ router.get('/:interactionId', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const { userId, songId, isLiked, playCount } = req.body;
-    const interaction = await PlaylistSongs.create({
+    const interaction = await InteractionSong.create({
         userId: userId, 
         songId: songId, 
         isLiked: isLiked, 
@@ -39,13 +53,13 @@ router.post('/', async (req, res) => {
 })
 
 router.patch('/:interactionId', async (req, res) => {
-  const interaction = await Interaction.findByPk(req.params.interactionId);
+  const interaction = await InteractionSong.findByPk(req.params.interactionId);
   await interaction.update(req.body);
   res.json(interaction)
 })
 
 router.delete('/:interactionId', async (req, res) => {
-  const interaction = await Interaction.findByPk(req.params.interactionId);
+  const interaction = await InteractionSong.findByPk(req.params.interactionId);
   await interaction.destroy();
   res.json({ deleted: true })
 })

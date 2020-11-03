@@ -39,6 +39,7 @@
 }
 .songLink {
     color: rgb(73, 79, 82);
+    text-decoration: underline;
 }
 .subHeader {
     text-decoration: underline;
@@ -94,4 +95,13 @@
 }
 #mySelect:hover {
     border-color: rgb(109, 107, 107);
+}
+.likeIcon {
+    background-color:rgb(73, 79, 82);
+    border-radius: 50%;
+    height: 50px;
+}
+.likeIcon:hover {
+    background-color:aliceblue;
+    height: 60px;
 }

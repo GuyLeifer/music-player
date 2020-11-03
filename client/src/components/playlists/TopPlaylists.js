@@ -11,7 +11,7 @@ function TopPlaylists() {
     useEffect(() => {
         (async () => {
             try {
-            const { data } = await axios.get('/playlists');
+            const { data } = await axios.get('/interactions/playlists/topplaylists');
             setPlaylists(data);
             }
             catch(err) {
@@ -29,10 +29,10 @@ function TopPlaylists() {
                 showArrows
                 showIndicator
                 slidesToShow={3}>
-                {playlists.map(playlist => {
+                {playlists.map(interaction => {
                     return (
-                        <Link to = {`/playlist/${playlist.id}`}>
-                            <Playlist playlist={playlist} />
+                        <Link to = {`/playlist/${interaction.playlistId}`}>
+                            <Playlist playlist={interaction.Playlist} />
                         </Link>
                     ) 
                 })}

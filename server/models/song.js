@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.PlaylistSongs, {
         foreignKey: 'songId'
       });
-      this.hasMany(models.Interaction, {
+      this.hasMany(models.InteractionSong, {
         foreignKey: 'songId'
       });
     }

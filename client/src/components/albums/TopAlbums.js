@@ -11,7 +11,7 @@ function TopAlbums() {
     useEffect(() => {
         (async () => {
             try {
-            const { data } = await axios.get('/albums');
+            const { data } = await axios.get('/interactions/albums/topalbums');
             setAlbums(data);
             }
             catch(err) {
@@ -29,10 +29,10 @@ function TopAlbums() {
                 showArrows
                 showIndicator
                 slidesToShow={3}>
-                {albums.map(album => {
+                {albums.map(interaction => {
                     return (
-                        <Link to = {`/album/${album.id}`}>
-                            <Album album={album} />
+                        <Link to = {`/album/${interaction.albumId}`}>
+                            <Album album={interaction.Album} />
                         </Link>
                     )
                 })}

@@ -94,14 +94,23 @@ function SongId(match) {
         //   },
     }
 
+    const likeSong = async () => {
+        // axios.patch(`interactions/${userId}`, {
+        //     isLiked: true
+        // })
+        axios.patch('/interactions/1', {
+            isLiked: true
+        })
+    }
+
     return (
         <>
         {song && (
             <div className="info">
                 <div>Song Title: {song.title}</div>
+                <div><img className="likeIcon" onClick={() => likeSong()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png"/></div>
                 <div>
                     <YouTube videoId={song.youtubeLink} opts={optsForMainSong} /> 
-                    {/* <iframe src={`https://www.youtube.com/embed/${song.YouTube_Link}`}/> */}
                 </div>
                 {playlists && (
                     <form onSubmit={() => addToPlaylist(playlistID, song.id)}> Add To Playlist

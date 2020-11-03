@@ -11,7 +11,7 @@ function TopSongs() {
     useEffect(() => {
         (async () => {
             try {
-            const { data } = await axios.get('/songs');
+            const { data } = await axios.get('/interactions/songs/topsongs');
             console.log("data: ", data)
             setSongs(data);
             }
@@ -30,10 +30,10 @@ function TopSongs() {
                 showArrows
                 showIndicator
                 slidesToShow={3}>
-                {songs.map(song => {
+                {songs.map(interaction => {
                     return (
-                        <Link to = {`/song/${song.id}`}>
-                            <Song song={song} />
+                        <Link to = {`/song/${interaction.songId}`}>
+                            <Song song={interaction.Song} />
                         </Link>
                     )                  
                 })} 

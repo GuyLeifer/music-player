@@ -11,7 +11,7 @@ function TopArtists() {
     useEffect(() => {
         (async () => {
             try {
-            const { data } = await axios.get('/artists');
+            const { data } = await axios.get('/interactions/artists/topartists');
             setArtists(data);
             }
             catch(err) {
@@ -29,10 +29,10 @@ function TopArtists() {
                 showArrows
                 showIndicator
                 slidesToShow={3}>
-                {artists.map(artist => {
+                {artists.map(interaction => {
                     return (
-                        <Link to = {`/artist/${artist.id}`}>
-                            <Artist artist={artist} />
+                        <Link to = {`/artist/${interaction.artistId}`}>
+                            <Artist artist={interaction.Artist} />
                         </Link>
                     )
                 })}
