@@ -18,6 +18,11 @@ footer {
     list-style-type: none;
   }
 
+  .Icon:hover {
+    border-radius: 50%;
+    border: 1px solid aliceblue;
+  } 
+
   .name {
     color: aliceblue;
     -webkit-text-stroke: 0.2px black;

@@ -18,11 +18,6 @@ function PlaylistId(match) {
         console.log("data", data);
     }
 
-    const opts = {
-        height: '160',
-        width: '260',
-    }
-
     return (
         <>
         {playlist && (

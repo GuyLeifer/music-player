@@ -12,16 +12,16 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasMany(models.InteractionSong, {
-        foreignKey: 'songId'
+        foreignKey: 'UserId'
       });
       this.hasMany(models.InteractionArtist, {
-        foreignKey: 'artistId'
+        foreignKey: 'UserId'
       });
       this.hasMany(models.InteractionAlbum, {
-        foreignKey: 'albumId'
+        foreignKey: 'UserId'
       });
       this.hasMany(models.InteractionPlaylist, {
-        foreignKey: 'playlistId'
+        foreignKey: 'UserId'
       });
     }
   };
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    isAdmin: DataTypes.BOOLEAN,
+    isAdmin: {type: DataTypes.BOOLEAN, defaultValue: false},
     preferences: DataTypes.JSON,
     rememberToken: DataTypes.STRING
   }, {

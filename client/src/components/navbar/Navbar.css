@@ -19,7 +19,8 @@ nav {
 }
 .navImg {
     height: 50px;
-    border-radius: 30%;
+    border-radius: 50%;
+    background-color: aliceblue;
 }
 
 /* searchBox */
@@ -27,4 +28,56 @@ nav {
     position: absolute;
     color: black;
     top: 30px;
+}
+.login {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+.error {
+    text-align: center;
+    font-size: 80%;
+    font-weight: bold;
+    color: black;
+}
+.labelInput {
+    text-align: center
+}
+.modalTitle {
+    text-align: center;
+}
+.input {
+    background-color: rgb(73, 79, 82);
+    color:aliceblue;
+}
+.signup {
+    text-align: center;
+    color: black;
+}
+.signupLink {
+    color: white;
+    text-decoration: underline;
+    margin: auto;
+}
+.username {
+    background-color: aliceblue;
+    color: black;
+    text-decoration: underline;
+    width: 40px;
+    height: 40px;
+    border: 2px solid black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.username::after {
+    background-color: aliceblue;
+    width: 50px;
+    height: 50px;
+}
+.logout {
+    position: absolute;
+    font-size: 70%;
+    color: darkgrey;
 }

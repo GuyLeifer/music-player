@@ -31,7 +31,7 @@ function TopAlbums() {
                 slidesToShow={3}>
                 {albums.map(interaction => {
                     return (
-                        <Link to = {`/album/${interaction.albumId}`}>
+                        <Link to={`/album/${interaction.albumId}`} key={interaction.albumId}>
                             <Album album={interaction.Album} />
                         </Link>
                     )

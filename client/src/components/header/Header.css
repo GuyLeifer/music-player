@@ -3,12 +3,25 @@
     display: block;
     text-align: center;
     color: aliceblue;
+    text-decoration: underline;
+    text-shadow:
+   -1px -1px 0  rgb(73, 79, 82),  
+    1px -1px 0  rgb(73, 79, 82),
+    -1px 1px 0  rgb(73, 79, 82),
+     1px 1px 0  rgb(73, 79, 82);
 }
 .header:hover {
     color: rgb(73, 79, 82);
+    cursor: pointer;
     /* font-size: 220%; */
+    text-shadow:
+    -1px -1px 0  aliceblue,  
+     1px -1px 0  aliceblue,
+     -1px 1px 0  aliceblue,
+      1px 1px 0  aliceblue;
 }
 .headerImg {
     height: 40px;
-    margin: 0 20px ;
+    margin: 0 20px;
+    border-radius: 50%;
 }

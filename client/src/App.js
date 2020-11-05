@@ -9,6 +9,7 @@ import Header from './components/header/Header';
 import Navbar from './components/navbar/Navbar';
 import HomePage from './components/HomePage';
 import About from './components/about/About';
+import Account from './components/account/Account';
 import Footer from './components/footer/Footer';
 import GenericNotFound from './components/genericNotFound/GenericNotFound';
 
@@ -21,6 +22,7 @@ import SongId from './components/songs/SongId';
 import ArtistId from './components/artists/ArtistId';
 import AlbumId from './components/albums/AlbumId';
 import PlaylistId from './components/playlists/PlaylistId';
+import UserId from'./components/users/UserId';
 
 function App() {
   return (
@@ -31,6 +33,7 @@ function App() {
         <Switch>
           <Route path="/" exact component = {HomePage} />
           <Route path="/about" exact component = {About} />
+          <Route path="/account" exact component = {Account} />
           <Route path="/top_songs" exact component = {TopSongs} />
           <Route path="/top_artists" exact component = {TopArtists} />
           <Route path="/top_albums" exact component = {TopAlbums} />
@@ -39,6 +42,7 @@ function App() {
           <Route path="/album/:id" component = {AlbumId}/>
           <Route path="/song/:id" component = {SongId}/>
           <Route path="/playlist/:id" exact component = {PlaylistId}/>
+          <Route path="/user/:id" component = {UserId}/>
           <Route path='*' exact={true} status={404} component={GenericNotFound}/>
         </Switch>
         <Footer />

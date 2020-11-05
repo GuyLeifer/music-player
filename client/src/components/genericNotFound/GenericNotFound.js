@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 function GenericNotFound() {
     return (
         <div className="four0four">
-            <img src="https://static.collectui.com/shots/2421479/daily-ui-24-error-404-large"/>
+            <img src="https://static.collectui.com/shots/2421479/daily-ui-24-error-404-large" alt="404"/>
             <Link to="/">
                 <div className="home">Go Home
                     <div>
-                        <img src="https://icon-library.com/images/home-logo-icon/home-logo-icon-0.jpg"/>   
+                        <img src="https://icon-library.com/images/home-logo-icon/home-logo-icon-0.jpg" alt="Home"/>   
                     </div>     
                 </div>
             </Link>

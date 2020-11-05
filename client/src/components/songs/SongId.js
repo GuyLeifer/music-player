@@ -86,13 +86,6 @@ function SongId(match) {
             autoplay: 1,
           },
     }
-    const optsForOtherSong = {
-        height: '160',
-        width: '260',
-        // playerVars: {
-        //     autoplay: 1,
-        //   },
-    }
 
     const likeSong = async () => {
         // axios.patch(`interactions/${userId}`, {

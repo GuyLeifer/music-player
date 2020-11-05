@@ -23,11 +23,10 @@ module.exports = {
         name: "Yuval Leifer",
         email: "yuvalei7@gmail.com",
         password: "12345678",
-        isAdmin: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },
-     ], {});
+    ] , {});
   },
 
   down: (queryInterface, Sequelize) => {

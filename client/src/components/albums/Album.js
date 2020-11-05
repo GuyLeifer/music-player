@@ -8,7 +8,7 @@ function Album({album}) {
             <div className="album" >
                <span className="albumName">{album.name}</span> 
                <div className="albumImg">
-                    <img src={album.coverImg}/>
+                    <img src={album.coverImg} alt={album.name}/>
                 </div>
             </div>
     )

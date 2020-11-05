@@ -18,9 +18,13 @@
     right: 0;
 }
 .song:hover {
-    font-size: 110%;
     color: rgb(73, 79, 82);
     font-weight: 600;
+    text-shadow:
+    -1px -1px 0  aliceblue,  
+    1px -1px 0  aliceblue,
+    -1px 1px 0  aliceblue,
+    1px 1px 0  aliceblue;
 }
 .songLength {
     left: 0;

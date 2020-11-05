@@ -1,20 +1,76 @@
 const { Router } = require('express');
-const { User, Interaction} = require('../models');
+const { User, InteractionSong, InteractionArtist, InteractionAlbum, InteractionPlaylist, Song, Artist, Album, Playlist} = require('../models');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const cookieParser = require('cookie-parser');
+// const { requireAuth } = require('./authentication/authMiddleware');
+require('dotenv').config();
 
 const router = Router();
 
+// Middleware
+
+router.use(cookieParser());
+
 router.get('/', async (req, res) => {
-  const allUsers = await User.findAll({
-    include: [{ model: Interaction }]
-  });
-    res.json(allUsers);
+  const { email, password } = req.query;
+  console.log(email, password)
+  try {
+    if(email && password) {
+      const user = await User.findOne({
+        include: [{model: InteractionSong}, {model: InteractionArtist}, {model: InteractionAlbum}, {model: InteractionPlaylist}],
+        where: {
+          email: req.query.email,
+          password: req.query.password
+        }
+      });
+      res.json(user)
+    } else {
+      const allUsers = await User.findAll({
+        include: [{model: InteractionSong}, {model: InteractionArtist}, {model: InteractionAlbum}, {model: InteractionPlaylist}]
+      });
+        res.json(allUsers);
+    }} catch (err) {
+    res.status(400).send(err.message);
+  }
 });
+
+router.get('/verify', async (req, res) => {
+  const token = req.cookies.jwt;
+    if (token && token !== "") {
+      jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+          console.log(err.massage);
+          res.redirect('/');
+        } else {
+          res.status(200).send(decoded);
+        }
+      })
+    } else {
+      res.redirect('/');
+    }
+})
 
 router.get('/:userId', async (req, res) => {
   const user = await User.findByPk(req.params.userId , {
-    include: [{ model: Interaction }]
+    include: [
+      {model: InteractionSong, include: {model:Song}, where: {isLiked: true}}, 
+      {model: InteractionArtist, include: {model:Artist}, where: {isLiked: true}}, 
+      {model: InteractionAlbum, include: {model:Album}, where: {isLiked: true}}, 
+      {model: InteractionPlaylist, include: {model:Playlist}, where: {isLiked: true}}]
   });
-  res.json(song)
+  res.json(user)
+})
+
+router.get('/', async (req, res) => {
+  const { email, password } = req.query;
+  const user = await User.findOne({
+    where: {
+      email: req.query.email,
+      password: req.query.password
+    }
+  });
+  res.json(user)
 })
 
 router.post('/', async (req, res) => {
@@ -31,6 +87,106 @@ router.post('/', async (req, res) => {
     });
   res.json(user)
 })
+
+// Authentication
+
+// handle errors
+const handleErrors = (err) => {
+  console.log(err.message, err.code);
+  let errors = { email: '', password: '' };
+
+  // incorrect email
+  if (err.message === 'incorrect email') {
+    errors.email = 'That email is not registered';
+  }
+
+  // incorrect password
+  if (err.message === 'incorrect password') {
+    errors.password = 'That password is incorrect';
+  }
+
+  // duplicate email error
+  if (err.code === 11000) {
+    errors.email = 'that email is already registered';
+    return errors;
+  }
+
+  // validation errors
+  if (err.message.includes('user validation failed')) {
+    // console.log(err);
+    Object.values(err.errors).forEach(({ properties }) => {
+      // console.log(val);
+      // console.log(properties);
+      errors[properties.path] = properties.message;
+    });
+  }
+
+  return errors;
+}
+
+// create json web token
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (user) => {
+  return jwt.sign({ user }, process.env.TOKEN_SECRET, {
+    expiresIn: maxAge
+  });
+};
+
+
+router.post('/signup', async (req, res) => {
+  const { name, email } = req.body;
+  let { password } = req.body;
+
+  try {
+    const salt = await bcrypt.genSalt();
+    password = await bcrypt.hash(password, salt);
+    const user = await User.create({ name, email, password });
+    const token = createToken(user);
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.status(201).json({ user });
+  }
+  catch(err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
+  }
+});
+
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  const findUser = async (email, password) => {
+    const user = await User.findOne({
+      where: {email: email}
+    });
+
+    if (user) {
+      const auth = await bcrypt.compare(password, user.password)
+      if (auth) {
+        return user;
+      } else {
+        throw Error('incorrect password');
+      }
+    } else {
+      throw Error('incorrect email')
+    }
+  }
+
+  try {
+    const user = await findUser(email, password);
+    const token = createToken(user);
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.status(200).json({ user });
+  } 
+  catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
+  }
+})
+
+router.post('/logout', (req, res) => {
+  res.cookie('jwt', '', {maxAge: 1});
+  res.redirect('/');
+});
 
 router.patch('/:userId', async (req, res) => {
   const user = await User.findByPk(req.params.userId);

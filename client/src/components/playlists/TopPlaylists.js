@@ -31,7 +31,7 @@ function TopPlaylists() {
                 slidesToShow={3}>
                 {playlists.map(interaction => {
                     return (
-                        <Link to = {`/playlist/${interaction.playlistId}`}>
+                        <Link to = {`/playlist/${interaction.playlistId}`} key={interaction.playlistId}>
                             <Playlist playlist={interaction.Playlist} />
                         </Link>
                     ) 

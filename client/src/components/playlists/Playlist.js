@@ -6,7 +6,7 @@ function Playlist({playlist}) {
             <div className="playlist">
                <span className="playlistName">{playlist.name}</span>
                <div className="playlistImg">
-                    <img src={playlist.coverImg}/>
+                    <img src={playlist.coverImg} alt={playlist.name}/>
                 </div>
             </div>
     )

@@ -25,7 +25,11 @@
     width: 120px;
 }
 .album:hover {
-    font-size: 110%;
+    text-shadow:
+    -1px -1px 0  aliceblue,  
+    1px -1px 0  aliceblue,
+    -1px 1px 0  aliceblue,
+    1px 1px 0  aliceblue;
     color: rgb(73, 79, 82);
     font-weight: 600;
 }

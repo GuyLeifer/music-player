@@ -11,9 +11,15 @@
   margin:10px;
 }
 .topHeader:hover {
-  font-size: 200%;
+  font-size: 150%;
   color: rgb(73, 79, 82);
-  margin-top: 0;
+  /* margin-top: 0; */
+  text-shadow:
+  -1px -1px 0  aliceblue,  
+   1px -1px 0  aliceblue,
+   -1px 1px 0  aliceblue,
+    1px 1px 0  aliceblue;
+    cursor: pointer;
 }
 .info {
   text-align: center;

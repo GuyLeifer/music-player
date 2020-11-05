@@ -31,7 +31,7 @@ function TopArtists() {
                 slidesToShow={3}>
                 {artists.map(interaction => {
                     return (
-                        <Link to = {`/artist/${interaction.artistId}`}>
+                        <Link to = {`/artist/${interaction.artistId}`} key={interaction.artistId}>
                             <Artist artist={interaction.Artist} />
                         </Link>
                     )

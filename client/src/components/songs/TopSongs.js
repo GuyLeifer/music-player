@@ -12,7 +12,6 @@ function TopSongs() {
         (async () => {
             try {
             const { data } = await axios.get('/interactions/songs/topsongs');
-            console.log("data: ", data)
             setSongs(data);
             }
             catch(err) {
@@ -32,7 +31,7 @@ function TopSongs() {
                 slidesToShow={3}>
                 {songs.map(interaction => {
                     return (
-                        <Link to = {`/song/${interaction.songId}`}>
+                        <Link to = {`/song/${interaction.songId}`} key={interaction.songId}>
                             <Song song={interaction.Song} />
                         </Link>
                     )                  
