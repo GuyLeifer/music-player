@@ -36,18 +36,13 @@ const fetchUser = async () => {
 
 const onLoginSubmit = async (data) => {
     const { email, password } = data;
-    console.log( email, password);
     const res = await axios.post('/users/login', {
         email: email,
         password: password,
     })
-    console.log("res", res)
     const info = await res.data;
-    console.log("info",info)
     if (info.user) {
         setUser(info.user);
-        localStorage.setItem("userId", info.user.id)
-        console.log("user", user)
         setWantLogin(false);
     }
 };
@@ -76,8 +71,17 @@ const customStyles = {
 
     return (
         <nav onMouseLeave={() => setLogOutShown(false)}>
-            <img className="navImg" src="https://i.pinimg.com/564x/91/c1/cd/91c1cdeacc84d0a5673bb716549ba366.jpg" />
-            <h3 className="navH3">My Streamer</h3>
+            <div className="nav-titles">
+                <Link to={'/'}>
+                    <img className="navImg" src="https://i.pinimg.com/564x/91/c1/cd/91c1cdeacc84d0a5673bb716549ba366.jpg" alt="YouTube Icon"/>
+                </Link>
+                <h3 className="navH3">My Streamer</h3>
+                <div 
+                style={{width: 300,}}>
+                    <Searchbar />
+                </div>
+            </div>
+     
             <ul className="nav-links">
             <Link style={navStyle} to='/'>
                     <li><img className="navImg" src="https://www.kindpng.com/picc/m/436-4369832_homepage-icon-png-png-download-transparent-black-home.png" alt="Home" /></li>
@@ -88,16 +92,13 @@ const customStyles = {
                 <Link style={navStyle} to='/about'>
                     <li><img className="navImg" src="https://icon-library.com/images/info-icon-png/info-icon-png-15.jpg" alt="About" /></li>
                 </Link>
-                <div style={{
-                    width: 200,}}>
-                    <Searchbar />
-                </div>
+                
                 {/* <Link style={navStyle} to='/account'> */}
                 <div className='login'>
                     {user && (
                         <div>
                             <Link to={`/user/${user.id}`}>
-                                <li className='username'
+                                <li className='username navImg'
                                 onMouseEnter={() => setLogOutShown(true)}
                                 >
                                     {user.name.split(' ').map(name => name[0])}

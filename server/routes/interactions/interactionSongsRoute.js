@@ -5,10 +5,19 @@ const sequelize = require('sequelize');
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const AllInteractions = await InteractionSong.findAll({
-    include: [{ model: User }, { model: Song }]
-  });
-    res.json(AllInteractions);
+  const { userId, songId } = req.body;
+  if( userId && songId) {
+    const interaction = await InteractionSong.findOne({
+      where: {userId, songId},
+      include: [{ model: User}, { model: Song}]
+    })
+    res.json(interaction);
+  } else {
+    const AllInteractions = await InteractionSong.findAll({
+      include: [{ model: User }, { model: Song }]
+    });
+      res.json(AllInteractions);
+  }
 });
 
 router.get('/topsongs', async (req, res) => {
@@ -24,17 +33,11 @@ router.get('/topsongs', async (req, res) => {
   res.json(topTwentySongs);
 });
 
-// router.get('/:myPlaylistSongId', async (req, res) => {
-//   const myPlaylistSong = await PlaylistSongs.findByPk(req.params.myPlaylistSongId , {
-//     include: [{ model: Playlist }, { model: Song }]
-//   });
-//   res.json(myPlaylistSong)
-// })
 
-router.get('/:interactionId', async (req, res) => {
-  const interaction = await InteractionSong.findAll({
-    include: [{ model: User }, { model: Song }],
-    where: {userId: req.params.interactionId}
+router.get('/:userId&:songId', async (req, res) => {
+  const {userId, songId} = req.params;
+  const interaction = await InteractionSong.findOne({
+    where: {userId: userId, songId: songId}
   });
   res.json(interaction)
 })
@@ -52,8 +55,11 @@ router.post('/', async (req, res) => {
     res.json(interaction)
 })
 
-router.patch('/:interactionId', async (req, res) => {
-  const interaction = await InteractionSong.findByPk(req.params.interactionId);
+router.patch('/', async (req, res) => {
+  const { userId, songId } = req.body
+  const interaction = await InteractionSong.findOne({
+    where: {userId, songId}
+  });
   await interaction.update(req.body);
   res.json(interaction)
 })

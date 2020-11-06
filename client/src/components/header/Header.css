@@ -5,10 +5,11 @@
     color: aliceblue;
     text-decoration: underline;
     text-shadow:
-   -1px -1px 0  rgb(73, 79, 82),  
+    -1px -1px 0  rgb(73, 79, 82),  
     1px -1px 0  rgb(73, 79, 82),
     -1px 1px 0  rgb(73, 79, 82),
-     1px 1px 0  rgb(73, 79, 82);
+    1px 1px 0  rgb(73, 79, 82);
+    transition: 500ms;
 }
 .header:hover {
     color: rgb(73, 79, 82);
@@ -16,9 +17,10 @@
     /* font-size: 220%; */
     text-shadow:
     -1px -1px 0  aliceblue,  
-     1px -1px 0  aliceblue,
-     -1px 1px 0  aliceblue,
-      1px 1px 0  aliceblue;
+    1px -1px 0  aliceblue,
+    -1px 1px 0  aliceblue,
+    1px 1px 0  aliceblue;
+    transition: 500ms;
 }
 .headerImg {
     height: 40px;

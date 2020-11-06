@@ -17,13 +17,24 @@ router.get('/', async (req, res) => {
 //   res.json(myPlaylistSong)
 // })
 
-router.get('/:myPlaylistSongId', async (req, res) => {
+router.get('/:playlistId', async (req, res) => {
   const myPlaylistSong = await PlaylistSongs.findAll({
     include: [{ model: Playlist }, { model: Song }],
-    where: {playlistId: req.params.myPlaylistSongId}
+    where: {playlistId: req.params.playlistId}
   });
   res.json(myPlaylistSong)
-})
+});
+
+router.get('/:playlistId&:songId', async (req, res) => {
+  const myPlaylistSong = await PlaylistSongs.findAll({
+    include: [
+      { model: Playlist }, 
+      { model: Song }
+    ],
+    where: {playlistId: req.params.playlistId, songId: req.params.songId}
+  });
+  res.json(myPlaylistSong)
+});
 
 router.post('/', async (req, res) => {
   const myPlaylistSong = await PlaylistSongs.create({

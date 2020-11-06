@@ -10,8 +10,14 @@ nav {
     top: 0;
     z-index: 1;
 }
+.nav-titles {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
 .nav-links {
-    width: 70%;
+    width: 40%;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -21,6 +27,11 @@ nav {
     height: 50px;
     border-radius: 50%;
     background-color: aliceblue;
+    transition: 1s;
+}
+.navImg:hover {
+    background-color: grey;
+    transition: 1s;
 }
 
 /* searchBox */
@@ -63,21 +74,39 @@ nav {
     background-color: aliceblue;
     color: black;
     text-decoration: underline;
-    width: 40px;
-    height: 40px;
-    border: 2px solid black;
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+    border: 3px solid black;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 5px;
 }
-.username::after {
+.username::before {
+    position: absolute;
+    content: "";
     background-color: aliceblue;
     width: 50px;
     height: 50px;
+    border-radius: 50%;
+    z-index: -1;
+    transition: 1s;
+}
+.username:hover::before {
+    background-color: grey;
+    transition: 1s;
 }
 .logout {
     position: absolute;
     font-size: 70%;
     color: darkgrey;
+    transition: 500ms;
+}
+.logout:hover {
+    position: absolute;
+    font-size: 70%;
+    color: aliceblue;
+    transition: 500ms;
 }

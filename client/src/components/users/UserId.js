@@ -16,7 +16,8 @@ function UserId(match) {
     }, []);
 
     const fetchUser = async() => {
-        const { data } = await axios.get(`/users/${match.match.params.id}`);
+        const id = Number(match.match.params.id);
+        const { data } = await axios.get(`/users/${id}`);
         setUser(data);
         console.log("data", data);
     }
