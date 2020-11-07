@@ -47,14 +47,15 @@
 }
 .subHeader {
     text-decoration: underline;
-    font-size: 150%;
-    margin:10px;
+    font-size: 200%;
+    margin: 10px;
     color: aliceblue;
+    transition: 1s;
 }
 .subHeader:hover {
-    font-size: 200%;
     color: rgb(73, 79, 82);
-    margin-top: 0;
+    cursor: pointer;
+    transition: 2s;
 }
 .likeIcon {
     background-color:rgb(73, 79, 82);
@@ -88,4 +89,27 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+.playlistNameLink {
+    display: inline-block;
+    color: rgb(73, 79, 82);
+    text-decoration: underline;
+    transition: 1500ms;
+}
+.playlistNameLink:hover {
+    color:aliceblue;
+    transition: 2s;
+}
+.deleteIcon {
+    display: inline-block;
+    background-color: aliceblue;
+    height: 30px;
+    margin-left: 50px;
+    border-radius: 50%;
+    right: 30px;
+    transition: 1s;
+}
+.deleteIcon:hover {
+    background-color: red;
+    transition: 1s;
 }

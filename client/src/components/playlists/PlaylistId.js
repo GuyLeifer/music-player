@@ -3,11 +3,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Carousel from 'styled-components-carousel';
 import Song from '../songs/Song';
+import deleteIcon from './images/deleteIcon.png';
 
 function PlaylistId(match) {
 
-    const [playlist, setPlaylist] = useState(null);
-    const [user, setUser] = useState(null);
+    const [playlist, setPlaylist] = useState();
+    const [emptyPlaylist, setEmptyPlaylist] = useState();
+    const [user, setUser] = useState();
     const [isLiked, setIsLiked] = useState();
 
     useEffect(() => {
@@ -21,7 +23,13 @@ function PlaylistId(match) {
 
     const fetchPlaylist = async() => {
         const { data } = await axios.get(`/playlistsongs/${match.match.params.id}`);
-        setPlaylist(data);
+        if (data.length > 0) {
+            setPlaylist(data);
+        } else {
+            const playlistIsEmpty = await axios.get(`/playlists/${match.match.params.id}`)
+            console.log(playlistIsEmpty.data)
+            setEmptyPlaylist(playlistIsEmpty.data);
+        }
         console.log("data", data);
     }
     const fetchUser = async () => {
@@ -78,6 +86,22 @@ function PlaylistId(match) {
         setIsLiked(false)
     }
 
+    const deleteSongFromPlaylist = async (id) => {
+        await axios.delete('/playlistsongs', {
+            data: {
+                playlistId: playlist[0].Playlist.id,
+                songId: id
+            }
+        })
+        const refreshPlaylist = playlist.filter(song => song.Song.id !== id);
+        if (refreshPlaylist.length < 1) {
+            setPlaylist(null);
+            fetchPlaylist();
+        } else {
+            setPlaylist(refreshPlaylist);
+        }           
+    }
+
     return (
         <>
         {playlist && (
@@ -124,13 +148,41 @@ function PlaylistId(match) {
                             <h3>All Playlist Songs:</h3>
                                 {playlist.map((song) => {
                                     return (
-                                        <Link to={`/song/${song.Song.id}?playlist=${song.Playlist.id}`}>
-                                            <p>{song.Song.title}</p>
-                                        </Link>
+                                        <div>
+                                            <Link to={`/song/${song.Song.id}?playlist=${song.Playlist.id}`}>
+                                                <p className="playlistNameLink">{song.Song.title}</p>
+                                            </Link>
+                                                {user.id === playlist[0].Playlist.userId && (
+                                                    <img className="deleteIcon" src={deleteIcon} alt="Delete" onClick={() => deleteSongFromPlaylist(song.Song.id)}/>
+                                                )}
+                                        </div>
                                     )
                                 })}
                         </div>
             </div>
+        )}
+        {emptyPlaylist && (
+            <div className="info">
+                <div className="title">Playlist Name: {emptyPlaylist.name}</div>
+                {user && (
+                    <div>
+                        {!isLiked && (
+                            <img className="likeIcon" onClick={() => likePlaylist()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Like"/>
+                        )}
+                        {isLiked && (
+                            <img className="unlikeIcon" onClick={() => unlikePlaylist()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Unlike"/>
+                        )}
+                    </div>
+                )}
+                <div>
+                        <div>
+                            <h3>Cover Image:</h3>
+                            <img src={emptyPlaylist.coverImg} alt={emptyPlaylist.name}/>
+                        </div>
+                        <div>Created At: {emptyPlaylist.createdAt}</div>
+                        <div>Updated At: {emptyPlaylist.updatedAt}</div>
+                    </div>
+            </div>           
         )}
         </>
     )

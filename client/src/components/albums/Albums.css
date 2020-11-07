@@ -50,14 +50,15 @@
 }
 .subHeader {
     text-decoration: underline;
-    font-size: 150%;
-    margin:10px;
+    font-size: 200%;
+    margin: 10px;
     color: aliceblue;
+    transition: 1s;
 }
 .subHeader:hover {
-    font-size: 200%;
     color: rgb(73, 79, 82);
-    margin-top: 0;
+    cursor: pointer;
+    transition: 2s;
 }
 .likeIcon {
     background-color:rgb(73, 79, 82);

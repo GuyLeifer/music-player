@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import './User.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Carousel from 'styled-components-carousel';
@@ -9,27 +10,55 @@ import Playlist from '../playlists/Playlist';
 
 function UserId(match) {
     const [user, setUser] = useState(null);
-    console.log("match:", match);
+    const [userPlaylists, setUserPlaylists] = useState();
 
     useEffect(() => {
         fetchUser();
     }, []);
 
+    useEffect(() => {
+        fetchUserPlaylists();
+    }, [user]);
+
     const fetchUser = async() => {
         const id = Number(match.match.params.id);
         const { data } = await axios.get(`/users/${id}`);
         setUser(data);
-        console.log("data", data);
-    }
+    };
+
+    const fetchUserPlaylists = async () => {
+        if (user) {
+            const { data } = await axios.get(`/users/playlists/${user.id}`)
+            setUserPlaylists(data.Playlist || data.Playlists)
+        }
+    };
 
     return (
         <>
         {user && (
             <div className="info">
-                <div>User Name: {user.name}</div>
+                <div className="title">User Name: {user.name}</div>
                 <div>Created At: {user.createdAt}</div>
                 <div>Updated At: {user.updatedAt}</div>
-                <div className="songsOnUserDiv">
+                <a href="#songsOnUserDiv" className="insideLink">Songs Liked By User</a>
+                <a href="#artistsOnUserDiv" className="insideLink">Artists Liked By User</a>
+                <a href="#albumsOnUserDiv" className="insideLink">Albums Liked By User</a>
+                <a href="#playlistsOnUserDiv" className="insideLink">Playlists Liked By User</a>
+
+                {userPlaylists && (
+                    <div className="userPlaylists">
+                        <h3 className="subHeader">My Playlists:</h3>
+                        {userPlaylists.map(playlist => {
+                            return (
+                                <Link to={`/playlist/${playlist.id}`}>
+                                    <p className="playlistLink">{playlist.name}</p>
+                                </Link>
+                            )
+                        })}
+                    </div>
+                )}
+
+                <div id="songsOnUserDiv" className="songsOnUserDiv">
                     <h3 className="subHeader">Songs Liked By User:</h3>
                     <Carousel
                     center
@@ -46,7 +75,7 @@ function UserId(match) {
                         })}
                     </Carousel>
                 </div>
-                <div className="artistsOnUserDiv">
+                <div id="artistsOnUserDiv" className="artistsOnUserDiv">
                     <h3 className="subHeader">Artists Liked By User:</h3>
                     <Carousel
                     center
@@ -63,7 +92,7 @@ function UserId(match) {
                         })}
                     </Carousel>
                 </div>
-                <div className="albumsOnUserDiv">
+                <div id="albumsOnUserDiv" className="albumsOnUserDiv">
                     <h3 className="subHeader">Albums Liked By User:</h3>
                     <Carousel
                     center
@@ -80,7 +109,7 @@ function UserId(match) {
                         })}
                     </Carousel>
                 </div>
-                <div className="playlistsOnUserDiv">
+                <div id="playlistsOnUserDiv" className="playlistsOnUserDiv">
                     <h3 className="subHeader">Playlists Liked By User:</h3>
                     <Carousel
                     center

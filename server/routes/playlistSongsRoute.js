@@ -52,10 +52,19 @@ router.patch('/:myPlaylistSongId', async (req, res) => {
   res.json(myPlaylistSong)
 })
 
-router.delete('/:myPlaylistSongId', async (req, res) => {
-  const myPlaylistSong = await PlaylistSongs.findByPk(req.params.myPlaylistSongId);
+// router.delete('/:myPlaylistSongId', async (req, res) => {
+//   const myPlaylistSong = await PlaylistSongs.findByPk(req.params.myPlaylistSongId);
+//   await myPlaylistSong.destroy();
+//   res.json({ deleted: true })
+// })
+
+router.delete('/', async (req, res) => {
+  const { playlistId, songId } = req.body;
+  console.log("playlist", playlistId, "song", songId)
+  const myPlaylistSong = await PlaylistSongs.findOne({
+    where: {playlistId: playlistId, songId: songId},
+  });
   await myPlaylistSong.destroy();
   res.json({ deleted: true })
 })
-
 module.exports = router;
