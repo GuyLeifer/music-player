@@ -11,6 +11,7 @@
 .aboutImg:hover {
     border-radius: 30%;
     transition: 1500ms;
+    cursor: pointer;
 }
 p {
     margin: 40px;

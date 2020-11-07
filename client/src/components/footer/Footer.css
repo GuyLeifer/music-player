@@ -26,6 +26,7 @@ footer {
   .Icon:hover {
     border-radius: 50%;
     border: 1px solid aliceblue;
+    background-color: aliceblue;
     transition: 1500ms;
     height: 150%;
   }
@@ -36,4 +37,9 @@ footer {
   .name {
     color: aliceblue;
     -webkit-text-stroke: 0.2px black;
+    transition: 1500ms;
+  }
+  .name:hover {
+    color: black;
+    transition: 1500ms;
   }
