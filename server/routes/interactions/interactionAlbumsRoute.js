@@ -24,12 +24,13 @@ router.get('/topalbums', async (req, res) => {
   res.json(topTwentyAlbums);
 });
 
-// router.get('/:myPlaylistSongId', async (req, res) => {
-//   const myPlaylistSong = await PlaylistSongs.findByPk(req.params.myPlaylistSongId , {
-//     include: [{ model: Playlist }, { model: Song }]
-//   });
-//   res.json(myPlaylistSong)
-// })
+router.get('/:userId&:albumId', async (req, res) => {
+  const {userId, albumId} = req.params;
+  const interaction = await InteractionAlbum.findOne({
+    where: {userId: userId, albumId: albumId}
+  });
+  res.json(interaction)
+})
 
 router.get('/:interactionId', async (req, res) => {
   const interaction = await InteractionAlbum.findAll({
@@ -51,8 +52,11 @@ router.post('/', async (req, res) => {
     res.json(interaction)
 })
 
-router.patch('/:interactionId', async (req, res) => {
-  const interaction = await InteractionAlbum.findByPk(req.params.interactionId);
+router.patch('/', async (req, res) => {
+  const { userId, albumId } = req.body
+  const interaction = await InteractionAlbum.findOne({
+    where: {userId, albumId}
+  });
   await interaction.update(req.body);
   res.json(interaction)
 })

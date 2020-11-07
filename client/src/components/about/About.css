@@ -6,6 +6,11 @@
     max-height: 300px;
     border-radius: 50%;
     margin: 30px;
+    transition: 1500ms;
+}
+.aboutImg:hover {
+    border-radius: 30%;
+    transition: 1500ms;
 }
 p {
     margin: 40px;

@@ -18,9 +18,19 @@ footer {
     list-style-type: none;
   }
 
+  .Icon {
+    height: 50px;
+    width: 50px;
+    transition: 1500ms;
+  }
   .Icon:hover {
     border-radius: 50%;
     border: 1px solid aliceblue;
+    transition: 1500ms;
+    height: 150%;
+  }
+  .circle {
+    border-radius: 50%;
   } 
 
   .name {

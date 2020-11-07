@@ -5,19 +5,10 @@ const sequelize = require('sequelize');
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const { userId, songId } = req.body;
-  if( userId && songId) {
-    const interaction = await InteractionSong.findOne({
-      where: {userId, songId},
-      include: [{ model: User}, { model: Song}]
-    })
-    res.json(interaction);
-  } else {
     const AllInteractions = await InteractionSong.findAll({
       include: [{ model: User }, { model: Song }]
     });
       res.json(AllInteractions);
-  }
 });
 
 router.get('/topsongs', async (req, res) => {

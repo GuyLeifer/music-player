@@ -9,7 +9,7 @@
     1px -1px 0  rgb(73, 79, 82),
     -1px 1px 0  rgb(73, 79, 82),
     1px 1px 0  rgb(73, 79, 82);
-    transition: 500ms;
+    transition: 1500ms;
 }
 .header:hover {
     color: rgb(73, 79, 82);
@@ -20,7 +20,7 @@
     1px -1px 0  aliceblue,
     -1px 1px 0  aliceblue,
     1px 1px 0  aliceblue;
-    transition: 500ms;
+    transition: 1500ms;
 }
 .headerImg {
     height: 40px;

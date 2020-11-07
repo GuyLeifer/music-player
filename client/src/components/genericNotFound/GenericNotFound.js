@@ -1,16 +1,17 @@
-  
 import React from 'react';
 import './GenericNotFound.css';
 import { Link } from 'react-router-dom';
+import fofIcon from './images/404Icon.png';
+import homeIcon from './images/homeIcon.jpg';
 
 function GenericNotFound() {
     return (
         <div className="four0four">
-            <img src="https://static.collectui.com/shots/2421479/daily-ui-24-error-404-large" alt="404"/>
+            <img src={fofIcon} alt="404"/>
             <Link to="/">
                 <div className="home">Go Home
                     <div>
-                        <img src="https://icon-library.com/images/home-logo-icon/home-logo-icon-0.jpg" alt="Home"/>   
+                        <img className="homeLogo" src={homeIcon} alt="Home"/>   
                     </div>     
                 </div>
             </Link>

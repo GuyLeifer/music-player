@@ -6,12 +6,19 @@ import Album from '../albums/Album';
 import Song from '../songs/Song';
 
 function ArtistId(match) {
-    console.log("match: ", match);
+
     const [artist, setArtist] = useState(null);
+    const [user, setUser] = useState(null);
+    const [isLiked, setIsLiked] = useState();
 
     useEffect(() => {
         fetchArtist();
+        fetchUser();
     }, []);
+
+    useEffect(() => {
+        fetchIsLiked();
+    }, [user, artist]);
 
 
     const fetchArtist = async() => {
@@ -20,18 +27,77 @@ function ArtistId(match) {
         setArtist(data);
         console.log("artist: ",artist)
     }
-  
+    const fetchUser = async () => {
+        const { data } = await axios.get('/users/verify');
+        if(data.user) {
+            console.log("User", data.user)
+            setUser(data.user);
+        } else {
+            setUser(false);
+        }   
+    };
+    const fetchIsLiked = async () => {
+        if (user && artist) {
+            console.log(user);
+            const { data } = await axios.get(`/interactions/artists/${user.id}&${artist.id}`);
+            console.log("dataIsliked : " , data)
+            setIsLiked(data.isLiked);
+        } else {
+            setIsLiked(null)
+        }
+    };
 
-    const opts = {
-        height: '160',
-        width: '260',
-    }    
+    // Like Functions
+    const likeArtist = async () => {
+        const data = await axios.get(`/interactions/artists/${user.id}&${artist.id}`)
+        if (data) {
+            await axios.patch('/interactions/artists', {
+                userId: user.id,
+                artistId: artist.id,
+                isLiked: true
+            })
+        } else {
+            await axios.post('/interactions/artists', {
+                userId: user.id,
+                artistId: artist.id,
+                isLiked: true
+            })
+        }
+        setIsLiked(true)
+    }
+    const unlikeArtist = async () => {
+        const data = await axios.get(`/interactions/artists/${user.id}&${artist.id}`)
+        if (data) {
+            await axios.patch('/interactions/artists', {
+                userId: user.id,
+                artistId: artist.id,
+                isLiked: false
+            })
+        } else {
+            await axios.post('/interactions/artists', {
+                userId: user.id,
+                artistId: artist.id,
+                isLiked: false
+            })
+        }
+        setIsLiked(false)
+    }
     
     return (
         <>
             {artist && (
         <div className="info">
             <div>Artist Name: {artist.name}</div>
+            {user && (
+                <div>
+                    {!isLiked && (
+                        <img className="likeIcon" onClick={() => likeArtist()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Like"/>
+                    )}
+                    {isLiked && (
+                        <img className="unlikeIcon" onClick={() => unlikeArtist()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Unlike"/>
+                    )}
+                </div>
+            )}
             <div>Created At: {artist.createdAt}</div>
             <div>Updated At: {artist.updatedAt}</div>
             <div>Cover Image: 

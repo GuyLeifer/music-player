@@ -6,6 +6,12 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Modal from 'react-modal';
 
+//icons
+import youtubeIcon from './images/youtubeIcon.jpg';
+import homeIcon from './images/homeIcon.png';
+import aboutIcon from './images/aboutIcon.jpg';
+import loginIcon from './images/loginIcon.webp';
+
 // Modal issue
 Modal.setAppElement('div');
 
@@ -51,6 +57,7 @@ const logout = async () => {
     axios.post('/users/logout');
     setUser(null);
     setLogOutShown(false);
+    window.location.assign('/');
 }
 
 const customStyles = {
@@ -73,7 +80,7 @@ const customStyles = {
         <nav onMouseLeave={() => setLogOutShown(false)}>
             <div className="nav-titles">
                 <Link to={'/'}>
-                    <img className="navImg" src="https://i.pinimg.com/564x/91/c1/cd/91c1cdeacc84d0a5673bb716549ba366.jpg" alt="YouTube Icon"/>
+                    <img className="navImg" src={youtubeIcon} alt="YouTube Icon"/>
                 </Link>
                 <h3 className="navH3">My Streamer</h3>
                 <div 
@@ -81,16 +88,16 @@ const customStyles = {
                     <Searchbar />
                 </div>
             </div>
-     
+    
             <ul className="nav-links">
             <Link style={navStyle} to='/'>
-                    <li><img className="navImg" src="https://www.kindpng.com/picc/m/436-4369832_homepage-icon-png-png-download-transparent-black-home.png" alt="Home" /></li>
+                    <li><img className="navImg" src={homeIcon} alt="Home" /></li>
                 </Link>
                 {/* <Link style={navStyle} to='/add'>
                     <li>Add</li>
                 </Link> */}
                 <Link style={navStyle} to='/about'>
-                    <li><img className="navImg" src="https://icon-library.com/images/info-icon-png/info-icon-png-15.jpg" alt="About" /></li>
+                    <li><img className="navImg" src={aboutIcon} alt="About" /></li>
                 </Link>
                 
                 {/* <Link style={navStyle} to='/account'> */}
@@ -110,7 +117,7 @@ const customStyles = {
                         </div>
                     )}   
                     {!user && (
-                        <li onClick={() => setWantLogin(!wantLogin)}><img className="navImg" src="https://cdn4.iconfinder.com/data/icons/rounded-white-basic-ui/139/Profile01-RoundedWhite-512.png"/></li>
+                        <li onClick={() => setWantLogin(!wantLogin)}><img className="navImg" src={loginIcon} alt="Login"/></li>
                     )}             
                         <Modal
                         isOpen={wantLogin}

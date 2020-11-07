@@ -71,3 +71,28 @@
     color: rgb(73, 79, 82);
     margin-top: 0;
 }
+.likeIcon {
+    background-color:rgb(73, 79, 82);
+    border-radius: 50%;
+    height: 50px;
+    cursor: pointer;
+}
+.likeIcon:hover {
+    background-color:aliceblue;
+    transition: 500ms;
+}
+.unlikeIcon {
+    background-color:rgb(73, 79, 82);
+    border-radius: 50%;
+    height: 50px;
+    -webkit-transform:rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    cursor: pointer;
+    transition: 500ms;
+}
+.unlikeIcon:hover {
+    background-color:aliceblue;
+}

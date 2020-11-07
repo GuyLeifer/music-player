@@ -26,7 +26,7 @@ function SongId(match) {
 
     useEffect(() => {
         fetchIsLiked();
-    }, [user]);
+    }, [user, song]);
 
     const fetchUser = async () => {
         const { data } = await axios.get('/users/verify');
@@ -38,7 +38,7 @@ function SongId(match) {
         }   
     };
     const fetchIsLiked = async () => {
-        if (user) {
+        if (user && song) {
             const { data } = await axios.get(`/interactions/songs/${user.id}&${song.id}`);
             console.log("dataIsliked : " , data)
             setIsLiked(data.isLiked);

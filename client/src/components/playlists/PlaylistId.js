@@ -5,17 +5,78 @@ import Carousel from 'styled-components-carousel';
 import Song from '../songs/Song';
 
 function PlaylistId(match) {
+
     const [playlist, setPlaylist] = useState(null);
-    console.log("match:", match);
+    const [user, setUser] = useState(null);
+    const [isLiked, setIsLiked] = useState();
 
     useEffect(() => {
         fetchPlaylist();
+        fetchUser();
     }, []);
+
+    useEffect(() => {
+        fetchIsLiked();
+    }, [user, playlist]);
 
     const fetchPlaylist = async() => {
         const { data } = await axios.get(`/playlistsongs/${match.match.params.id}`);
         setPlaylist(data);
         console.log("data", data);
+    }
+    const fetchUser = async () => {
+        const { data } = await axios.get('/users/verify');
+        if(data.user) {
+            console.log("User", data.user)
+            setUser(data.user);
+        } else {
+            setUser(false);
+        }   
+    };
+    const fetchIsLiked = async () => {
+        if (user && playlist) {
+            const { data } = await axios.get(`/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`);
+            console.log("dataIsliked : " , data)
+            setIsLiked(data.isLiked);
+        } else {
+            setIsLiked(null)
+        }
+    };
+
+    // Like Functions
+    const likePlaylist = async () => {
+        const data = await axios.get(`/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`)
+        if (data) {
+            await axios.patch('/interactions/playlists', {
+                userId: user.id,
+                playlistId: playlist[0].PlaylistId,
+                isLiked: true
+            })
+        } else {
+            await axios.post('/interactions/playlists', {
+                userId: user.id,
+                playlistId: playlist[0].PlaylistId,
+                isLiked: true
+            })
+        }
+        setIsLiked(true)
+    }
+    const unlikePlaylist = async () => {
+        const data = await axios.get(`/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`)
+        if (data) {
+            await axios.patch('/interactions/playlists', {
+                userId: user.id,
+                playlistId: playlist[0].PlaylistId,
+                isLiked: false
+            })
+        } else {
+            await axios.post('/interactions/playlists', {
+                userId: user.id,
+                playlistId: playlist[0].PlaylistId,
+                isLiked: false
+            })
+        }
+        setIsLiked(false)
     }
 
     return (
@@ -23,6 +84,16 @@ function PlaylistId(match) {
         {playlist && (
             <div className="info">
                 <div>Playlist Name: {playlist[0].Playlist.name}</div>
+                {user && (
+                    <div>
+                        {!isLiked && (
+                            <img className="likeIcon" onClick={() => likePlaylist()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Like"/>
+                        )}
+                        {isLiked && (
+                            <img className="unlikeIcon" onClick={() => unlikePlaylist()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Unlike"/>
+                        )}
+                    </div>
+                )}
                 <div>Created At: {playlist[0].Playlist.createdAt}</div>
                 <div>Updated At: {playlist[0].Playlist.updatedAt}</div>
                 <div>
