@@ -15,7 +15,7 @@ router.get('/:songId', async (req, res) => {
     include: [
       { model: Artist, include: [{ model: Album }, { model: Song}] }, 
       { model: Album, include: [{ model: Artist }, { model: Song}] }, 
-      { model: PlaylistSongs, include: {model: Playlist}, where: {songId: req.params.songId} }
+      { model: PlaylistSongs, include: {model: Playlist}, where: {songId: req.params.songId}, required: false }
     ],   
   });
   res.json(song)

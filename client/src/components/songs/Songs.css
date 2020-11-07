@@ -125,3 +125,24 @@
 .unlikeIcon:hover {
     background-color:aliceblue;
 }
+.title {
+    font-size: 150%;
+}
+.playCount {
+    margin-top: 0;
+}
+.count {
+    font-size: 150%;
+    padding: 10px;
+    text-decoration: underline;
+    font-weight: bold;
+}
+.lyrics {
+    display: inline-block;
+    width: 50%;
+}
+.songContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

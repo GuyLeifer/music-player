@@ -15,6 +15,7 @@ function SongId(match) {
     const [playlistID, setPlaylistID] = useState(1);
     const [user, setUser] = useState(null);
     const [isLiked, setIsLiked] = useState();
+    const [playCount, setPlayCount] = useState();
     const [render, setRender] = useState(false);
 
     useEffect(() => {
@@ -25,7 +26,7 @@ function SongId(match) {
     }, []);
 
     useEffect(() => {
-        fetchIsLiked();
+        fetchIsLikedAndIncrementPlayCount();
     }, [user, song]);
 
     const fetchUser = async () => {
@@ -37,11 +38,30 @@ function SongId(match) {
             setUser(false);
         }   
     };
-    const fetchIsLiked = async () => {
+    const fetchIsLikedAndIncrementPlayCount = async () => {
         if (user && song) {
+            console.log("user id", user.id, "song id", song.id)
             const { data } = await axios.get(`/interactions/songs/${user.id}&${song.id}`);
-            console.log("dataIsliked : " , data)
-            setIsLiked(data.isLiked);
+            if (data) {
+                setIsLiked(data.isLiked);
+                if(data.playCount === null) {
+                    setPlayCount(1);
+                    axios.patch('/interactions/songs/', {
+                        userId: user.id, 
+                        songId: song.id,
+                        playCount: 1
+                    })
+                } else {
+                    setPlayCount(data.playCount + 1);
+                    axios.patch('/interactions/songs/', {
+                        userId: user.id, 
+                        songId: song.id,
+                        playCount: data.playCount + 1
+                    })
+                }
+            } else {
+                setIsLiked(false)
+            }
         } else {
             setIsLiked(null)
         }
@@ -100,7 +120,7 @@ function SongId(match) {
     }
 
     const likeSong = async () => {
-        const data = await axios.get(`/interactions/songs/${user.id}&${song.id}`)
+        const { data } = await axios.get(`/interactions/songs/${user.id}&${song.id}`);
         if (data) {
             await axios.patch('/interactions/songs', {
                 userId: user.id,
@@ -138,9 +158,12 @@ function SongId(match) {
         <>
         {song && (
             <div className="info">
-                <div>Song Title: {song.title}</div>
+                <div className="title">Song Title: {song.title}</div>
                 {user && (
                     <div>
+                        {playCount && (
+                            <p className="playCount">Play Count Of The Song In Your Account: <span className="count">{playCount}</span></p>
+                        )}
                         {!isLiked && (
                             <img className="likeIcon" onClick={() => likeSong()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Like"/>
                         )}
@@ -149,31 +172,38 @@ function SongId(match) {
                         )}
                     </div>
                 )}
-                <div>
-                    <YouTube videoId={song.youtubeLink} opts={optsForMainSong} /> 
+                <div className="songContainer">
+                    <div>
+                        <YouTube videoId={song.youtubeLink} opts={optsForMainSong} /> 
+                    </div>
+                    <div>
+                        {playlists && (
+                            <form onSubmit={() => addToPlaylist(playlistID, song.id)}> Add To Playlist
+                                <select id="mySelect" onChange={() => addPlaylistID()}>
+                                    {playlists.map(playlist => {
+                                        return (
+                                            <option value={playlist.id}>{playlist.id}. {playlist.name}</option>
+                                        )
+                                    })}
+                                </select>
+                                <input id="inputSubmit" type="submit" value="ADD"/>
+                            </form>
+                        )}
+                        <Link to = {`/artist/${song.artistId}?song=${song.id}`}>
+                            <div className="songLink">Artist Name: {song.Artist.name}</div>
+                        </Link>
+                        <Link to = {`/album/${song.albumId}?song=${song.id}`}>
+                            <div className="songLink">Album Name: {song.Album.name}</div>
+                        </Link>
+                        <div>Created At: {song.createdAt}</div>
+                        <div>Updated At: {song.updatedAt}</div>
+                        <div>Length: {song.length}</div>
+                    </div>
                 </div>
-                {playlists && (
-                    <form onSubmit={() => addToPlaylist(playlistID, song.id)}> Add To Playlist
-                        <select id="mySelect" onChange={() => addPlaylistID()}>
-                            {playlists.map(playlist => {
-                                return (
-                                    <option value={playlist.id}>{playlist.id}. {playlist.name}</option>
-                                )
-                            })}
-                        </select>
-                        <input id="inputSubmit" type="submit" value="ADD"/>
-                    </form>
-                )}
-                <Link to = {`/artist/${song.artistId}?song=${song.id}`}>
-                    <div className="songLink">Artist Name: {song.Artist.name}</div>
-                </Link>
-                <Link to = {`/album/${song.albumId}?song=${song.id}`}>
-                    <div className="songLink">Album Name: {song.Album.name}</div>
-                </Link>
-                <div>Created At: {song.createdAt}</div>
-                <div>Updated At: {song.updatedAt}</div>
-                <div>Length: {song.length}</div>
-                <div>Lyrics: <br />{song.lyrics}</div>
+                <div className="lyrics">
+                    <h3>Lyrics:</h3>
+                    <div>{song.lyrics}</div>
+                </div>
                 <>
                     {artist && (
                         <div className="songsFromSameDiv">
