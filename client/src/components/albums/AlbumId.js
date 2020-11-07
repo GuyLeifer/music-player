@@ -83,8 +83,8 @@ function AlbumId(match) {
         <>
         {album && (
             <div className="info">
-                <div>Album Name: {album.name}</div>
-                <Link to = {`/artist/${album.artistId}`} className="artistLink">
+                <div className="title">Album Name: {album.name}</div>
+                <Link to = {`/artist/${album.artistId}`} className="artistLink title">
                     Artist Name: {album.Artist.name}
                 </Link>
                 {user && (
@@ -97,29 +97,33 @@ function AlbumId(match) {
                         )}
                     </div>
                 )}
-                <div>Created At: {album.createdAt}</div>
-                <div>Updated At: {album.updatedAt}</div>
-                <div><h3>Cover Image:</h3> 
+                <div className="albumContainer">
                     <div>
-                        <img src={album.coverImg} alt={album.name}/>
+                        <div><h3>Cover Image:</h3> 
+                            <div>
+                                <img src={album.coverImg} alt={album.name}/>
+                            </div>
+                        </div>
+                        <div>Created At: {album.createdAt}</div>
+                        <div>Updated At: {album.updatedAt}</div>
                     </div>
-                </div>
-                <div className="songsOnAlbumDiv">
-                    <h3 className="subHeader">Songs:</h3>
-                    <Carousel
-                    center
-                    infinite
-                    showArrows
-                    showIndicator
-                    slidesToShow={3}>
-                    {album.Songs.map((song) => {
-                        return (
-                            <Link to={`/song/${song.id}?album=${song.albumId}`}> 
-                                <Song song={song} />
-                            </Link>  
-                        )
-                    })} 
-                    </Carousel>
+                    <div className="songsOnAlbumDiv">
+                        <h3 className="subHeader">Songs:</h3>
+                        <Carousel
+                        center
+                        infinite
+                        showArrows
+                        showIndicator
+                        slidesToShow={3}>
+                        {album.Songs.map((song) => {
+                            return (
+                                <Link to={`/song/${song.id}?album=${song.albumId}`}> 
+                                    <Song song={song} />
+                                </Link>  
+                            )
+                        })} 
+                        </Carousel>
+                    </div>
                 </div>
             </div>            
         )}

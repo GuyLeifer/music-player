@@ -96,3 +96,10 @@
 .unlikeIcon:hover {
     background-color:aliceblue;
 }
+.title {
+    font-size: 150%;
+}
+.artistContainer {
+    display: flex;
+    justify-content: space-around;
+}

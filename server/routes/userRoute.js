@@ -63,12 +63,19 @@ router.get('/:userId', async (req, res) => {
   res.json(user)
 })
 
+router.get('/playlists/:userId', async (req, res) => {
+  const user = await User.findByPk(req.params.userId , {
+    include: [{model: Playlist, required: false}]
+  });
+  res.json(user)
+})
+
 router.get('/', async (req, res) => {
   const { email, password } = req.query;
   const user = await User.findOne({
     where: {
-      email: req.query.email,
-      password: req.query.password
+      email: email,
+      password: password
     }
   });
   res.json(user)

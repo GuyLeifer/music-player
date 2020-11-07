@@ -36,7 +36,6 @@ function PlaylistId(match) {
     const fetchIsLiked = async () => {
         if (user && playlist) {
             const { data } = await axios.get(`/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`);
-            console.log("dataIsliked : " , data)
             setIsLiked(data.isLiked);
         } else {
             setIsLiked(null)
@@ -83,7 +82,7 @@ function PlaylistId(match) {
         <>
         {playlist && (
             <div className="info">
-                <div>Playlist Name: {playlist[0].Playlist.name}</div>
+                <div className="title">Playlist Name: {playlist[0].Playlist.name}</div>
                 {user && (
                     <div>
                         {!isLiked && (
@@ -94,29 +93,43 @@ function PlaylistId(match) {
                         )}
                     </div>
                 )}
-                <div>Created At: {playlist[0].Playlist.createdAt}</div>
-                <div>Updated At: {playlist[0].Playlist.updatedAt}</div>
+                <div className="playlistContainer">
+                    <div>
+                        <div>
+                            <h3>Cover Image:</h3>
+                            <img src={playlist[0].Playlist.coverImg} alt={playlist[0].Playlist.name}/>
+                        </div>
+                        <div>Created At: {playlist[0].Playlist.createdAt}</div>
+                        <div>Updated At: {playlist[0].Playlist.updatedAt}</div>
+                    </div>
+                    <div className="songsOnPlaylistDiv">
+                        <h3 className="subHeader">Songs:</h3>
+                        <Carousel
+                        center
+                        infinite
+                        showArrows
+                        showIndicator
+                        slidesToShow={3}>
+                            {playlist.map((item) => {
+                                return (
+                                    <Link to={`/song/${item.SongId}?playlist=${item.PlaylistId}`}> 
+                                        <Song song={item.Song} />
+                                    </Link> 
+                                )
+                            })}
+                        </Carousel>
+                    </div>
+                </div>
                 <div>
-                    <h3>Cover Image:</h3>
-                    <img src={playlist[0].Playlist.coverImg}/>
-                </div>
-                <div className="songsOnPlaylistDiv">
-                    <h3 className="subHeader">Songs:</h3>
-                    <Carousel
-                    center
-                    infinite
-                    showArrows
-                    showIndicator
-                    slidesToShow={3}>
-                        {playlist.map((item) => {
-                            return (
-                                <Link to={`/song/${item.SongId}?playlist=${item.PlaylistId}`}> 
-                                    <Song song={item.Song} />
-                                </Link> 
-                            )
-                        })}
-                    </Carousel>
-                </div>
+                            <h3>All Playlist Songs:</h3>
+                                {playlist.map((song) => {
+                                    return (
+                                        <Link to={`/song/${song.Song.id}?playlist=${song.Playlist.id}`}>
+                                            <p>{song.Song.title}</p>
+                                        </Link>
+                                    )
+                                })}
+                        </div>
             </div>
         )}
         </>

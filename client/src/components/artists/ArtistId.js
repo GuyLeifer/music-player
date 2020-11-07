@@ -87,7 +87,7 @@ function ArtistId(match) {
         <>
             {artist && (
         <div className="info">
-            <div>Artist Name: {artist.name}</div>
+            <div className="title">Artist Name: {artist.name}</div>
             {user && (
                 <div>
                     {!isLiked && (
@@ -98,32 +98,15 @@ function ArtistId(match) {
                     )}
                 </div>
             )}
-            <div>Created At: {artist.createdAt}</div>
-            <div>Updated At: {artist.updatedAt}</div>
-            <div>Cover Image: 
+            <div className="artistContainer">
                 <div>
-                    <img src={artist.coverImg} alt={artist.name} />
-                </div>
-            </div>
-            <div className="ArtistMasterpiece">
-                <div className="songsOnArtistDiv">
-                    <h3 className="subHeader">Songs:</h3>
-                        <Carousel
-                        center
-                        infinite
-                        showArrows
-                        showIndicator
-                        slidesToShow={3}>
-                        {artist.Songs.map((song) => {
-                            return (
-                                <Link to={`/song/${song.id}?artist=${song.artistId}`}>
-                                    <div className="songOnArtist">  
-                                        <Song song={song} />
-                                    </div>
-                                </Link>
-                            )
-                        })}
-                        </Carousel>
+                    <div>Cover Image: 
+                        <div>
+                            <img src={artist.coverImg} alt={artist.name} />
+                        </div>
+                    </div>
+                    <div>Created At: {artist.createdAt}</div>
+                    <div>Updated At: {artist.updatedAt}</div>
                 </div>
                 <div className="albumsOnArtistDiv">
                     <h3 className="subHeader">Albums:</h3>
@@ -143,6 +126,27 @@ function ArtistId(match) {
                             )
                         })}
                     </Carousel>
+                </div>
+            </div>
+            <div className="ArtistMasterpiece">
+                <h2>All Songs Of Artist</h2>
+                <div className="songsOnArtistDiv">
+                        <Carousel
+                        center
+                        infinite
+                        showArrows
+                        showIndicator
+                        slidesToShow={3}>
+                        {artist.Songs.map((song) => {
+                            return (
+                                <Link to={`/song/${song.id}?artist=${song.artistId}`}>
+                                    <div className="songOnArtist">  
+                                        <Song song={song} />
+                                    </div>
+                                </Link>
+                            )
+                        })}
+                        </Carousel>
                 </div>
             </div>
             </div>

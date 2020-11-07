@@ -84,3 +84,10 @@
 .unlikeIcon:hover {
     background-color:aliceblue;
 }
+.title {
+    font-size: 150%;
+}
+.albumContainer {
+    display: flex;
+    justify-content: space-around;
+}

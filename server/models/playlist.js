@@ -14,10 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.PlaylistSongs, {
         foreignKey: 'playlistId'
       });
+      this.belongsTo(models.User);
     }
   };
   Playlist.init({
     name: DataTypes.STRING,
+    userId: DataTypes.INTEGER,
     coverImg: DataTypes.STRING(8000)
   }, {
     sequelize,
