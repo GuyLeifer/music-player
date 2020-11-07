@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import Carousel from 'styled-components-carousel';
 import YouTube from 'react-youtube';
 import Song from './Song';
-import './Songs.css'
+import './Songs.css';
+import likeIcon from '../images/likeIcon.webp';
 
 function SongId(match) {
     const [song, setSong] = useState(null);
@@ -179,10 +180,10 @@ function SongId(match) {
                             <p className="playCount">Play Count Of The Song In Your Account: <span className="count">{playCount}</span></p>
                         )}
                         {!isLiked && (
-                            <img className="likeIcon" onClick={() => likeSong()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Like"/>
+                            <img className="likeIcon" onClick={() => likeSong()} src={likeIcon} alt="Like"/>
                         )}
                         {isLiked && (
-                            <img className="unlikeIcon" onClick={() => unlikeSong()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Unlike"/>
+                            <img className="unlikeIcon" onClick={() => unlikeSong()} src={likeIcon} alt="Unlike"/>
                         )}
                     </div>
                 )}

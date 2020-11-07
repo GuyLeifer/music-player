@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Carousel from 'styled-components-carousel';
 import Song from '../songs/Song';
 import deleteIcon from './images/deleteIcon.png';
+import likeIcon from '../images/likeIcon.webp';
 
 function PlaylistId(match) {
 
@@ -110,10 +111,10 @@ function PlaylistId(match) {
                 {user && (
                     <div>
                         {!isLiked && (
-                            <img className="likeIcon" onClick={() => likePlaylist()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Like"/>
+                            <img className="likeIcon" onClick={() => likePlaylist()} src={likeIcon} alt="Like"/>
                         )}
                         {isLiked && (
-                            <img className="unlikeIcon" onClick={() => unlikePlaylist()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Unlike"/>
+                            <img className="unlikeIcon" onClick={() => unlikePlaylist()} src={likeIcon} alt="Unlike"/>
                         )}
                     </div>
                 )}

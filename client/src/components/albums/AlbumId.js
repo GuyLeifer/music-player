@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Carousel from 'styled-components-carousel';
 import Song from '../songs/Song';
+import likeIcon from '../images/likeIcon.webp';
 
 function AlbumId(match) {
 
@@ -90,10 +91,10 @@ function AlbumId(match) {
                 {user && (
                     <div>
                         {!isLiked && (
-                            <img className="likeIcon" onClick={() => likeAlbum()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Like"/>
+                            <img className="likeIcon" onClick={() => likeAlbum()} src={likeIcon} alt="Like"/>
                         )}
                         {isLiked && (
-                            <img className="unlikeIcon" onClick={() => unlikeAlbum()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Unlike"/>
+                            <img className="unlikeIcon" onClick={() => unlikeAlbum()} src={likeIcon} alt="Unlike"/>
                         )}
                     </div>
                 )}
