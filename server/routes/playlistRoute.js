@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { Playlist, PlaylistSongs } = require('../models');
+const { Playlist, PlaylistSongs, InteractionPlaylist } = require('../models');
 
 const router = Router();
 
@@ -33,9 +33,21 @@ router.patch('/:playlistId', async (req, res) => {
   res.json(playlist)
 })
 
-router.delete('/:playlistId', async (req, res) => {
-  const playlist = await Playlist.findByPk(req.params.playlistId);
-  await playlist.destroy();
+router.delete('/', async (req, res) => {
+  const { playlistId } = req.body;
+
+  await Playlist.destroy({
+    where: {id: playlistId}
+  });
+
+  await InteractionPlaylist.destroy({
+    where: {playlistId: playlistId}
+  });
+
+  await PlaylistSongs.destroy({
+    where: {playlistId: playlistId},
+  });
+
   res.json({ deleted: true })
 })
 

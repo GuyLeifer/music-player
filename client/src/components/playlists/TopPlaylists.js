@@ -15,7 +15,7 @@ function TopPlaylists() {
             setPlaylists(data);
             }
             catch(err) {
-                console.log(err.massage);
+                console.log(err);
             }
         })()
     }, [])

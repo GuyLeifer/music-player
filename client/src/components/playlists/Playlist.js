@@ -2,6 +2,7 @@ import React from 'react';
 import './Playlists.css';
 
 function Playlist({playlist}) {
+    if(playlist) {
     return (
             <div className="playlist">
                 <span className="playlistName">{playlist.name}</span>
@@ -9,7 +10,11 @@ function Playlist({playlist}) {
                     <img src={playlist.coverImg} alt={playlist.name}/>
                 </div>
             </div>
-    )
+    )} else {
+        return (
+            null
+        )
+    }
 }
 
 export default Playlist;

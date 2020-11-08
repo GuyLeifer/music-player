@@ -113,3 +113,17 @@
     background-color: red;
     transition: 1s;
 }
+.deletePlaylistIcon {
+    background-color:rgb(73, 79, 82);
+    border-radius: 50%;
+    height: 50px;
+    cursor: pointer;
+    transition: 500ms;  
+}
+.deletePlaylistIcon:hover {
+    background-color:red;
+}
+.iconsDiv {
+    display: flex;
+    justify-content: center;
+}

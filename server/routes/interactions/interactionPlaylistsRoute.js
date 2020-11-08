@@ -61,8 +61,11 @@ router.patch('/', async (req, res) => {
   res.json(interaction)
 })
 
-router.delete('/:interactionId', async (req, res) => {
-  const interaction = await InteractionPlaylist.findByPk(req.params.interactionId);
+router.delete('/', async (req, res) => {
+  const {playlistId} = req.body;
+  const interaction = await InteractionPlaylist.findAll({
+    where: {playlistId: playlistId}
+  });
   await interaction.destroy();
   res.json({ deleted: true })
 })

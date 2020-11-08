@@ -25,10 +25,12 @@ function PlaylistId(match) {
     const fetchPlaylist = async() => {
         const { data } = await axios.get(`/playlistsongs/${match.match.params.id}`);
         if (data.length > 0) {
+            console.log("data", data)
             setPlaylist(data);
         } else {
             const playlistIsEmpty = await axios.get(`/playlists/${match.match.params.id}`)
-            console.log(playlistIsEmpty.data)
+            console.log("empty playlist", playlistIsEmpty.data)
+            console.log("data", playlistIsEmpty.data)
             setEmptyPlaylist(playlistIsEmpty.data);
         }
         console.log("data", data);
@@ -103,18 +105,50 @@ function PlaylistId(match) {
         }           
     }
 
+    const deletePlaylist = async () => {
+        if (playlist.length > 0) {
+            await axios.delete('/playlists', {
+                data: {
+                    playlistId: playlist[0].Playlist.id
+                }
+            });
+            setPlaylist(null);
+            window.location.assign('/');
+        } else if (emptyPlaylist) {
+            await axios.delete('/playlists', {
+                data: {
+                    playlistId: emptyPlaylist.id
+                }
+            });
+            window.location.assign('/');
+        }
+    }
+
     return (
         <>
         {playlist && (
             <div className="info">
                 <div className="title">Playlist Name: {playlist[0].Playlist.name}</div>
                 {user && (
-                    <div>
-                        {!isLiked && (
-                            <img className="likeIcon" onClick={() => likePlaylist()} src={likeIcon} alt="Like"/>
+                    <div className="iconsDiv">
+                        <div>
+                            {!isLiked && (
+                                <img className="likeIcon" onClick={() => likePlaylist()} src={likeIcon} alt="Like"/>
+                            )}
+                            {isLiked && (
+                                <img className="unlikeIcon" onClick={() => unlikePlaylist()} src={likeIcon} alt="Unlike"/>
+                            )}
+                        </div>
+                        { (((playlist) && (user.id === playlist[0].Playlist.userId)) || 
+                            ((emptyPlaylist) && (user.id === emptyPlaylist.userId))) && (
+                            <div>
+                                <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deletePlaylist()}/>
+                            </div>
                         )}
-                        {isLiked && (
-                            <img className="unlikeIcon" onClick={() => unlikePlaylist()} src={likeIcon} alt="Unlike"/>
+                        { ((emptyPlaylist) && (user.id === emptyPlaylist.userId)) && (
+                            <div>
+                                <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deletePlaylist()}/>
+                            </div>
                         )}
                     </div>
                 )}
@@ -150,10 +184,10 @@ function PlaylistId(match) {
                                 {playlist.map((song) => {
                                     return (
                                         <div>
-                                            <Link to={`/song/${song.Song.id}?playlist=${song.Playlist.id}`}>
+                                            <Link to={`/song/${song.SongId}?playlist=${song.PlaylistId}`}>
                                                 <p className="playlistNameLink">{song.Song.title}</p>
                                             </Link>
-                                                {user.id === playlist[0].Playlist.userId && (
+                                                { (user) && user.id === playlist[0].Playlist.userId && (
                                                     <img className="deleteIcon" src={deleteIcon} alt="Delete" onClick={() => deleteSongFromPlaylist(song.Song.id)}/>
                                                 )}
                                         </div>
@@ -168,10 +202,10 @@ function PlaylistId(match) {
                 {user && (
                     <div>
                         {!isLiked && (
-                            <img className="likeIcon" onClick={() => likePlaylist()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Like"/>
+                            <img className="likeIcon" onClick={() => likePlaylist()} src={likeIcon} alt="Like"/>
                         )}
                         {isLiked && (
-                            <img className="unlikeIcon" onClick={() => unlikePlaylist()} src="https://cdn.iconscout.com/icon/free/png-256/like-1767386-1505250.png" alt="Unlike"/>
+                            <img className="unlikeIcon" onClick={() => unlikePlaylist()} src={likeIcon} alt="Unlike"/>
                         )}
                     </div>
                 )}

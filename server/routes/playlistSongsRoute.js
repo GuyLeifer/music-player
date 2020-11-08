@@ -61,10 +61,17 @@ router.patch('/:myPlaylistSongId', async (req, res) => {
 router.delete('/', async (req, res) => {
   const { playlistId, songId } = req.body;
   console.log("playlist", playlistId, "song", songId)
-  const myPlaylistSong = await PlaylistSongs.findOne({
-    where: {playlistId: playlistId, songId: songId},
-  });
-  await myPlaylistSong.destroy();
+  if (songId && playlistId) {
+    const myPlaylistSong = await PlaylistSongs.findOne({
+      where: {playlistId: playlistId, songId: songId},
+    });
+    await myPlaylistSong.destroy();
+  } else if (playlistId) {
+    const myPlaylistSongs = await PlaylistSongs.findAll({
+      where: {playlistId: playlistId},
+    });
+    await myPlaylistSongs.destroy();
+  }
   res.json({ deleted: true })
 })
 module.exports = router;
