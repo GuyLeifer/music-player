@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'InteractionPlaylist',
+    paranoid: true,
+    timestamps: true,
   });
   return InteractionPlaylist;
 };
