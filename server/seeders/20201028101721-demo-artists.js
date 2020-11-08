@@ -17,7 +17,7 @@ module.exports = {
       },
       {
         name: 'Linkin Park',
-        coverImg: 'https://scontent.fhfa1-2.fna.fbcdn.net/v/t1.0-9/s960x960/29425596_10156399711017904_564418931020791808_o.jpg?_nc_cat=101&_nc_sid=85a577&_nc_ohc=g-aeFrlnI4oAX9c6nyl&_nc_oc=AQmDY5Mqyhk73ImysrVcduLLlATkhKUb-KUpZN6SdF7FkrJHmq5_h4_rv4c9MoiCYUc&_nc_ht=scontent.fhfa1-2.fna&tp=7&oh=9da612934ee1fafcb94e0f6857e9ff32&oe=5F8B0581',
+        coverImg: 'https://lezebre.lu/images/detailed/14/17536-linkin-park-logo.png',
         createdAt: new Date(),
         updatedAt: new Date()
       },

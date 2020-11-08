@@ -47,11 +47,15 @@ router.post('/', async (req, res) => {
 })
 
 router.patch('/', async (req, res) => {
-  const { userId, songId } = req.body
+  const { userId, songId, playCount } = req.body
   const interaction = await InteractionSong.findOne({
     where: {userId, songId}
   });
-  await interaction.update(req.body);
+  if (!playCount) {
+    await interaction.increment('playCount')
+  } else {
+    await interaction.update(req.body);
+  }
   res.json(interaction)
 })
 

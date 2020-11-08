@@ -42,7 +42,8 @@ useEffect(  () => {
 const fetchUser = async () => {
     const { data } = await axios.get('/users/verify');
     if(data.user) {
-        setUser(data.user);
+        const username = await axios.get(`/users/${data.user.id}`);
+        setUser(username.data);
     } else {
         setUser(false);
     }   
