@@ -34,3 +34,10 @@
     color: aliceblue;
     transition: 2s;
 }
+.deleteDiv {
+    color: aliceblue;
+    margin: 30px;
+}
+.deleteP {
+    margin: 10px;
+}

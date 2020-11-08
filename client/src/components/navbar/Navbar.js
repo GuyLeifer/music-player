@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import './Navbar.css';
 import Searchbar from './Searchbar';
-import { useForm } from 'react-hook-form';
+
+// packages
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
+import { useForm } from 'react-hook-form';
+
+//recoil
+import { useRecoilState } from "recoil";
+import { userState } from '../../Atoms/userState';
 
 //icons
 import youtubeIcon from './images/youtubeIcon.jpg';
@@ -20,9 +26,11 @@ function Navbar() {
         color: 'white'
     };
 
+// states
 const [logOutShown, setLogOutShown] = useState(false);
 const [wantLogin, setWantLogin] = useState(false);
-const [user, setUser] = useState(null);
+// recoil states
+const [user, setUser] = useRecoilState(userState);
 
 const { register, handleSubmit, errors } = useForm(); // initialize the hook
 
@@ -62,18 +70,18 @@ const logout = async () => {
 
 const customStyles = {
     content : {
-      top                   : '50%',
-      left                  : '50%',
-      right                 : 'auto',
-      bottom                : 'auto',
-      marginRight           : '-30%',
-      transform             : 'translate(-50%, -50%)',
-      background            : ' rgb(73, 79, 82)',
-      color                 : 'white',
-      borderRadius          : '10%'
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-30%',
+        transform             : 'translate(-50%, -50%)',
+        background            : ' rgb(73, 79, 82)',
+        color                 : 'white',
+        borderRadius          : '10%'
     }
     
-  };
+};
 
 
     return (

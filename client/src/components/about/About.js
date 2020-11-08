@@ -11,7 +11,7 @@ function About() {
                 About Page
             </h1>
             <img className="aboutImg" src={youtubeIcon} alt="About"/>
-            <p>This is a Music Streamer Included a DataBase of Songs, Artists, Albums and Playlist.</p>
+            <p>This is a Music Streamer Included a DataBase of Songs, Artists, Albums and Playlists.</p>
             <p>Enjoy the Experience of the Streamer!</p>
         </div>
     )

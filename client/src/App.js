@@ -3,6 +3,7 @@ import './App.css';
 
 //packages
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { RecoilRoot } from "recoil";
 
 //components
 import Header from './components/header/Header';
@@ -27,26 +28,28 @@ import UserId from'./components/users/UserId';
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Navbar />
-        <Header />
-        <Switch>
-          <Route path="/" exact component = {HomePage} />
-          <Route path="/about" exact component = {About} />
-          <Route path="/account" exact component = {Account} />
-          <Route path="/top_songs" exact component = {TopSongs} />
-          <Route path="/top_artists" exact component = {TopArtists} />
-          <Route path="/top_albums" exact component = {TopAlbums} />
-          <Route path="/top_playlists" exact component = {TopPlaylists} />
-          <Route path="/artist/:id" component = {ArtistId}/>
-          <Route path="/album/:id" component = {AlbumId}/>
-          <Route path="/song/:id" component = {SongId}/>
-          <Route path="/playlist/:id" exact component = {PlaylistId}/>
-          <Route path="/user/:id" component = {UserId}/>
-          <Route path='*' exact={true} status={404} component={GenericNotFound}/>
-        </Switch>
-        <Footer />
-      </Router>
+      <RecoilRoot>
+        <Router>
+          <Navbar />
+          <Header />
+          <Switch>
+            <Route path="/" exact component = {HomePage} />
+            <Route path="/about" exact component = {About} />
+            <Route path="/account" exact component = {Account} />
+            <Route path="/top_songs" exact component = {TopSongs} />
+            <Route path="/top_artists" exact component = {TopArtists} />
+            <Route path="/top_albums" exact component = {TopAlbums} />
+            <Route path="/top_playlists" exact component = {TopPlaylists} />
+            <Route path="/artist/:id" component = {ArtistId}/>
+            <Route path="/album/:id" component = {AlbumId}/>
+            <Route path="/song/:id" component = {SongId}/>
+            <Route path="/playlist/:id" exact component = {PlaylistId}/>
+            <Route path="/user/:id" component = {UserId}/>
+            <Route path='*' exact={true} status={404} component={GenericNotFound}/>
+          </Switch>
+          <Footer />
+        </Router>
+      </RecoilRoot>
     </div>
   );
 }
