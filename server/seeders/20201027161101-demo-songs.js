@@ -11,6 +11,7 @@ module.exports = {
       length: '02:54',
       trackNumber: 1,
       lyrics: "Don't want a nation under the new mania And can you hear the sound of hysteria? The subliminal mind-fuck America Welcome to a new kind of tension All across the alien nation Where everything isn't meant to be okay Television dreams of tomorrow We're not the ones who're meant to follow For that's enough to argue Well maybe I'm the faggot America I'm not a part of a redneck agenda Now everybody do the propaganda And sing along to the age of paranoia Welcome to a new kind of tension All across the alien nation Where everything isn't meant to be okay Television dreams of tomorrow We're not the ones who're meant to follow For that's enough to argue Don't wanna be an…",
+      playCount: 5,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -22,6 +23,7 @@ module.exports = {
       length: '09:14',
       trackNumber: 2,
       lyrics: "I'm the son of rage and love The Jesus of Suburbia The bible of none of the above On a steady diet of Soda Pop and Ritalin No one ever died for my Sins in hell As far as I can tell At least the ones that I got away with And there's nothing wrong with me This is how I'm supposed to be In a land of make believe That don't believe in me Get my television fix Sitting on my crucifix The living room in my private womb While the Moms and Brads are away To fall in love and fall in debt To alcohol and cigarettes And Mary Jane To keep me insane Doing someone else's cocaine And there's nothing wrong with me This is how I'm supposed to be In a land of make believe That don't believe in me At the center of the earth In the parking lot Of the 7-11 where I was taught The motto was…",
+      playCount: 5,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -33,6 +35,7 @@ module.exports = {
       length: '03:53',
       trackNumber: 3,
       lyrics: "Hear the sound of the falling rain Coming down like an Armageddon flame (hey!) A shame The ones who died without a name Hear the dogs howlin' out of key To a hymn called faith and misery (hey!) And bleed, the company lost the war today I beg to dream and differ from the hollow lies This is the dawning of the rest of our lives On holiday Hear the drum pounding out of time Another protester has crossed the line (hey!) To find, the money's on the other side Can I get another Amen (Amen!) There's a flag wrapped around a score of men (hey!) A gag, A plastic bag on a monument I beg to dream and differ from the hollow lies This is the dawning of the rest of our lives On holiday The representative from California has the floor Sieg Heil to the president gasman Bombs…",
+      playCount: 15,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -44,6 +47,7 @@ module.exports = {
       length: '04:21',
       trackNumber: 4,
       lyrics: "I walk a lonely road The only one that I have ever known Don't know where it goes But it's only me, and I walk alone I walk this empty street On the boulevard of broken dreams Where the city sleeps And I'm the only one, and I walk alone I walk alone, I walk alone I walk alone, and I walk a My shadow's only one that walks beside me My shallow heart's the only thing that's beating Sometimes I wish someone out there will find me 'Til then I walk alone Ah ah ah ah ah Ah ah ah I'm walking down the line That divides me somewhere in my mind On the border line of the edge And where I walk alone Read between the lines What's fucked up and every thing's all right Check my vital signs to know I'm still alive And I walk alone I walk alone, I walk alone I walk alone and I walk…",
+      playCount: 5,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -66,6 +70,7 @@ module.exports = {
       length: '02:55',
       trackNumber: 6,
       lyrics: "St. Jimmy's comin' down across the alleyway Up on the boulevard like a zip gun on parade Light of a silhouette He's insubordinate Coming at you on the count of one, two (one, two, three, four) My name is Jimmy and you better not wear it out Suicide commando that your momma talked about King of the forty thieves And I'm here to represent That needle in the vein of the establishment I'm the patron saint of the denial With an angel face and a taste for suicidal Cigarettes and Ramen and a little bag of dope I am the son of a bitch and Edgar Allan Poe Raised in the city under a halo of lights The product of war and fear that we've been victimized I'm the patron saint of the denial With an angel face and a taste for suicidal Are you talkin' to me? I'll give you…",
+      playCount: 11,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -77,6 +82,7 @@ module.exports = {
       length: '03:26',
       trackNumber: 7,
       lyrics: "Take away the sensation inside Bitter sweet migraine in my head It's like a throbbing tooth ache of the mind I can't take this feeling anymore Drain the pressure from the swelling The sensation's overwhelming Give me a long kiss goodnight and everything will be alright Tell me that I won't feel a thing So give me Novacaine Out of body and out of mind Kiss the demons out of my dreams I get the funny feeling, that's alright Jimmy says it's better than here I'll tell you why Drain the pressure from the swelling The sensation's overwhelming Give me a long kiss goodnight and everything will be…",
+      playCount: 5,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -88,6 +94,7 @@ module.exports = {
       length: '02:01',
       trackNumber: 8,
       lyrics: "[Chorus] She's a rebel, she's a saint She's the salt of the earth, and she's dangerous She's a rebel, vigilante Missing link on the brink of destruction [Verse 1] From Chicago to Toronto She's the one that they call ol' Whatsername She's a symbol of resistance And she's holding on my heart like a hand grenade [Verse 2] Is she dreaming what I'm thinking? Is she the mother of all bombs? Gonna detonate Is she trouble like I'm trouble? Make it a double twist of fate or a melody that [Bridge] She sings the revolution The dawning of our lives She brings this liberation That I just can't define, well, nothing comes to mind (Hey) [Guitar Solo]",
+      playCount: 5,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -99,6 +106,7 @@ module.exports = {
       length: '03:34',
       trackNumber: 9,
       lyrics: "She's an extraordinary girl In an ordinary world And she can't seem to get away He lacks the courage in his mind Like a child left behind Like a pet left in the rain She's all alone again Wiping the tears from her eyes Some days he feels like dying She gets so sick of crying She sees the mirror of herself And image she wants to sell To anyone willing to buy He steals the image in her kiss From her hearts apocalypse From the one called what's her name She's all alone again Wiping the tears from her eyes Some days she feels like dying She gets so sick of crying She's all alone…",
+      playCount: 2,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -165,6 +173,7 @@ module.exports = {
       length: '03:38',
       trackNumber: 1,
       lyrics: "המחשבות הורגות אותי קבוע קשה לשתוק לא מתרגל לאחרונה כל יום מרגיש שבוע הכל שטויות טוב תלוי מי שואל אולי תגידי מה עובר עלי רק תגידי שהכל בסדר קצת הרגיש לי שגדול עלי אולי אם רק היית יודעת איך המילים שלך עושות אותי רגוע ואני יותר סגור את עם השטויות שלך הרבה יותר בטוח ואני שוב משתגע איך זה בא בזמן  זה הרבה יותר עדיף לא להיות מוכן המנגינות באות צריך לנוע קשה לרקוד לא מסתכל הרכבות עוברות ואני תקוע לאן כולם נוסעים כאן לעזאזל אולי תגידי לי מילים טובות אולי תצאי קצת מהחדר אולי ירדו לך עוד כמה דמעות אולי כדאי אם רק היית יודעת איך המילים שלך עושות אותי רגוע ואני יותר סגור את עם השטויות שלך הרבה יותר בטוח ואני שוב משתגע איך זה בא בזמן זה הרבה יותר עדיף לא להיות מוכן ",
+      playCount: 5,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -220,6 +229,7 @@ module.exports = {
       length: '02:55',
       trackNumber: 6,
       lyrics: "כמה מילים חסרות,גם מבט משתיקות אי אפשר להרכיב  עושה לי דמעות, נשבע שבכלל לא תכננתי לריב כמה צעקות על הרצפה שאת לא אוספתשוב אני יושב על הספה שכבר ראתה הכל איך מחייכת בשניה עושה מה לא עושה עם העיניים והגוף שלך מושיט ידייםמחבקת ובוכה עושה מה לא עושה אני עדיין אביא לך, כמה שאני אביא לך כל מה שתרצי אשיר לך אשאיר לך את עצמי בינתיים אם לא סופרים ת׳לילות את עדיין אוכלת את כל השטויות מי מכיר אחרות וזה שלא אהבנו לרגע פחות שנינו מביטים על התקרה,ואת לא אומרת אף פעם לא הבנתי מה קרה זה לא שאני יכול איך מחייכת בשניה עושה מה לא עושה עם העיניים והגוף שלך מושיט ידייםמחבקת ובוכה עושה מה לא עושה אני עדיין אביא לך, כמה שאני אביא לך כל מה שתרצי אשיר לך אשאיר לך את עצמי בינתייםאת מחייכת בשניה עושה מה לא עושה עם העיניים והגוף שלך מושיט ידייםמחבקת ובוכה עושה מה לא עושה אני עדיין אביא לך, כמה שאני אביא לך כל מה שתרצי אשיר לך אשאיר לך את עצמי בינתיים",
+      playCount: 10,
       createdAt: new Date(),
       updatedAt: new Date()
     },
