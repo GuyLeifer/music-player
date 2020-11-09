@@ -1,0 +1,13 @@
+.topTitles {
+    display: flex;
+    justify-content: space-evenly;
+    color: rgb(73, 79, 82);
+}
+.topLink {
+    cursor: pointer;
+    transition: 1s;
+}
+.topLink:hover {
+    color: aliceblue;
+    transition: 2s;
+}
