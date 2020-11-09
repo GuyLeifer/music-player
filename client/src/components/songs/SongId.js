@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react'
+import './Songs.css';
+
+//components
+import Song from './Song';
+
+// packages
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Carousel from 'styled-components-carousel';
 import YouTube from 'react-youtube';
-import Song from './Song';
-import './Songs.css';
+
+//inside components
+import ArtistSongs from './components/ArtistSongs';
+import AlbumSongs from './components/AlbumSongs';
+import PlaylistSongs from './components/PlaylistSongs';
+
+//icons
 import likeIcon from '../images/likeIcon.webp';
+
 
 function SongId(match) {
     const [song, setSong] = useState(null);
@@ -221,95 +232,17 @@ function SongId(match) {
                 </div>
                 <>
                     {artist && (
-                        <div className="songsFromSameDiv">
-                            <h3 className="subHeader">Songs From Artist:</h3>
-                            <h4>Artist Name: {artist.name}
-                                <Link to = {`/artist/${artist.id}`}>
-                                    <div>
-                                        Go To Artist Page - {artist.name}
-                                    </div>
-                                    <img src={artist.coverImg} alt={artist.name}/>
-                                </Link>
-                            </h4>
-                            <Carousel
-                                center
-                                infinite
-                                showArrows
-                                showIndicator
-                                slidesToShow={3}>
-                                    {artist.Songs.map((song) => {
-                                        return (
-                                            <div onClick={() => renderPage(song.id)}>
-                                                <Link to = {`/song/${song.id}?artist=${song.artistId}`}>
-                                                    <Song song={song} />
-                                                </Link>
-                                            </div>
-                                        )
-                                    })}
-                            </Carousel>
-                        </div>
+                        <ArtistSongs artist={artist} renderPage={renderPage}/>
                     )}
                 </>
                 <>
                     {album && (
-                        <div>
-                            <h3 className="subHeader">Songs From Album:</h3>
-                            <h4>Album Name: {album.name}
-                                <Link to = {`/album/${album.id}`}>
-                                    <div>
-                                        Go To Album Page - {album.name}
-                                    </div>
-                                    <img src={album.coverImg} alt={album.name}/>
-                                </Link>
-                            </h4>
-                            <Carousel
-                                center
-                                infinite
-                                showArrows
-                                showIndicator
-                                slidesToShow={3}>
-                                    {album.Songs.map((song) => {
-                                        return (
-                                            <div onClick={() => renderPage(song.id)}>
-                                                <Link to={`/song/${song.id}?album=${song.albumId}`}>
-                                                    <Song song={song} />
-                                                </Link>
-                                            </div>
-                                        )
-                                    })}
-                            </Carousel>
-                        </div>
+                        <AlbumSongs album={album} renderPage={renderPage}/>
                     )}
                 </>
                 <>
                     {playlist && (
-                        <div>
-                            <h3 className="subHeader">Songs From Same Playlist:</h3>
-                            <h4>Playlist Name: {playlist[0].Playlist.name}
-                                <Link to = {`/playlist/${playlist[0].PlaylistId}`}>
-                                    <div>
-                                        Go To Playlist Page - {playlist[0].Playlist.name}
-                                    </div>
-                                    <img src={playlist[0].Playlist.coverImg} alt={playlist[0].Playlist.name}/>
-                                </Link>
-                            </h4>
-                            <Carousel
-                                center
-                                infinite
-                                showArrows
-                                showIndicator
-                                slidesToShow={3}>
-                                    {playlist.map((song) => {
-                                        return (
-                                            <div onClick={() => renderPage(song.id)}>
-                                                <Link to = {`/song/${song.SongId}?playlist=${song.PlaylistId}`}>
-                                                    <Song song={song.Song} />
-                                                </Link>
-                                            </div>
-                                        )
-                                    })}
-                            </Carousel>
-                        </div>
+                        <PlaylistSongs playlist={playlist} renderPage={renderPage}/>
                     )}
                 </>
                 
