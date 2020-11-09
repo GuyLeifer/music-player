@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { Song, Artist, Album, PlaylistSongs, Playlist } = require('../models');
+const sequelize = require('sequelize');
 
 const router = Router();
 
@@ -8,6 +9,22 @@ router.get('/', async (req, res) => {
     include: [{ model: Artist }, { model: Album }]
   });
     res.json(allSongs);
+});
+router.get('/top/:option', async (req, res) => {
+  const option = req.params.option;
+  if (option === "play") {
+    const topTwentySongs = await Song.findAll({
+      order: sequelize.literal('playCount DESC'),
+      limit: 20
+    });
+    res.json(topTwentySongs);
+  } else if (option === "new") {
+    const topTwentySongs = await Song.findAll({
+      order: sequelize.literal('createdAt DESC'),
+      limit: 20
+    });
+    res.json(topTwentySongs);
+  }
 });
 
 router.get('/:songId', async (req, res) => {

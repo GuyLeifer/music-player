@@ -1,42 +1,76 @@
 import React, { useEffect, useState } from 'react';
-import Carousel from 'styled-components-carousel';
-import axios from 'axios';
-import Artist from './Artist';
-import { Link } from 'react-router-dom';
 import './Artists.css';
 
-function TopArtists() {
+// packages
+import Carousel from 'styled-components-carousel';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+// components
+import Artist from './Artist';
+
+
+function TopArtists( {topOption }) {
     const [artists, setArtists] = useState([]);
     
     useEffect(() => {
-        (async () => {
-            try {
-            const { data } = await axios.get('/interactions/artists/topartists');
-            setArtists(data);
-            }
-            catch(err) {
-                console.log(err.massage);
-            }
-        })()
-    }, [])
+        topOption === "like" ? (
+            (async () => {
+                try {
+                const { data } = await axios.get('/interactions/artists/topartists');
+                setArtists(data);
+                }
+                catch(err) {
+                    console.log(err.massage);
+                }
+            })()
+        ) : (
+            (async () => {
+                try {
+                const { data } = await axios.get(`/artists/top/${topOption}`);
+                setArtists(data);
+                }
+                catch(err) {
+                    console.log(err);
+                }
+            })()
+        )
+    }, [topOption])
 
     return (
         <div className="topArtists">
             <div className="topHeader">Top Artists</div>
-            <Carousel         
-                center
-                infinite
-                showArrows
-                showIndicator
-                slidesToShow={3}>
-                {artists.map(interaction => {
-                    return (
-                        <Link to = {`/artist/${interaction.artistId}`} key={interaction.artistId}>
-                            <Artist artist={interaction.Artist} />
-                        </Link>
-                    )
-                })}
-            </Carousel>
+            {topOption === "new" ? (
+                <Carousel         
+                    center
+                    infinite
+                    showArrows
+                    showIndicator
+                    slidesToShow={3}>
+                    {artists.map(artist => {
+                        return (
+                            <Link to = {`/artist/${artist.id}`} key={artist.id}>
+                                <Artist artist={artist} />
+                            </Link>
+                        )                  
+                    })} 
+                </Carousel>
+            ) : (
+                <Carousel         
+                    center
+                    infinite
+                    showArrows
+                    showIndicator
+                    slidesToShow={3}>
+                    {artists.map(artist => {
+                        return (
+                            <Link to = {`/artist/${artist.artistId}`} key={artist.artistId}>
+                                <Artist artist={artist.Artist} />
+                            </Link>
+                        )
+                    })}
+                </Carousel>                
+            )}
         </div>
     )
 }

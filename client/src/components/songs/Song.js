@@ -30,6 +30,9 @@ function Song({song}) {
                 songId: song.id
             })
             setCounterLimit(0);
+        } else if ( (!user) && (counterLimit === 1)) {
+            await axios.patch(`/songs/${song.id}`)
+            setCounterLimit(0);
         }
     }
     

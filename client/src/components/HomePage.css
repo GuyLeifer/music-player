@@ -3,11 +3,16 @@
     justify-content: space-evenly;
     color: rgb(73, 79, 82);
 }
-.topLink {
-    cursor: pointer;
+.topTitles h2 {
     transition: 1s;
 }
-.topLink:hover {
+.topTitles h2:hover {
+    cursor: pointer;
     color: aliceblue;
     transition: 2s;
+}
+.chosen {
+    color: aliceblue;
+    font-size: 200%;
+    text-decoration: underline;
 }
