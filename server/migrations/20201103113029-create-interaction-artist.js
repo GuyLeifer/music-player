@@ -15,7 +15,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       isLiked: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN, 
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,

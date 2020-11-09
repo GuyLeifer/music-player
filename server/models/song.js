@@ -28,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     youtubeLink: DataTypes.STRING(8000),
     length: DataTypes.STRING,
     trackNumber: DataTypes.INTEGER,
-    lyrics: DataTypes.STRING(8000)
+    lyrics: DataTypes.STRING(8000),
+    playCount: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Song',

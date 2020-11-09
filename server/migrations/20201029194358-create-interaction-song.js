@@ -15,10 +15,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       isLiked: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN, 
+        defaultValue: false
       },
       playCount: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       },
       createdAt: {
         allowNull: false,

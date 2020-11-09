@@ -37,9 +37,20 @@ router.post('/', async (req, res) => {
 })
 
 router.patch('/:songId', async (req, res) => {
-  const song = await Song.findByPk(req.params.songId);
-  await song.update(req.body);
-  res.json(song)
+  const { playCount } = req.body;
+  if(!playCount) {
+    const song = await Song.findByPk(req.params.songId);
+    await song.update(req.body);
+    res.json(song)
+  } else if (playCount === 1) {
+    try {
+      const song = await Song.findByPk(req.params.songId);
+      await song.increment('playCount');
+      res.json(song)
+    } catch (err) {
+      throw err;
+    }
+  }
 })
 
 router.delete('/:songId', async (req, res) => {

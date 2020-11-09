@@ -29,6 +29,10 @@ module.exports = {
       lyrics: {
         type: Sequelize.STRING(8000)
       },
+      playCount: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

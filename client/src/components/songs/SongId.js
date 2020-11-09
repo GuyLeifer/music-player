@@ -43,15 +43,35 @@ function SongId(match) {
         fetchPlaylists();
     }, [user])
 
+    useEffect(() => {
+        incrementGeneralPlayCount();
+    }, [song])
+
     const fetchUser = async () => {
-        const { data } = await axios.get('/users/verify');
-        if(data.user) {
-            console.log("User", data.user)
-            setUser(data.user);
-        } else {
-            setUser(false);
-        }   
+        try {
+            const { data } = await axios.get('/users/verify');
+            if(data.user) {
+                setUser(data.user);
+            } else {
+                setUser(false);
+            }   
+        } catch (err) {
+            throw err;
+        }
     };
+
+    const incrementGeneralPlayCount = async () => {
+        if (song) {
+            try {
+                await axios.patch(`/songs/${song.id}`, {
+                    playCount: 1
+                });
+            } catch (err) {
+                throw err;
+            }
+        }
+    };
+
     const fetchIsLikedAndIncrementPlayCount = async () => {
         if (user && song) {
             console.log("user id", user.id, "song id", song.id)
@@ -185,6 +205,7 @@ function SongId(match) {
         {song && (
             <div className="info">
                 <div className="title">Song Title: {song.title}</div>
+                <p>Total plays: {song.playCount + 1}</p>
                 {user && (
                     <div>
                         {playCount && (
