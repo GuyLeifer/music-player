@@ -5,12 +5,16 @@ import './Albums.css';
 function Album({album}) {
 
     return (
+        album ?
             <div className="album" >
-               <span className="albumName">{album.name}</span> 
-               <div className="albumImg">
+                <span className="albumName">{album.name}</span> 
+                <div className="albumImg">
                     <img src={album.coverImg} alt={album.name}/>
                 </div>
             </div>
+        : 
+        <>
+        </>
     )
 }
 

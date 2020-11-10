@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import './HomePage.css';
 
 // components
@@ -11,7 +11,7 @@ function HomePage() {
 
     const [topOption, setTopOption] = useState("like");
 
-    const setTop = (option) => {
+    const setTop = useCallback((option) => {
         setTopOption(option);
 
         if (option === "like") {
@@ -35,7 +35,7 @@ function HomePage() {
             const play = document.getElementById("play");
             if (play.classList.contains("chosen")) play.classList.remove("chosen");
         }
-    }
+    }, [])
 
     return (
         <div className="homepage">

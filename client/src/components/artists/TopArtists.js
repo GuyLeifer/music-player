@@ -12,7 +12,7 @@ import Artist from './Artist';
 
 function TopArtists( {topOption }) {
     const [artists, setArtists] = useState([]);
-    
+
     useEffect(() => {
         topOption === "like" ? (
             (async () => {

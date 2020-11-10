@@ -37,6 +37,7 @@ function Song({song}) {
     }
     
     return (
+        song ? 
             <div className="song" >
                 <span className="songTitle">{song.title}</span> 
                 <span className="songLength">{song.length}</span>
@@ -45,6 +46,9 @@ function Song({song}) {
                     {/* <iframe src={`https://www.youtube.com/embed/${song.YouTube_Link}`}/> */}
                 </div>
             </div>
+        : 
+        <>
+        </>
     )
 }
 

@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import Song from './Song';
 
 function TopSongs({ topOption }) {
-    console.log(topOption);
+
     const [songs, setSongs] = useState([]);
 
     useEffect(() => {
