@@ -1,0 +1,24 @@
+.account {
+    color: aliceblue;
+    padding: 20px;
+    margin: 20px;
+    margin-bottom: 100px;
+}
+.accountForm {
+    display: flex;
+    flex-direction: column;
+    max-width: 200px;
+    border: 1px solid aliceblue;
+    margin: auto;
+    padding: 10px;
+}
+.input {
+    max-width: 100px;
+    margin: 20px auto;
+    border: 1px solid aliceblue;
+    border-radius: 5%;
+    display: block;
+}
+label {
+    padding: 10px;
+}
