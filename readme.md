@@ -6,7 +6,7 @@
 ###
 the repository includes database information from SQL DataBase, ("mysql2" package). 
 server side with Sequelize queries and packages of authentication like: "jsonwebtoken", "sequelize", "bcrypt", "cookie-parser", to make the service safe and authorized. 
-client side with usage of a lot of React packages, like: "react-router-dom", "styled-components-carousel", "react-search-box", "react-youtube", "recoil". for perfect use of the service.
+client side with usage of a lot of React packages, like: "react-router-dom", "styled-components-carousel", "react-youtube", "recoil". for perfect use of the service.
 ## Home Page
     the home page contains a list of of any: songs, artists, albums, playlists and a buttons to choose the selected sort of the top option you want - most liked, most played, or the newest on the service.
 ![Home Page](./images/homepage.png "Home Page")
