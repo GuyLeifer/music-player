@@ -1,49 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import ReactSearchBox from 'react-search-box';
+import React, { useState } from 'react';
 import './Navbar.css';
+import axios from 'axios';
+
+// icons
+import searchIcon from './images/searchIcon.png';
+import songIcon from './images/songIcon.webp';
+import artistIcon from './images/artistIcon.png';
+import albumIcon from './images/albumIcon.webp';
+import playlistIcon from './images/playlistIcon.jpg';
+
 
 function Searchbar() {
 
     const [options, setOptions] = useState([]);
 
-
-    useEffect(() => {
-        (async () => {
-            try {
-            const { data } = await axios.get('/search/all');
-            setOptions(data);
-            }
-            catch(err) {
-                console.log(err.massage);
-            }
-        })()
-    }, [])
-
     const changeHandler = async (e) => {
         try {
-            const { data } = await axios.get(`/search?params=${e}`);
+            const { data } = await axios.get(`/search?params=${e.target.value}`);
             setOptions(data);
             }
             catch(err) {
                 console.log(err.massage);
             }
     }
-    const goToPage = (e) => {
-        const link = `/${e.type}/${e.id}`;
+    const goToPage = (type, id) => {
+        const link = `/${type}/${id}`;
         window.location.href = link;
     }
 
     return (
         <div className="searchContainer">
-            <ReactSearchBox
-                className="searchBox"
-                placeholder="Search..." 
-                data={options}
+            <img class="search-icon" src={searchIcon} alt="search"/>
+            <input 
+                id="search"
+                type="search" 
                 onChange={(e) => changeHandler(e)}
-                onSelect={(e) => goToPage(e)}
-                dropDownHoverColor="white"
             />
+            {options && (
+                <div className="options">
+                {options.map(option => 
+                    <div 
+                        className={"option " + option.type} 
+                        key={option.type + " " + option.id}
+                        onClick={() => goToPage(option.type, option.id)}
+                    >
+                            <div className="optionName">{option.value}</div>
+                            <div className="optionIconDiv">
+                                {option.type === "song" ? <img className="optionIcon" src={songIcon} alt="songIcon" />
+                                : option.type === "artist" ? <img className="optionIcon" src={artistIcon} alt="artistIcon" />
+                                : option.type === "album" ? <img className="optionIcon" src={albumIcon} alt="albumIcon" />
+                                : <img className="optionIcon" src={playlistIcon} alt="playlistIcon" />
+                            }
+                                
+                            </div>
+                    </div>
+                )}
+                </div>
+            )}
         </div> 
     );
 }

@@ -54,6 +54,7 @@ router.get('/:playlistId', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const playlist = await Playlist.create({
+    userId: req.body.userId,
     name: req.body.name,
     coverImg: req.body.coverImg, 
     createdAt: req.body.createdAt || new Date(), 

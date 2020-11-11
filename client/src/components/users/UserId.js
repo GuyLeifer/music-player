@@ -5,6 +5,7 @@ import './User.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Carousel from 'styled-components-carousel';
+import { useForm } from 'react-hook-form';
 
 // components
 import Song from '../songs/Song';
@@ -24,8 +25,9 @@ function UserId(match) {
     const [username, setUsername] = useRecoilState(userState);
     const [user, setUser] = useState();
     const [userPlaylists, setUserPlaylists] = useState();
+    const [newPlaylist, setNewPlaylist] = useState(false);
 
-    console.log("user", user)
+    const { register, handleSubmit, errors } = useForm(); // initialize the hook
 
     useEffect(() => {
         fetchUser();
@@ -33,7 +35,7 @@ function UserId(match) {
 
     useEffect(() => {
         fetchUserPlaylists();
-    }, [user]);
+    }, [user, newPlaylist]);
 
     const fetchUser = async() => {
         const id = Number(match.match.params.id);
@@ -44,7 +46,6 @@ function UserId(match) {
     const fetchUserPlaylists = async () => {
         if (user) {
             const { data } = await axios.get(`/users/playlists/${user.id}`)
-            console.log("playlistsUser", data)
             setUserPlaylists(data.Playlist || data.Playlists)
         }
     };
@@ -52,6 +53,16 @@ function UserId(match) {
     const deleteUser = async () => {
         axios.delete(`/users/${user.id}`);
         window.location.assign('/');
+    }
+
+    const createPlaylist = async (data) => {
+        const { name, coverImg } = data;
+        await axios.post('/playlists/', {
+            userId: username.id,
+            name: name,
+            coverImg: coverImg
+        });
+        setNewPlaylist(false);
     }
 
     return (
@@ -77,6 +88,24 @@ function UserId(match) {
                                 </Link>
                             )
                         })}
+                        {username.id === Number(match.match.params.id) ? <p className="newPlaylist" onClick={() => setNewPlaylist(!newPlaylist)}>Create a New Playlist:</p> : null}
+                        {newPlaylist && (
+                            <div>
+                                <form className="accountForm" onSubmit={handleSubmit(createPlaylist)}>
+                                    <div className="labelInput">
+                                        <label htmlFor="name">Playlist Name:</label>
+                                        <input className="input" name="name" ref={register({ required: true })} placeholder="Name"/>
+                                        <div className="error">{errors.email && 'Name is required.'}</div>
+                                    </div>
+                                    <div className="labelInput">
+                                        <label htmlFor="coverImg">Cover Image:</label>
+                                        <input className="input" name="coverImg" ref={register({ required: true })} placeholder="Image Link"/>
+                                        <div className="error">{errors.email && 'Cover Image is required.'}</div>
+                                    </div>
+                                    <input className="input" type="submit" value="Create Playlist"/>
+                                </form>
+                            </div>
+                        )}
                     </div>
                 )}
 

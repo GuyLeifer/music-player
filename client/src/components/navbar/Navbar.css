@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Gloria+Hallelujah&family=Gochi+Hand&family=Permanent+Marker&display=swap');
+
 nav {
     display: flex;
     /* position: fixed; */
@@ -34,11 +36,69 @@ nav {
     transition: 1s;
 }
 
-/* searchBox */
 .searchContainer {
+    position: relative;
+}
+input[type="search"] {
+    
+	display: block; 
+    width: 100%; 
+    font-family: 'Architects Daughter', cursive;
+	letter-spacing: 1px;        
+	text-shadow: 0 0 2px black;       
+    font-size: large;
+    border: 1px solid grey;
+    border-radius: 100px;
+    padding: 2px 23px 2px 30px;
+    outline: 0;
+    height: 25px;
+}
+.search-icon {
     position: absolute;
-    color: black;
-    top: 30px;
+    top: 6px;
+    left: 8px;
+    width: 14px;
+}
+.options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    color:  rgb(73, 79, 82);
+    text-shadow: 0 0 0.5px black;
+    width: 100%;
+}
+.option {
+    background-color: white;
+    margin: 5px auto;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+}
+.optionName {
+    width: 90%;
+}
+.optionIconDiv {
+    width: 10%;
+    margin: 5px;
+}
+.optionIcon {
+    width: 100%;
+}
+.option.song {
+    background-color: rgb(120, 120, 120);
+}
+.option.artist {
+    background-color: rgb(165, 165, 165);
+}
+.option.album {
+    background-color: rgb(210, 210, 210);
+}
+.option.playlist {
+    background-color: rgb(255, 255, 255);
 }
 .login {
     display: flex;
@@ -74,8 +134,8 @@ nav {
     background-color: aliceblue;
     color: black;
     text-decoration: underline;
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
     font-size: 20px;
     border: 3px solid black;
     border-radius: 50%;
