@@ -6,7 +6,24 @@
 ###
 the repository includes database information from SQL DataBase, ("mysql2" package). 
 server side with Sequelize queries and packages of authentication like: "jsonwebtoken", "sequelize", "bcrypt", "cookie-parser", to make the service safe and authorized. 
+the server also has a use with Elastic Search service, that provides aמ effective search for data with the package "@elastic/elasticsearch". 
 client side with usage of a lot of React packages, like: "react-router-dom", "styled-components-carousel", "react-youtube", "recoil". for perfect use of the service.
+## Instructions To Users
+1. clone this repo to your device.
+2. create a new SQL Database 
+3. open the folder in your editor.
+4. in the Server folder create a dotenv file and write there 5 variables:  
+PORT = your server port.  
+PASSWORD = database password  
+DATABASE = database name  
+HOST = your desirable host address (127.0.0.1 for localhost)  
+TOKEN_SECRET = your authentication token
+5. in the server folder run the command "npm install", same in the client folder.
+6. in the server folder run the commands "npx sequelize db:migrate" for create the database construction.
+7. next, run the command "npx sequelize db:seed:all" to add data to database (or do it manually).
+8. run the server command - "npm run dev" (to run the server).
+9. run the client command (in the client folder of course) - "npm start" (to run the client and open automatically the browser).
+
 ## Home Page
     the home page contains a list of of any: songs, artists, albums, playlists and a buttons to choose the selected sort of the top option you want - most liked, most played, or the newest on the service.
 ![Home Page](./images/homepage.png "Home Page")
