@@ -81,8 +81,12 @@ function UserId(match) {
                 {userPlaylists && (
                     <div className="userPlaylists">
                         {username ? 
-                            username.id === Number(match.match.params.id) && <h3 className="subHeader">My Playlists:</h3>
-                        :   <h3 className="subHeader">User Playlists:</h3>                      
+                            username.id === Number(match.match.params.id) ? <h3 className="subHeader">My Playlists:</h3> 
+                            :  userPlaylists && 
+                                userPlaylists.length > 0 ?
+                                <h3 className="subHeader">User Playlists:</h3>
+                                : null                      
+                        :   null
                         }
                         {userPlaylists &&
                             userPlaylists.map(playlist => {

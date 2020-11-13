@@ -25,20 +25,15 @@ function PlaylistId(match) {
     const fetchPlaylist = async() => {
         const { data } = await axios.get(`/playlistsongs/${match.match.params.id}`);
         if (data.length > 0) {
-            console.log("data", data)
             setPlaylist(data);
         } else {
             const playlistIsEmpty = await axios.get(`/playlists/${match.match.params.id}`)
-            console.log("empty playlist", playlistIsEmpty.data)
-            console.log("data", playlistIsEmpty.data)
             setEmptyPlaylist(playlistIsEmpty.data);
         }
-        console.log("data", data);
     }
     const fetchUser = async () => {
         const { data } = await axios.get('/users/verify');
         if(data.user) {
-            console.log("User", data.user)
             setUser(data.user);
         } else {
             setUser(false);

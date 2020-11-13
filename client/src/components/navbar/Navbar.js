@@ -57,7 +57,6 @@ const onLoginSubmit = async (data) => {
     })
     const info = await res.data;
     if (info.user) {
-        console.log("info", info.user)
         setUser(info.user);
         setWantLogin(false);
     }
