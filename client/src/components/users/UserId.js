@@ -31,7 +31,7 @@ function UserId(match) {
 
     useEffect(() => {
         fetchUser();
-    }, []);
+    }, [match]);
 
     useEffect(() => {
         fetchUserPlaylists();
@@ -80,15 +80,22 @@ function UserId(match) {
 
                 {userPlaylists && (
                     <div className="userPlaylists">
-                        {username.id === Number(match.match.params.id) ? <h3 className="subHeader">My Playlists:</h3> : <h3 className="subHeader">User Playlists:</h3>}
-                        {userPlaylists.map(playlist => {
-                            return (
-                                <Link to={`/playlist/${playlist.id}?user=${user.id}`}>
-                                    <p className="playlistLink">{playlist.name}</p>
-                                </Link>
-                            )
+                        {username ? 
+                            username.id === Number(match.match.params.id) && <h3 className="subHeader">My Playlists:</h3>
+                        :   <h3 className="subHeader">User Playlists:</h3>                      
+                        }
+                        {userPlaylists &&
+                            userPlaylists.map(playlist => {
+                                return (
+                                    <Link to={`/playlist/${playlist.id}?user=${user.id}`}>
+                                        <p className="playlistLink">{playlist.name}</p>
+                                    </Link>
+                                )
                         })}
-                        {username.id === Number(match.match.params.id) ? <p className="newPlaylist" onClick={() => setNewPlaylist(!newPlaylist)}>Create a New Playlist:</p> : null}
+                        {username ? 
+                            username.id === Number(match.match.params.id) && <p className="newPlaylist" onClick={() => setNewPlaylist(!newPlaylist)}>Create a New Playlist:</p>
+                        :   null
+                        }
                         {newPlaylist && (
                             <div>
                                 <form className="accountForm" onSubmit={handleSubmit(createPlaylist)}>
@@ -190,13 +197,15 @@ function UserId(match) {
                 )}
             </div>
         )}
-
-        {username.id === Number(match.match.params.id) && (
-            <div className="deleteDiv">
-                <p className="deleteP">Delete Account</p>
-                <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deleteUser()}/>
-            </div>
-        )}
+        {username ? 
+            username.id === Number(match.match.params.id) && (
+                <div className="deleteDiv">
+                    <p className="deleteP">Delete Account</p>
+                    <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deleteUser()}/>
+                </div>
+            )
+        :   null
+        }
         </>
     )
 }

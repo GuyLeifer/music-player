@@ -60,7 +60,6 @@ router.patch('/:myPlaylistSongId', async (req, res) => {
 
 router.delete('/', async (req, res) => {
   const { playlistId, songId } = req.body;
-  console.log("playlist", playlistId, "song", songId)
   if (songId && playlistId) {
     const myPlaylistSong = await PlaylistSongs.findOne({
       where: {playlistId: playlistId, songId: songId},

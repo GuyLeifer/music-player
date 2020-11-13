@@ -45,7 +45,7 @@ const fetchUser = async () => {
         const username = await axios.get(`/users/${data.user.id}`);
         setUser(username.data);
     } else {
-        setUser(false);
+        setUser(null);
     }   
 };
 
@@ -57,6 +57,7 @@ const onLoginSubmit = async (data) => {
     })
     const info = await res.data;
     if (info.user) {
+        console.log("info", info.user)
         setUser(info.user);
         setWantLogin(false);
     }
@@ -84,7 +85,6 @@ const customStyles = {
     
 };
 
-
     return (
         <nav onMouseLeave={() => setLogOutShown(false)}>
             <div className="nav-titles">
@@ -111,20 +111,22 @@ const customStyles = {
                 
                 {/* <Link style={navStyle} to='/account'> */}
                 <div className='login'>
-                    {user && (
+                    {user ? (
                         <div>
                             <Link to={`/user/${user.id}`}>
                                 <li className='username navImg'
                                 onMouseEnter={() => setLogOutShown(true)}
                                 >
-                                    {user.name.split(' ').map(name => name[0])}
+                                    {user.name ? 
+                                        user.name.split(' ').map(name => name[0])
+                                    : null}
                                 </li>
                             </Link>
                             {logOutShown && (
                                 <li className="logout" onClick={() => logout()}>(Log - Out)</li>
                             )}
                         </div>
-                    )}   
+                    ) : null }   
                     {!user && (
                         <li onClick={() => setWantLogin(!wantLogin)}><img className="navImg" src={loginIcon} alt="Login"/></li>
                     )}             

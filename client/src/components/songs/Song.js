@@ -21,10 +21,8 @@ function Song({song}) {
     }
 
     const playCounter = async () => {
-        console.log("song Is Playing")
         if ( (user) && (counterLimit === 1) ) {
             const userId = user.id
-            console.log("userId", userId, "songId", song.id)
             await axios.patch('/interactions/songs', {
                 userId: userId,
                 songId: song.id

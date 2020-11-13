@@ -9,32 +9,12 @@ import { Link } from 'react-router-dom';
 // components
 import Album from './Album';
 
-function TopAlbums({ topOption }) {
+function TopAlbums({ topAlbums, topOption }) {
     const [albums, setAlbums] = useState([]);
 
     useEffect(() => {
-        topOption === "like" ? (
-            (async () => {
-                try {
-                const { data } = await axios.get('/interactions/albums/topalbums');
-                setAlbums(data);
-                }
-                catch(err) {
-                    console.log(err.massage);
-                }
-            })()
-        ) : (
-            (async () => {
-                try {
-                const { data } = await axios.get(`/albums/top/${topOption}`);
-                setAlbums(data);
-                }
-                catch(err) {
-                    console.log(err);
-                }
-            })()
-        )
-    }, [topOption])
+        setAlbums(topAlbums)
+    })
 
     return (
         <div className="topAlbums">

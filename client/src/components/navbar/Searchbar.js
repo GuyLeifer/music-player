@@ -30,7 +30,7 @@ function Searchbar() {
 
     return (
         <div className="searchContainer">
-            <img class="search-icon" src={searchIcon} alt="search"/>
+            <img className="search-icon" src={searchIcon} alt="search"/>
             <input 
                 id="search"
                 type="search" 
