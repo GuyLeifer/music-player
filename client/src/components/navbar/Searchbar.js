@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import axios from 'axios';
 
@@ -14,10 +14,18 @@ function Searchbar() {
 
     const [options, setOptions] = useState([]);
 
+    useEffect(() => {
+        (async () => {
+            await axios.post('/search/all')
+        })()
+    }, [])
+
     const changeHandler = async (e) => {
         try {
-            const { data } = await axios.get(`/search?params=${e.target.value}`);
-            setOptions(data);
+            // const { data } = await axios.get(`/search?params=${e.target.value}`);
+            // setOptions(data);
+            const info = await axios.get(`/elasticsearch/all?params=${e.target.value}`);
+            console.log("info", info.data)
             }
             catch(err) {
                 console.log(err.massage);
