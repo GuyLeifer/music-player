@@ -74,10 +74,8 @@ function SongId(match) {
 
     const fetchIsLikedAndIncrementPlayCount = async () => {
         if (user && song) {
-            console.log("user id", user.id, "song id", song.id)
             const { data } = await axios.get(`/interactions/songs/${user.id}&${song.id}`);
             if (data) {
-                console.log("data", data)
                 setIsLiked(data.isLiked);
                 if(data.playCount === null) {
                     setPlayCount(1);
@@ -109,7 +107,6 @@ function SongId(match) {
     };
 
     const fetchSong = async(id, match) => {
-        console.log("match : " , match)
         const { data } = await axios.get(`/songs/${id}`);
         setSong(data);
         if (match.location.search.substring(1, 7) === "artist") setArtist(data.Artist);
@@ -117,24 +114,19 @@ function SongId(match) {
         if (match.location.search.substring(1, 9) === "playlist") {
             const { data } = await axios.get(`/playlistsongs`);
             const playlistSongs = data.filter((item) => item.PlaylistId === Number(match.location.search.substring(10)) && item.SongId !== Number(match.match.params.id));
-            console.log("playlist songs: ", playlistSongs)
             setPlaylist(playlistSongs);
         }
     }
     const fetchPlaylist = async(match) => {
         if (match.location.search.substring(1, 9) === "playlist") {
             const { data } = await axios.get(`/playlistsongs/${match.location.search.substring(10)}&${match.match.params.id}`);
-            // const playlistSongs = data.filter((item) => item.PlaylistId === Number(match.location.search.substring(10)) && item.SongId !== Number(match.match.params.id));
-            console.log("playlist songs: ", data);
             setPlaylist(data);
         }
     }
     const fetchPlaylists = async() => {
         if (user) {
             const { data } = await axios.get(`/users/playlists/${user.id}`);
-            console.log("data: ", data)
             setPlaylists(data.Playlist || data.Playlists)
-            console.log("playlists: ", playlists)
         } else {
             setPlaylists(null);
         }

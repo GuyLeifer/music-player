@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { Song, Artist, Album, PlaylistSongs, Playlist } = require('../models');
+const { Song, Artist, Album, PlaylistSongs, Playlist, InteractionSong } = require('../models');
 const sequelize = require('sequelize');
 
 const router = Router();
@@ -10,22 +10,28 @@ router.get('/', async (req, res) => {
   });
     res.json(allSongs);
 });
-router.get('/top/:option', async (req, res) => {
-  const option = req.params.option;
-  if (option === "play") {
-    const topTwentySongs = await Song.findAll({
+
+router.get('/top', async (req, res) => {
+    const topTwentySongsMostPlayed = await Song.findAll({
       order: sequelize.literal('playCount DESC'),
       limit: 20
     });
-    res.json(topTwentySongs);
-  } else if (option === "new") {
-    const topTwentySongs = await Song.findAll({
+
+    const topTwentySongsMostNew = await Song.findAll({
       order: sequelize.literal('createdAt DESC'),
       limit: 20
     });
-    res.json(topTwentySongs);
-  }
-});
+
+    const topTwentySongsMostLiked = await InteractionSong.findAll({
+      attributes: ['songId', [sequelize.fn('count', sequelize.col('isLiked')), 'count']],
+      where: {isLiked: true},
+      include : [{ model : Song}],
+      group: 'songId',
+      order: sequelize.literal('count DESC'),
+      limit: 20
+    });
+    res.json([topTwentySongsMostLiked, topTwentySongsMostPlayed, topTwentySongsMostNew]);
+  });
 
 router.get('/:songId', async (req, res) => {
   const song = await Song.findByPk(req.params.songId , {

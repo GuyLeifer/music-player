@@ -9,33 +9,13 @@ import { Link } from 'react-router-dom';
 // components
 import Playlist from './Playlist';
 
-function TopPlaylists( { topOption }) {
+function TopPlaylists( { topPlaylists, topOption }) {
     const [playlists, setPlaylists] = useState([]);
-    
-    useEffect(() => {
-        topOption === "like" ? (
-            (async () => {
-                try {
-                const { data } = await axios.get('/interactions/playlists/topplaylists');
-                setPlaylists(data);
-                }
-                catch(err) {
-                    console.log(err);
-                }
-            })()
-        ) : (
-            (async () => {
-                try {
-                const { data } = await axios.get(`/playlists/top/${topOption}`);
-                setPlaylists(data);
-                }
-                catch(err) {
-                    console.log(err);
-                }
-            })()
-        )
-    }, [topOption])
 
+    useEffect(() => {
+        setPlaylists(topPlaylists)
+    })
+    
     return (
         <div className="topPlaylists">
             <div className="topHeader">Top Playlists</div>
@@ -48,7 +28,7 @@ function TopPlaylists( { topOption }) {
                     slidesToShow={3}>
                     {playlists.map(playlist => {
                         return (
-                            <Link to = {`/artist/${playlist.id}`} key={playlist.id}>
+                            <Link to = {`/playlist/${playlist.id}`} key={playlist.id}>
                                 <Playlist playlist={playlist} />
                             </Link>
                         )
@@ -64,7 +44,7 @@ function TopPlaylists( { topOption }) {
                     {playlists.map(playlist => {
                         return (
                             <Link to = {`/playlist/${playlist.playlistId}`} key={playlist.playlistId}>
-                                <Playlist playlist={playlist.Playlist} />
+                                <Playlist playlist={playlist.Playlist} key={playlist.playlistId}/>
                             </Link>
                         ) 
                     })}

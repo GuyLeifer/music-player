@@ -9,33 +9,13 @@ import { Link } from 'react-router-dom';
 // components
 import Artist from './Artist';
 
+function TopArtists({ topArtists, topOption }) {
 
-function TopArtists( {topOption }) {
     const [artists, setArtists] = useState([]);
 
     useEffect(() => {
-        topOption === "like" ? (
-            (async () => {
-                try {
-                const { data } = await axios.get('/interactions/artists/topartists');
-                setArtists(data);
-                }
-                catch(err) {
-                    console.log(err.massage);
-                }
-            })()
-        ) : (
-            (async () => {
-                try {
-                const { data } = await axios.get(`/artists/top/${topOption}`);
-                setArtists(data);
-                }
-                catch(err) {
-                    console.log(err);
-                }
-            })()
-        )
-    }, [topOption])
+        setArtists(topArtists)
+    })
 
     return (
         <div className="topArtists">

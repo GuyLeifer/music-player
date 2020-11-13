@@ -28,7 +28,6 @@ function AlbumId(match) {
     const fetchUser = async () => {
         const { data } = await axios.get('/users/verify');
         if(data.user) {
-            console.log("User", data.user)
             setUser(data.user);
         } else {
             setUser(false);
@@ -37,7 +36,6 @@ function AlbumId(match) {
     const fetchIsLiked = async () => {
         if (user && album) {
             const { data } = await axios.get(`/interactions/albums/${user.id}&${album.id}`);
-            console.log("dataIsliked : " , data)
             setIsLiked(data.isLiked);
         } else {
             setIsLiked(null)

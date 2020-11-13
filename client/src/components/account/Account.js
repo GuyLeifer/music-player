@@ -10,15 +10,12 @@ function Account() {
 
     const onSignUpSubmit = async (data) => {
         const { name, email, password } = data;
-        console.log( name,email, password);
         const res = await axios.post('/users/signup', {
             name: name,
             email: email,
             password: password,
         })
-        console.log("res", res)
         const info = await res.data;
-        console.log("info",info)
         if (info.user) {
             window.location.assign('/')
         }

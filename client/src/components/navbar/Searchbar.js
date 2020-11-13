@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import axios from 'axios';
 
@@ -13,11 +13,23 @@ import playlistIcon from './images/playlistIcon.jpg';
 function Searchbar() {
 
     const [options, setOptions] = useState([]);
+    useEffect(() => {
+        (async () => {
+            await axios.post('/search/all')
+        })()
+    }, [])
 
     const changeHandler = async (e) => {
         try {
-            const { data } = await axios.get(`/search?params=${e.target.value}`);
-            setOptions(data);
+            // const { data } = await axios.get(`/search?params=${e.target.value}`);
+            // setOptions(data);
+            const { data } = await axios.get(`/elasticsearch/all?params=${e.target.value}`);
+            console.log(data)
+            if(data !== undefined) {
+                setOptions(data);
+            } else {
+                setOptions([])
+            }
             }
             catch(err) {
                 console.log(err.massage);
@@ -30,13 +42,13 @@ function Searchbar() {
 
     return (
         <div className="searchContainer">
-            <img class="search-icon" src={searchIcon} alt="search"/>
+            <img className="search-icon" src={searchIcon} alt="search"/>
             <input 
                 id="search"
                 type="search" 
                 onChange={(e) => changeHandler(e)}
             />
-            {options && (
+            {/* {options && (
                 <div className="options">
                 {options.map(option => 
                     <div 
@@ -56,9 +68,41 @@ function Searchbar() {
                     </div>
                 )}
                 </div>
+            )} */}
+
+            {/* {options.map(index => {
+                index.length > 0 &&
+                    index.map(item => {
+                        <div>{item._source.id}</div>
+                    })
+            }) } */}
+            
+            <div className="options">
+            {options && options.length > 0 && (
+                options.map(index => 
+                    index.length > 0 ?
+                        index.map(item => 
+                            <div 
+                            className={"option " + item._index.substring(0, item._index.length - 1)} 
+                            key={item._index.substring(0, item._index.length - 1) + " " + item._source.id}
+                            onClick={() => goToPage(item._index.substring(0, item._index.length - 1), item._source.id)}
+                            >   
+                                <div className="optionName">{item._source.title || item._source.name}</div>
+                                <div className="optionIconDiv">
+                                    {item._index.substring(0, item._index.length - 1) === "song" ? <img className="optionIcon" src={songIcon} alt="songIcon" />
+                                    : item._index.substring(0, item._index.length - 1) === "artist" ? <img className="optionIcon" src={artistIcon} alt="artistIcon" />
+                                    : item._index.substring(0, item._index.length - 1) === "album" ? <img className="optionIcon" src={albumIcon} alt="albumIcon" />
+                                    : <img className="optionIcon" src={playlistIcon} alt="playlistIcon" />
+                                }    
+                                </div>
+                            </div>
+                        )
+                    :   <> </>  
+                )
             )}
+            </div>
         </div> 
-    );
+    )
 }
 
 export default Searchbar

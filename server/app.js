@@ -11,6 +11,7 @@ app.use('/playlistsongs', require('./routes/playlistSongsRoute'));
 app.use('/users', require('./routes/userRoute'));
 app.use('/interactions', require('./routes/interactionsRoutes'));
 app.use('/search', require('./routes/searchRoute'));
+app.use('/elasticsearch', require('./routes/elasticSearch'));
 
 app.get('/', (req, res) => {
   res.send('You entered to the Server Port!')
