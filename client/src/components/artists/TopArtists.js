@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './Artists.css';
 
 // packages
 import Carousel from 'styled-components-carousel';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 // components
 import Artist from './Artist';
 
 function TopArtists({ topArtists, topOption }) {
-
-    const [artists, setArtists] = useState([]);
-
-    useEffect(() => {
-        setArtists(topArtists)
-    })
 
     return (
         <div className="topArtists">
@@ -27,7 +20,7 @@ function TopArtists({ topArtists, topOption }) {
                     showArrows
                     showIndicator
                     slidesToShow={3}>
-                    {artists.map(artist => {
+                    {topArtists.map(artist => {
                         return (
                             <Link to = {`/artist/${artist.id}`} key={artist.id}>
                                 <Artist artist={artist} />
@@ -42,7 +35,7 @@ function TopArtists({ topArtists, topOption }) {
                     showArrows
                     showIndicator
                     slidesToShow={3}>
-                    {artists.map(artist => {
+                    {topArtists.map(artist => {
                         return (
                             <Link to = {`/artist/${artist.artistId}`} key={artist.artistId}>
                                 <Artist artist={artist.Artist} />

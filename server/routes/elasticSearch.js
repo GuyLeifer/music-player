@@ -8,23 +8,27 @@ const client = new Client({ node: 'http://localhost:9200' })
 
 
 const updateElasticData = async (index, dataArray) => {
-    await client.indices.create(
-        {
-            index: index,
-        }
-    );
-        const body = dataArray.flatMap((doc) => [
-        { index: { _index: index } },
-        doc,
-    ]);
-    const { body: bulkResponse } = await client.bulk({ refresh: true, body });
-    if (bulkResponse.errors) {
-        console.log("ERROR");
-        return bulkResponse.errors;
-    } else {
-        const { body: count } = await client.count({ index: index });
-        console.log(count);
-        return bulkResponse;
+    try {
+        await client.indices.create(
+            {
+                index: index,
+            }
+        );
+            const body = dataArray.flatMap((doc) => [
+            { index: { _index: index } },
+            doc,
+        ]);
+        const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+        if (bulkResponse.errors) {
+            console.log("ERROR");
+            return bulkResponse.errors;
+        } else {
+            const { body: count } = await client.count({ index: index });
+            console.log(count);
+            return bulkResponse;      
+        } 
+    } catch (err) {
+        return(err.massage)
     }
 }
 
@@ -44,6 +48,7 @@ router.post('/all', async (req, res) => {
     const artists  = await Artist.findAll({
         attributes: ['id', 'name']
     });
+    console.log(artists)
     const albums  = await Album.findAll({
         attributes: ['id', 'name']
     });
@@ -51,11 +56,11 @@ router.post('/all', async (req, res) => {
         attributes: ['id', 'name']
     });
 
-        updateElasticData('songs', songs);
-        updateElasticData('artists', artists);
-        updateElasticData('albums', albums);
-        updateElasticData('playlists', playlists);
-        res.send("all data update")
+        const updateSongs = updateElasticData('songs', songs);
+        const updateArtists = updateElasticData('artists', artists);
+        const updateAlbums = updateElasticData('albums', albums);
+        const updatePlaylists = updateElasticData('playlists', playlists);
+        res.send(updateSongs, updateArtists, updateAlbums, updatePlaylists)
     } catch (err){
         res.send(err.massage)
     }
@@ -67,6 +72,22 @@ router.delete('/all', async (req, res) => {
         res.send('all data deleted');
     } catch (err) {
         res.send(err.massage);
+    }
+})
+
+router.post('/playlists', async (req, res) => {
+    const { id, name } = req.body;
+    try {
+        await client.create({
+            index: 'playlists',
+            doc,
+            body: {
+                id: id,
+                name: name
+            }
+        })
+    } catch (err) {
+        res.send(err.massage)
     }
 })
 

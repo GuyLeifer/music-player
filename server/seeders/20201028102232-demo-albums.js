@@ -31,7 +31,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       },
-     ], {});
+      {
+        name: 'כל העיר יודעת',
+        artistId: 5,
+        coverImg: 'https://upload.wikimedia.org/wikipedia/he/e/e5/%D7%9B%D7%9C_%D7%94%D7%A2%D7%99%D7%A8_%D7%99%D7%95%D7%93%D7%A2%D7%AA.jpg',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+    ], {});
   },
 
   down: (queryInterface, Sequelize) => {

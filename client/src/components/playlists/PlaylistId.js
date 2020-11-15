@@ -42,7 +42,8 @@ function PlaylistId(match) {
     const fetchIsLiked = async () => {
         if (user && playlist) {
             const { data } = await axios.get(`/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`);
-            setIsLiked(data.isLiked);
+            if (data) setIsLiked(data.isLiked);
+            else setIsLiked(null)
         } else {
             setIsLiked(null)
         }
@@ -50,7 +51,7 @@ function PlaylistId(match) {
 
     // Like Functions
     const likePlaylist = async () => {
-        const data = await axios.get(`/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`)
+        const { data } = await axios.get(`/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`)
         if (data) {
             await axios.patch('/interactions/playlists', {
                 userId: user.id,
