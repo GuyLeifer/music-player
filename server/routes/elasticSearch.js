@@ -75,6 +75,23 @@ router.delete('/all', async (req, res) => {
     }
 })
 
+router.get('/playlists/:id', async (req, res) => {
+    try {
+        const playlist = await client.search({
+            index: 'playlists',
+            body: {
+                query: {
+                    match: {
+                        id: req.params.id
+                    }
+                }
+            }
+        })
+        res.send(playlist.body.hits.hits)
+    } catch (err) {
+        res.send(err.massage)
+    }
+})
 router.post('/playlists', async (req, res) => {
     const { id, name } = req.body;
     console.log(id, name)
@@ -84,6 +101,22 @@ router.post('/playlists', async (req, res) => {
             body: {
                 id: id,
                 name: name
+            }
+        })
+        res.send(playlist)
+    } catch (err) {
+        res.send(err.massage)
+    }
+})
+router.delete('/playlists/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const playlist = client.deleteByQuery({
+            index: 'playlists',
+            body: {
+                query: {
+                    match: { id: id }
+                }
             }
         })
         res.send(playlist)

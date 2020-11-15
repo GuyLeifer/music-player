@@ -102,29 +102,32 @@ function PlaylistId(match) {
     }
 
     const deletePlaylist = async () => {
-        if (playlist.length > 0) {
-            await axios.delete('/playlists', {
+        if (playlist) {
+            const id = playlist[0].Playlist.id;
+            const { data } = await axios.delete('/playlists', {
                 data: {
-                    playlistId: playlist[0].Playlist.id
+                    playlistId: id
                 }
             });
+            await axios.delete(`/elasticsearch/playlists/${id}`);
+
             setPlaylist(null);
             window.location.assign('/');
         } else if (emptyPlaylist) {
+            const id = emptyPlaylist.id;
             await axios.delete('/playlists', {
                 data: {
-                    playlistId: emptyPlaylist.id
+                    playlistId: id
                 }
             });
+            await axios.delete(`/elasticsearch/playlists/${id}`);
             window.location.assign('/');
         }
     }
 
-    if((emptyPlaylist) && (user.id === emptyPlaylist.userId)) {
         console.log("user", user)
         console.log("emptyPlaylist", emptyPlaylist)
-        
-    }
+        console.log("playlist", playlist)
 
     return (
         <>
@@ -141,19 +144,10 @@ function PlaylistId(match) {
                                 <img className="unlikeIcon" onClick={() => unlikePlaylist()} src={likeIcon} alt="Unlike"/>
                             )}
                         </div>
-                        { (((playlist) && (user.id === playlist[0].Playlist.userId)) || 
-                            ((emptyPlaylist) && (user.id === emptyPlaylist.userId))) && 
+                        { ((playlist) && (user.id === playlist[0].Playlist.userId)) && 
                             <div>
                                 <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deletePlaylist()}/>
                             </div>
-                        }
-                        { (emptyPlaylist) ?
-                            (user.id === emptyPlaylist.userId) ? 
-                                <div>
-                                    <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deletePlaylist()}/>
-                                </div>
-                            :   null
-                        :   null
                         }
                     </div>
                 )}
@@ -205,13 +199,20 @@ function PlaylistId(match) {
             <div className="info">
                 <div className="title">Playlist Name: {emptyPlaylist.name}</div>
                 {user && (
-                    <div>
-                        {!isLiked && (
-                            <img className="likeIcon" onClick={() => likePlaylist()} src={likeIcon} alt="Like"/>
-                        )}
-                        {isLiked && (
-                            <img className="unlikeIcon" onClick={() => unlikePlaylist()} src={likeIcon} alt="Unlike"/>
-                        )}
+                    <div className="iconsDiv">
+                        <div>
+                            {!isLiked && (
+                                <img className="likeIcon" onClick={() => likePlaylist()} src={likeIcon} alt="Like"/>
+                            )}
+                            {isLiked && (
+                                <img className="unlikeIcon" onClick={() => unlikePlaylist()} src={likeIcon} alt="Unlike"/>
+                            )}
+                        </div>
+                        { ((emptyPlaylist) && (user.id === emptyPlaylist.userId)) && 
+                            <div>
+                                <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deletePlaylist()}/>
+                            </div>
+                        }
                     </div>
                 )}
                 <div>
