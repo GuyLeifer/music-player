@@ -120,6 +120,12 @@ function PlaylistId(match) {
         }
     }
 
+    if((emptyPlaylist) && (user.id === emptyPlaylist.userId)) {
+        console.log("user", user)
+        console.log("emptyPlaylist", emptyPlaylist)
+        
+    }
+
     return (
         <>
         {playlist && (
@@ -136,16 +142,19 @@ function PlaylistId(match) {
                             )}
                         </div>
                         { (((playlist) && (user.id === playlist[0].Playlist.userId)) || 
-                            ((emptyPlaylist) && (user.id === emptyPlaylist.userId))) && (
+                            ((emptyPlaylist) && (user.id === emptyPlaylist.userId))) && 
                             <div>
                                 <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deletePlaylist()}/>
                             </div>
-                        )}
-                        { ((emptyPlaylist) && (user.id === emptyPlaylist.userId)) && (
-                            <div>
-                                <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deletePlaylist()}/>
-                            </div>
-                        )}
+                        }
+                        { (emptyPlaylist) ?
+                            (user.id === emptyPlaylist.userId) ? 
+                                <div>
+                                    <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deletePlaylist()}/>
+                                </div>
+                            :   null
+                        :   null
+                        }
                     </div>
                 )}
                 <div className="playlistContainer">

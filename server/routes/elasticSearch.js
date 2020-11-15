@@ -77,15 +77,16 @@ router.delete('/all', async (req, res) => {
 
 router.post('/playlists', async (req, res) => {
     const { id, name } = req.body;
+    console.log(id, name)
     try {
-        await client.create({
+        const playlist = await client.index({
             index: 'playlists',
-            doc,
             body: {
                 id: id,
                 name: name
             }
         })
+        res.send(playlist)
     } catch (err) {
         res.send(err.massage)
     }
