@@ -55,7 +55,6 @@ function Navbar() {
     const [loading, setLoading] = useState(false);
     // recoil states
     const [user, setUser] = useRecoilState(userState);
-    console.log("user", user)
 
 const { register, handleSubmit, errors } = useForm(); // initialize the hook
 
@@ -119,6 +118,10 @@ const onSignUpSubmit = async (data) => {
         email: email,
         password: password,
     })
+    await axios.post('/elasticsearch/users', {
+        id: res.id,
+        name: name
+    });
     setTimeout(() => {
         setLoading(false);
         setWantSign(false);

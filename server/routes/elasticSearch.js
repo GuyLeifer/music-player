@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const { Album, Song, Artist, Playlist } = require('../models');
+const { Album, Song, Artist, Playlist, User } = require('../models');
 
 const { Client } = require('@elastic/elasticsearch')
 const client = new Client({ node: 'http://localhost:9200' })
@@ -55,12 +55,16 @@ router.post('/all', async (req, res) => {
     const playlists  = await Playlist.findAll({
         attributes: ['id', 'name']
     });
+    const users  = await User.findAll({
+        attributes: ['id', 'name']
+    });
 
         const updateSongs = updateElasticData('songs', songs);
         const updateArtists = updateElasticData('artists', artists);
         const updateAlbums = updateElasticData('albums', albums);
         const updatePlaylists = updateElasticData('playlists', playlists);
-        res.send(updateSongs, updateArtists, updateAlbums, updatePlaylists)
+        const updateUsers = updateElasticData('users', users);
+        res.send(updateSongs, updateArtists, updateAlbums, updatePlaylists, updateUsers)
     } catch (err){
         res.send(err.massage)
     }
@@ -124,6 +128,38 @@ router.delete('/playlists/:id', async (req, res) => {
         res.send(err.massage)
     }
 })
+router.post('/users', async (req, res) => {
+    const { id, name } = req.body;
+    console.log(id, name)
+    try {
+        const user = await client.index({
+            index: 'users',
+            body: {
+                id: id,
+                name: name
+            }
+        })
+        res.send(user)
+    } catch (err) {
+        res.send(err.massage)
+    }
+})
+router.delete('/users/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = client.deleteByQuery({
+            index: 'users',
+            body: {
+                query: {
+                    match: { id: id }
+                }
+            }
+        })
+        res.send(user)
+    } catch (err) {
+        res.send(err.massage)
+    }
+})
 
 router.get("/all", async (req, res) => {
     const name = req.query.params;
@@ -177,8 +213,20 @@ router.get("/all", async (req, res) => {
                     }
                 }
             })
+
+            const usersSearchResults = await client.search({ 
+                index: 'users',
+                size: 3,
+                body: { 
+                    query: {
+                        prefix: {               
+                            name: name
+                        }
+                    }
+                }
+            })
     
-            res.send([songsSearchResults.body.hits.hits, artistsSearchResults.body.hits.hits, albumsSearchResults.body.hits.hits, playlistsSearchResults.body.hits.hits])
+            res.send([songsSearchResults.body.hits.hits, artistsSearchResults.body.hits.hits, albumsSearchResults.body.hits.hits, playlistsSearchResults.body.hits.hits, usersSearchResults.body.hits.hits])
         } catch (e) {
             res.send(e.message);
         }
