@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Account.css';
+
+// packages
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
+// recoil
+import { useSetRecoilState } from "recoil";
+import { userState } from '../../Atoms/userState';
+
 
 function Account() {
+
+    const setUserState = useSetRecoilState(userState);
+    const [loading, setLoading] = useState(false)
 
     const { register, handleSubmit, errors } = useForm(); // initialize the hook
 
@@ -17,7 +26,11 @@ function Account() {
         })
         const info = await res.data;
         if (info.user) {
-            window.location.assign('/')
+            setLoading(true)
+            setUserState(info.user)
+            setTimeout(() => {
+                window.location.assign('/')
+            }, 2000);
         }
     };
 
