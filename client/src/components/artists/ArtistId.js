@@ -21,6 +21,7 @@ function ArtistId(match) {
         fetchIsLiked();
     }, [user, artist]);
 
+    console.log(user)
 
     const fetchArtist = async() => {
         const { data } = await axios.get(`/artists/${match.match.params.id}`);
@@ -37,7 +38,8 @@ function ArtistId(match) {
     const fetchIsLiked = async () => {
         if (user && artist) {
             const { data } = await axios.get(`/interactions/artists/${user.id}&${artist.id}`);
-            setIsLiked(data.isLiked);
+            if (data) setIsLiked(data.isLiked);
+            else setIsLiked(null)
         } else {
             setIsLiked(null)
         }
@@ -45,7 +47,7 @@ function ArtistId(match) {
 
     // Like Functions
     const likeArtist = async () => {
-        const data = await axios.get(`/interactions/artists/${user.id}&${artist.id}`)
+        const { data } = await axios.get(`/interactions/artists/${user.id}&${artist.id}`)
         if (data) {
             await axios.patch('/interactions/artists', {
                 userId: user.id,

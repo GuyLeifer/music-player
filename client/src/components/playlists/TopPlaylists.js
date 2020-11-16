@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './Playlists.css';
 
 // packages
 import Carousel from 'styled-components-carousel';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 // components
 import Playlist from './Playlist';
 
 function TopPlaylists( { topPlaylists, topOption }) {
-    const [playlists, setPlaylists] = useState([]);
-
-    useEffect(() => {
-        setPlaylists(topPlaylists)
-    })
     
     return (
         <div className="topPlaylists">
@@ -26,7 +20,7 @@ function TopPlaylists( { topPlaylists, topOption }) {
                     showArrows
                     showIndicator
                     slidesToShow={3}>
-                    {playlists.map(playlist => {
+                    {topPlaylists.map(playlist => {
                         return (
                             <Link to = {`/playlist/${playlist.id}`} key={playlist.id}>
                                 <Playlist playlist={playlist} />
@@ -41,7 +35,7 @@ function TopPlaylists( { topPlaylists, topOption }) {
                     showArrows
                     showIndicator
                     slidesToShow={3}>
-                    {playlists.map(playlist => {
+                    {topPlaylists.map(playlist => {
                         return (
                             <Link to = {`/playlist/${playlist.playlistId}`} key={playlist.playlistId}>
                                 <Playlist playlist={playlist.Playlist} key={playlist.playlistId}/>

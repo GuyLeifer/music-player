@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './Songs.css';
 
 // packages
 import Carousel from 'styled-components-carousel';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 // components
 import Song from './Song';
 
 function TopSongs({ topSongs, topOption }) {
-
-    const [songs, setSongs] = useState([]);
-
-    useEffect(() => {
-        setSongs(topSongs)
-    })
 
     return (
         <div className="topSongs">

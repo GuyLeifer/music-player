@@ -27,12 +27,6 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
-      preferences: {
-        type: Sequelize.JSON
-      },
-      rememberToken: {
-        type: Sequelize.STRING
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

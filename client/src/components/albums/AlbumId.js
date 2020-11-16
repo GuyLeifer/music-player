@@ -36,7 +36,8 @@ function AlbumId(match) {
     const fetchIsLiked = async () => {
         if (user && album) {
             const { data } = await axios.get(`/interactions/albums/${user.id}&${album.id}`);
-            setIsLiked(data.isLiked);
+            if (data) setIsLiked(data.isLiked);
+            else setIsLiked(null)
         } else {
             setIsLiked(null)
         }
@@ -44,7 +45,7 @@ function AlbumId(match) {
 
     // Like Functions
     const likeAlbum = async () => {
-        const data = await axios.get(`/interactions/albums/${user.id}&${album.id}`)
+        const { data } = await axios.get(`/interactions/albums/${user.id}&${album.id}`)
         if (data) {
             await axios.patch('/interactions/albums', {
                 userId: user.id,

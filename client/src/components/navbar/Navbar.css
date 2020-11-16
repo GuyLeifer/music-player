@@ -53,6 +53,23 @@ input[type="search"] {
     outline: 0;
     height: 25px;
 }
+input[type="submit"] {  
+	display: block; 
+    width: 50%; 
+    font-family: 'Architects Daughter', cursive;
+    letter-spacing: 1px;     
+	text-shadow: 0 0 2px black;       
+    border: 1px solid aliceblue;
+    border-radius: 100px;
+    height: 25px;
+    cursor: pointer;
+}
+input[type="submit"]:hover {  
+    color: black;   
+    border: 1px solid black;
+    font-weight: 900;
+	text-shadow: 0 0 2px white;       
+}
 .search-icon {
     position: absolute;
     top: 6px;
@@ -100,6 +117,9 @@ input[type="search"] {
 .option.playlist {
     background-color: rgb(255, 255, 255);
 }
+.modal {
+    font-family: 'Architects Daughter', cursive;
+}
 .login {
     display: flex;
     flex-direction: column;
@@ -120,15 +140,21 @@ input[type="search"] {
 .input {
     background-color: rgb(73, 79, 82);
     color:aliceblue;
+    text-align: center;
 }
 .signup {
     text-align: center;
     color: black;
 }
+.question {
+    margin: 10px 20px;
+    padding: 10px auto;
+}
 .signupLink {
     color: white;
     text-decoration: underline;
     margin: auto;
+    cursor: pointer;
 }
 .username {
     background-color: aliceblue;

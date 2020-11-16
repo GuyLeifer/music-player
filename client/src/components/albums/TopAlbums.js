@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './Albums.css';
 
 // packages
 import Carousel from 'styled-components-carousel';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 // components
 import Album from './Album';
 
 function TopAlbums({ topAlbums, topOption }) {
-    const [albums, setAlbums] = useState([]);
-
-    useEffect(() => {
-        setAlbums(topAlbums)
-    })
 
     return (
         <div className="topAlbums">
@@ -26,9 +20,9 @@ function TopAlbums({ topAlbums, topOption }) {
                     showArrows
                     showIndicator
                     slidesToShow={3}>
-                    {albums.map(album => {
+                    {topAlbums.map(album => {
                         return (
-                            <Link to = {`/albums/${albums.id}`} key={albums.id}>
+                            <Link to = {`/albums/${album.id}`} key={album.id}>
                                 <Album album={album} />
                             </Link>
                         )                  
@@ -41,7 +35,7 @@ function TopAlbums({ topAlbums, topOption }) {
                     showArrows
                     showIndicator
                     slidesToShow={3}>
-                    {albums.map(interaction => {
+                    {topAlbums.map(interaction => {
                         return (
                             <Link to={`/album/${interaction.albumId}`} key={interaction.albumId}>
                                 <Album album={interaction.Album} />

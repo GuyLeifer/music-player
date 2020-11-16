@@ -27,7 +27,13 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       },
-     ], {});
+      {
+        name: 'Itay Levi',
+        coverImg: 'https://www.yeruham.org.il/productImages2/14/2017/07/24/image1500885358.png',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+    ], {});
   },
 
   down: (queryInterface, Sequelize) => {

@@ -57,11 +57,18 @@ function UserId(match) {
 
     const createPlaylist = async (data) => {
         const { name, coverImg } = data;
-        await axios.post('/playlists/', {
+        let playlist = await axios.post('/playlists', {
             userId: username.id,
             name: name,
             coverImg: coverImg
         });
+        playlist = playlist.data;
+        
+        // send to 9200 port for elastic search
+        await axios.post('/elasticsearch/playlists', {
+            id: playlist.id,
+            name: playlist.name
+        })
         setNewPlaylist(false);
     }
 

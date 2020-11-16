@@ -15,7 +15,8 @@ function Searchbar() {
     const [options, setOptions] = useState([]);
     useEffect(() => {
         (async () => {
-            await axios.post('/search/all')
+            await axios.delete('/elasticsearch/all')
+            await axios.post('/elasticsearch/all')
         })()
     }, [])
 
