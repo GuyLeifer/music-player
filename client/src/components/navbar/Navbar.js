@@ -119,6 +119,10 @@ const onSignUpSubmit = async (data) => {
         email: email,
         password: password,
     })
+    await axios.post('/elasticsearch/users', {
+        id: res.id,
+        name: name
+    });
     setTimeout(() => {
         setLoading(false);
         setWantSign(false);

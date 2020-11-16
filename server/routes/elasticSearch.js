@@ -128,6 +128,38 @@ router.delete('/playlists/:id', async (req, res) => {
         res.send(err.massage)
     }
 })
+router.post('/users', async (req, res) => {
+    const { id, name } = req.body;
+    console.log(id, name)
+    try {
+        const user = await client.index({
+            index: 'users',
+            body: {
+                id: id,
+                name: name
+            }
+        })
+        res.send(user)
+    } catch (err) {
+        res.send(err.massage)
+    }
+})
+router.delete('/users/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = client.deleteByQuery({
+            index: 'users',
+            body: {
+                query: {
+                    match: { id: id }
+                }
+            }
+        })
+        res.send(user)
+    } catch (err) {
+        res.send(err.massage)
+    }
+})
 
 router.get("/all", async (req, res) => {
     const name = req.query.params;

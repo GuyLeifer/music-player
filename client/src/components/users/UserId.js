@@ -51,7 +51,8 @@ function UserId(match) {
     };
 
     const deleteUser = async () => {
-        axios.delete(`/users/${user.id}`);
+        await axios.delete(`/users/${user.id}`);
+        await axios.delete(`/elasticsearch/users/${user.id}`);
         window.location.assign('/');
     }
 
@@ -93,7 +94,10 @@ function UserId(match) {
                                 userPlaylists.length > 0 ?
                                 <h3 className="subHeader">User Playlists:</h3>
                                 : null                      
-                        :   null
+                        :   userPlaylists && 
+                            userPlaylists.length > 0 ?
+                            <h3 className="subHeader">User Playlists:</h3>
+                            : null                      
                         }
                         {userPlaylists &&
                             userPlaylists.map(playlist => {
