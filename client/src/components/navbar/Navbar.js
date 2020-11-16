@@ -7,6 +7,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import { useForm } from 'react-hook-form';
+import ClipLoader from "react-spinners/ClipLoader";
+import { css } from '@emotion/react';
 
 //recoil
 import { useRecoilState } from "recoil";
@@ -21,16 +23,39 @@ import loginIcon from './images/loginIcon.webp';
 // Modal issue
 Modal.setAppElement('div');
 
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-30%',
+        transform             : 'translate(-50%, -50%)',
+        background            : ' rgb(73, 79, 82)',
+        color                 : 'white',
+        borderRadius          : '10%'
+    }
+    
+};
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: white;
+`;
+
 function Navbar() {
     const navStyle = {
         color: 'white'
     };
-
-// states
-const [logOutShown, setLogOutShown] = useState(false);
-const [wantLogin, setWantLogin] = useState(false);
-// recoil states
-const [user, setUser] = useRecoilState(userState);
+    // states
+    const [logOutShown, setLogOutShown] = useState(false);
+    const [wantLogin, setWantLogin] = useState(false);
+    const [wantSign, setWantSign] = useState(false);
+    const [loading, setLoading] = useState(false);
+    // recoil states
+    const [user, setUser] = useRecoilState(userState);
+    console.log("user", user)
 
 const { register, handleSubmit, errors } = useForm(); // initialize the hook
 
@@ -57,8 +82,12 @@ const onLoginSubmit = async (data) => {
     })
     const info = await res.data;
     if (info.user) {
+        setLoading(true);
         setUser(info.user);
-        setWantLogin(false);
+        setTimeout(() => {
+            setLoading(false);
+            setWantLogin(false);
+        }, 2000)
     }
 };
 
@@ -66,22 +95,38 @@ const logout = async () => {
     axios.post('/users/logout');
     setUser(null);
     setLogOutShown(false);
-    window.location.assign('/');
+    setTimeout(() => {
+        window.location.assign('/');
+    }, 1000)
 }
 
-const customStyles = {
-    content : {
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-30%',
-        transform             : 'translate(-50%, -50%)',
-        background            : ' rgb(73, 79, 82)',
-        color                 : 'white',
-        borderRadius          : '10%'
+
+const wantLog = () => {
+    setWantSign(false)
+    setWantLogin(true)
+}
+
+const wantSignUp = () => {
+    setWantLogin(false)
+    setWantSign(true)
+}
+
+const onSignUpSubmit = async (data) => {
+    const { name, email, password } = data;
+    setLoading(true);
+    const res = await axios.post('/users/signup', {
+        name: name,
+        email: email,
+        password: password,
+    })
+    setTimeout(() => {
+        setLoading(false);
+        setWantSign(false);
+    }, 1500)
+    const info = await res.data;
+    if (info.user) {
+        setUser(info.user);
     }
-    
 };
 
     return (
@@ -98,17 +143,13 @@ const customStyles = {
             </div>
     
             <ul className="nav-links">
-            <Link style={navStyle} to='/'>
+                <Link style={navStyle} to='/'>
                     <li><img className="navImg" src={homeIcon} alt="Home" /></li>
                 </Link>
-                {/* <Link style={navStyle} to='/add'>
-                    <li>Add</li>
-                </Link> */}
                 <Link style={navStyle} to='/about'>
                     <li><img className="navImg" src={aboutIcon} alt="About" /></li>
                 </Link>
                 
-                {/* <Link style={navStyle} to='/account'> */}
                 <div className='login'>
                     {user ? (
                         <div>
@@ -125,38 +166,88 @@ const customStyles = {
                                 <li className="logout" onClick={() => logout()}>(Log - Out)</li>
                             )}
                         </div>
-                    ) : null }   
+                    ) : null } 
+
                     {!user && (
                         <li onClick={() => setWantLogin(!wantLogin)}><img className="navImg" src={loginIcon} alt="Login"/></li>
-                    )}             
+                    )}  
+
                         <Modal
                         isOpen={wantLogin}
                         onRequestClose={() => setWantLogin(!wantLogin)}
                         style={customStyles}
                         >
-                        <h2 className="modalTitle">Log - In</h2>
-                        <form className="accountForm" onSubmit={handleSubmit(onLoginSubmit)}>
-                        <div className="labelInput">
-                            <label htmlFor="email">E-mail:</label>
-                            <input className="input" name="email" type="email" ref={register({ required: true })} placeholder="E-mail"/>
-                            <div className="error">{errors.email && 'E-mail is required.'}</div>
+                        <div className="modal">
+                            <h2 className="modalTitle">Log - In</h2>
+                            <form className="accountForm" onSubmit={handleSubmit(onLoginSubmit)}>
+                                <div className="labelInput">
+                                    <label htmlFor="email">E-mail:</label>
+                                    <input className="input" name="email" type="email" ref={register({ required: true })} placeholder="E-mail"/>
+                                    <div className="error">{errors.email && 'E-mail is required.'}</div>
+                                </div>
+                                <div className="labelInput">
+                                    <label htmlFor="password">Password:</label>
+                                    <input className="input" name="password" type="password" ref={register({ required: true })} placeholder="Password"/>
+                                    <div className="error">{errors.password && 'Please enter your password.'}</div>
+                                </div>
+                                <div className="sweet-loading">
+                                    <ClipLoader
+                                    css={override}
+                                    size={50}
+                                    color={"#123abc"}
+                                    loading={loading}
+                                    />
+                                </div>
+                                <input className="input" type="submit" value="Login"/>
+                            </form>
+                            <div className="signup">
+                                <p className="question">Does not have an account?</p>
+                                <h3 className="signupLink" onClick={() => wantSignUp()}>Sign - Up!</h3>               
+                            </div>
                         </div>
-                        <div className="labelInput">
-                            <label htmlFor="password">Password:</label>
-                            <input className="input" name="password" type="password" ref={register({ required: true })} placeholder="Password"/>
-                            <div className="error">{errors.password && 'Please enter your password.'}</div>
+                        </Modal>
+                        
+
+                        <Modal
+                        isOpen={wantSign}
+                        onRequestClose={() => setWantSign(!wantSign)}
+                        style={customStyles}
+                        >   
+                        <div className="modal">
+                            <h2 className="modalTitle">Sign - Up</h2>
+                            <form className="accountForm" onSubmit={handleSubmit(onSignUpSubmit)}>
+                                <div className="labelInput">
+                                    <label htmlFor="name">Full Name:</label>
+                                    <input className="input" name="name" ref={register({ required: true })} placeholder="Full Name"/>
+                                    <div className="error">{errors.name && 'Full name is required.'}</div>
+                                </div>
+                                <div className="labelInput">
+                                    <label htmlFor="email">E-mail:</label>
+                                    <input className="input" name="email" type="email" ref={register({ required: true })} placeholder="E-mail"/>
+                                    <div className="error">{errors.email && 'E-mail is required.'}</div>
+                                </div>
+                                <div className="labelInput">
+                                    <label htmlFor="password">Password:</label>
+                                    <input className="input" name="password" type="password" ref={register({ required: true })} placeholder="Password"/>
+                                    <div className="error">{errors.password && 'Please enter your password.'}</div>
+                                </div>
+                                <div className="sweet-loading">
+                                    <ClipLoader
+                                    css={override}
+                                    size={50}
+                                    color={"#123abc"}
+                                    loading={loading}
+                                    />
+                                </div>
+                                <input className="input" type="submit" value="Sign - Up"/>
+                            </form>
+                            <div className="signup">
+                                <p className="question"> have an account already?</p>
+                                <h3 className="signupLink" onClick={() => wantLog()}>Log - In!</h3>               
+                            </div>
                         </div>
-                        <input className="input" type="submit" value="Login"/>
-                    </form>
-                    <div className="signup">
-                        <p>Does not have an account?</p>
-                        <Link to="/account">
-                            <h3 className="signupLink" onClick={() => setWantLogin(false)}>Sign - Up!</h3>
-                        </Link>                    
-                    </div>
-                    </Modal>
+                        </Modal>
                 </div>
-                {/* </Link> */}
             </ul>
         </nav>
     )

@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import Song from './Song';
 
 function TopSongs({ topSongs, topOption }) {
-    console.log(topSongs)
+
     return (
         <div className="topSongs">
             <div className="topHeader">Top Songs</div>
