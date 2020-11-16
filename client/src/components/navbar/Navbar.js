@@ -55,7 +55,6 @@ function Navbar() {
     const [loading, setLoading] = useState(false);
     // recoil states
     const [user, setUser] = useRecoilState(userState);
-    console.log("user", user)
 
 const { register, handleSubmit, errors } = useForm(); // initialize the hook
 

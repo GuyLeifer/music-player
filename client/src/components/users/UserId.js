@@ -40,6 +40,7 @@ function UserId(match) {
     const fetchUser = async() => {
         const id = Number(match.match.params.id);
         const { data } = await axios.get(`/users/${id}`);
+        console.log(data)
         setUser(data);
     };
 
@@ -131,7 +132,7 @@ function UserId(match) {
                     </div>
                 )}
 
-                {user.InteractionSongs && (
+                {user.InteractionSongs && user.InteractionSongs.length > 0 && (
                     <div id="songsOnUserDiv" className="songsOnUserDiv">
                         <h3 className="subHeader">Songs Liked By User:</h3>
                         <Carousel
@@ -151,7 +152,7 @@ function UserId(match) {
                     </div>
                 )}
 
-                {user.InteractionArtists && (
+                {user.InteractionArtists && user.InteractionArtists.length > 0 && (
                     <div id="artistsOnUserDiv" className="artistsOnUserDiv">
                         <h3 className="subHeader">Artists Liked By User:</h3>
                         <Carousel
@@ -171,7 +172,7 @@ function UserId(match) {
                     </div>
                 )}
 
-                {user.InteractionAlbums && (
+                {user.InteractionAlbums && user.InteractionAlbums.length > 0 && (
                     <div id="albumsOnUserDiv" className="albumsOnUserDiv">
                         <h3 className="subHeader">Albums Liked By User:</h3>
                         <Carousel
@@ -191,7 +192,7 @@ function UserId(match) {
                     </div>
                 )}
 
-                {user.InteractionPlaylists && (
+                {user.InteractionPlaylists && user.InteractionPlaylists.length > 0 && (
                     <div id="playlistsOnUserDiv" className="playlistsOnUserDiv">
                         <h3 className="subHeader">Playlists Liked By User:</h3>
                         <Carousel
