@@ -1,0 +1,10 @@
+FROM node:12
+
+WORKDIR /user/app/server
+
+COPY ./package.json ./
+RUN npm install
+
+COPY . .
+
+CMD ["npm", "run", "development"]

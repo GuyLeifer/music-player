@@ -1,0 +1,80 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  ## mysql Database service image
+  db-music-player:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: music_player
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'user'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'password'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
+
+  mysql-workbench:
+    image: ghcr.io/linuxserver/mysql-workbench
+    container_name: mysql-workbench
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /path/to/config:/config
+    ports:
+      - 3000:3000
+    cap_add:
+      - IPC_LOCK
+    restart: unless-stopped
+
+
+## server image
+  api-music-player:
+  build:
+    context: ./server
+    dockerfile: Dockerfile.dev
+  stdin_open: true
+  volumes:
+    - '/user/app/server/node_modules'
+    - ./server:/usr/app/server
+  ports:
+    -8080:8080
+  environment:
+    HOST: "127.0.0.1" ## same as the database service name
+    PORT: 8080
+    PASSWORD: "Guyleifer7"
+    DATABASE: "music_player"
+    TOKEN_SECRET: "3d1c240f491a5d1338ea50b989289ca03e3ba050af50255f5e0078b4ca1da35e067a8e00addcd003379ac60735c0cb319fce1fd32d6b664e32eb756313293081"
+  depends_on:
+  - db-music_player 
+
+
+## client image
+  app-music-player:
+  build:
+    context: ./client
+    dockerfile: Dockerfile.dev
+  stdin_open: true
+  volumes:
+    - '/user/app/client/node_modules'
+    - ./client:/usr/app/client
+  ports:
+    -3030:3000
+  depends_on:
+    - api-music-player ## server image
+
+volumes:
+  db-music-player:
+    driver: local
