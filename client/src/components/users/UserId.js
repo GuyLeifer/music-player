@@ -17,12 +17,12 @@ import Playlist from '../playlists/Playlist';
 import deleteIcon from './images/deleteIcon.png';
 
 // recoil
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userState } from '../../Atoms/userState';
 
 function UserId(match) {
 
-    const [username, setUsername] = useRecoilState(userState);
+    const username = useRecoilValue(userState);
     const [user, setUser] = useState();
     const [userPlaylists, setUserPlaylists] = useState();
     const [newPlaylist, setNewPlaylist] = useState(false);
@@ -73,7 +73,6 @@ function UserId(match) {
         })
         setNewPlaylist(false);
     }
-
     return (
         <>
         {user && (

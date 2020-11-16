@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Inline+Text:wght@500&family=Gloria+Hallelujah&family=Gochi+Hand&family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Gloria+Hallelujah&family=Gochi+Hand&family=Permanent+Marker&display=swap');
 
 .topSongs {
     flex: 25%;
@@ -61,17 +62,33 @@
 }
 
 /* select */
+.playlistAddDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgb(73, 79, 82);
+    border-radius: 15%;
+    font-family: 'Architects Daughter', cursive;
+}
+.playlistAddDiv div {
+    margin: 0 auto;
+}
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 #inputSubmit {
-    font-family: 'Big Shoulders Inline Text', cursive;
+    font-family: 'Architects Daughter', cursive;
     font-weight: bold;
     color: #444444;
     background: #F3F3F3;
     border: 1px #DADADA solid;
     padding: 5px 10px;
     border-radius: 2px;
-    font-weight: bold;
     font-size: 9pt;
     outline: none;
+    width: 30%;
 }
 #inputSubmit:hover {
     border: 1px #C6C6C6 solid;
@@ -101,9 +118,16 @@
     background-repeat: no-repeat, repeat;
     background-position: right .7em top 50%, 0 0;
     background-size: .65em auto, 100%;
+    width: 70%;
 }
 #mySelect:hover {
     color: rgb(109, 107, 107);
+}
+.addPlaylist {
+    cursor: pointer;
+    color: rgb(106, 114, 118);
+    font-weight: bold;
+    margin: 5px;
 }
 .likeIcon {
     background-color:rgb(73, 79, 82);
