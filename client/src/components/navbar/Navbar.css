@@ -109,13 +109,16 @@ input[type="submit"]:hover {
     background-color: rgb(120, 120, 120);
 }
 .option.artist {
-    background-color: rgb(165, 165, 165);
+    background-color: rgb(150, 150, 150);
 }
 .option.album {
-    background-color: rgb(210, 210, 210);
+    background-color: rgb(180, 180, 180);
 }
 .option.playlist {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(210, 210, 210);
+}
+.option.user {
+    background-color: rgb(240, 240, 240);
 }
 .modal {
     font-family: 'Architects Daughter', cursive;

@@ -8,6 +8,7 @@ import songIcon from './images/songIcon.webp';
 import artistIcon from './images/artistIcon.png';
 import albumIcon from './images/albumIcon.webp';
 import playlistIcon from './images/playlistIcon.jpg';
+import userIcon from './images/userIcon.jpg';
 
 
 function Searchbar() {
@@ -90,10 +91,13 @@ function Searchbar() {
                             >   
                                 <div className="optionName">{item._source.title || item._source.name}</div>
                                 <div className="optionIconDiv">
-                                    {item._index.substring(0, item._index.length - 1) === "song" ? <img className="optionIcon" src={songIcon} alt="songIcon" />
+                                    {
+                                    item._index.substring(0, item._index.length - 1) === "song" ? <img className="optionIcon" src={songIcon} alt="songIcon" />
                                     : item._index.substring(0, item._index.length - 1) === "artist" ? <img className="optionIcon" src={artistIcon} alt="artistIcon" />
                                     : item._index.substring(0, item._index.length - 1) === "album" ? <img className="optionIcon" src={albumIcon} alt="albumIcon" />
-                                    : <img className="optionIcon" src={playlistIcon} alt="playlistIcon" />
+                                    : item._index.substring(0, item._index.length - 1) === "playlist" ? <img className="optionIcon" src={playlistIcon} alt="playlistIcon" />
+                                    : item._index.substring(0, item._index.length - 1) === "user" ? <img className="optionIcon" src={userIcon} alt="userIcon" />
+                                    : null
                                 }    
                                 </div>
                             </div>
