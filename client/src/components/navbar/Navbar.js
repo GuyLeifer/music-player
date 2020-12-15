@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import { useForm } from 'react-hook-form';
 import ClipLoader from "react-spinners/ClipLoader";
-import { css } from '@emotion/react';
 
 //recoil
 import { useRecoilState } from "recoil";
@@ -37,12 +36,6 @@ const customStyles = {
     }
     
 };
-
-const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: white;
-`;
 
 function Navbar() {
     const navStyle = {
@@ -192,7 +185,6 @@ const onSignUpSubmit = async (data) => {
                                 </div>
                                 <div className="sweet-loading">
                                     <ClipLoader
-                                    css={override}
                                     size={50}
                                     color={"#123abc"}
                                     loading={loading}
@@ -233,7 +225,6 @@ const onSignUpSubmit = async (data) => {
                                 </div>
                                 <div className="sweet-loading">
                                     <ClipLoader
-                                    css={override}
                                     size={50}
                                     color={"#123abc"}
                                     loading={loading}

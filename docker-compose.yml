@@ -6,6 +6,7 @@ services:
   db-music-player:
     image: mysql:5.7
     restart: always
+    container_name: db-music-player
     environment:
       MYSQL_DATABASE: music_player
       # So you don't have to use root, but you can if you like
@@ -14,12 +15,13 @@ services:
       MYSQL_PASSWORD: 'password'
       # Password for root access
       MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_TCP_PORT: 3307
     ports:
       # <Port exposed> : < MySQL Port running inside container>
       - '3307:3306'
     expose:
-      # Opens port 3307 on the container
-      - '3307'
+      # Opens port 3306 on the container
+      - '3306'
       # Where our data will be persisted
     volumes:
       - ./my-db:/var/lib/mysql
@@ -44,19 +46,21 @@ services:
   api-music-player:
     build:
       context: ./server
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     stdin_open: true
+    container_name: api-music-player
     volumes:
-      - '/user/app/server/node_modules'
       - ./server:/usr/app/server
+      - '/usr/app/server/node_modules'
     ports:
       - '8080:8080'
     environment:
-      HOST: "127.0.0.1" ## same as the database service name
+      HOST: "db-music-player" ## same as the database service name
       PORT: 8080
-      PASSWORD: "Guyleifer7"
+      PASSWORD: "password"
       DATABASE: "music_player"
-      TOKEN_SECRET: "3d1c240f491a5d1338ea50b989289ca03e3ba050af50255f5e0078b4ca1da35e067a8e00addcd003379ac60735c0cb319fce1fd32d6b664e32eb756313293081"
+      TOKEN_SECRET: "6f8df0642f85304b486f5d0a32fb30e3b6fda446b3c2dc253ab2daf0b9ddf7ccbe1cfdfbb19ce9d980b75e922fec053833cfa2fa03d6e21f7d2be223d4fb79c8"
+      MYSQL_PORT: 3307
     depends_on:
       - db-music-player 
 
@@ -65,11 +69,12 @@ services:
   app-music-player:
     build:
       context: ./client
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     stdin_open: true
+    container_name: app-music-player
     volumes:
-      - '/user/app/client/node_modules'
       - ./client:/usr/app/client
+      - '/usr/app/client/node_modules'
     ports:
       - '3030:3000'
     depends_on:

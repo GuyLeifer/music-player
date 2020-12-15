@@ -21,7 +21,7 @@
     "styled-components-carousel": "^0.2.0",
     "web-vitals": "^0.2.4"
   },
-  "proxy": "http://music-player_api-music-player_1:8080/",
+  "proxy": "http://localhost:8080/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

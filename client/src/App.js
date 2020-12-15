@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 //packages
@@ -26,6 +26,9 @@ import PlaylistId from './components/playlists/PlaylistId';
 import UserId from'./components/users/UserId';
 
 function App() {
+  useEffect(() => {
+    document.title = "Music Player"
+  }, [])
   return (
     <div className="App">
       <RecoilRoot>
