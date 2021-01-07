@@ -108,4 +108,25 @@ export const globalStyles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
     },
+    likeView: {
+        margin: '5%',
+        backgroundColor: '#494f52',
+        borderRadius: 150,
+    },
+    likeIcon: {
+        height: 50,
+        width: 50,
+    },
+    unLikeIcon: {
+        height: 50,
+        width: 50,
+        transform: [{ rotateX: '180deg' }],
+    },
+    addPlText: {
+        color: 'white',
+        fontSize: 18
+    },
+    addPlView: {
+        margin: '5%',
+    }
 })

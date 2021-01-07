@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 
 import Songs from '../songs/Songs';
 
-import { globalStyles } from '../../styles/global'
+import { globalStyles } from '../../styles/global';
+
+import likeIcon from '../../shared/images/likeIcon.webp';
+
+//recoil
+import { useRecoilState } from "recoil-react-native";
+import { userState } from '../../shared/Atoms/userState';
 
 function AlbumId({ route }) {
 
     const { albumId } = route.params;
 
     const [album, setAlbum] = useState(null);
+    const [user, setUser] = useRecoilState(userState);
+    const [isLiked, setIsLiked] = useState();
 
     useEffect(() => {
         fetchAlbum();
+        fetchIsLiked();
     }, []);
 
     const fetchAlbum = async () => {
@@ -21,7 +30,51 @@ function AlbumId({ route }) {
         console.log(data)
         setAlbum(data);
     }
+    const fetchIsLiked = async () => {
+        if (user && album) {
+            const { data } = await axios.get(`http://10.0.2.2:8080/interactions/albums/${user.id}&${album.id}`);
+            if (data) setIsLiked(data.isLiked);
+            else setIsLiked(null)
+        } else {
+            setIsLiked(null)
+        }
+    };
 
+    // Like Functions
+    const likeAlbum = async () => {
+        const { data } = await axios.get(`http://10.0.2.2:8080/interactions/albums/${user.id}&${album.id}`)
+        if (data) {
+            await axios.patch('http://10.0.2.2:8080/interactions/albums', {
+                userId: user.id,
+                albumId: album.id,
+                isLiked: true
+            })
+        } else {
+            await axios.post('http://10.0.2.2:8080/interactions/albums', {
+                userId: user.id,
+                albumId: album.id,
+                isLiked: true
+            })
+        }
+        setIsLiked(true)
+    }
+    const unlikeAlbum = async () => {
+        const data = await axios.get(`http://10.0.2.2:8080/interactions/albums/${user.id}&${album.id}`)
+        if (data) {
+            await axios.patch('http://10.0.2.2:8080/interactions/albums', {
+                userId: user.id,
+                albumId: album.id,
+                isLiked: false
+            })
+        } else {
+            await axios.post('http://10.0.2.2:8080/interactions/albums', {
+                userId: user.id,
+                albumId: album.id,
+                isLiked: false
+            })
+        }
+        setIsLiked(false)
+    }
 
     return (
         album ?
@@ -30,6 +83,25 @@ function AlbumId({ route }) {
                     <View style={globalStyles.detailsViewId}>
                         <Text style={globalStyles.topNameId}>Album Name: {album.name}</Text>
                         <Text style={globalStyles.topNameId}>Artist Name: {album.Artist.name}</Text>
+                        {user ?
+                            <>
+                                {!isLiked ?
+                                    <TouchableOpacity
+                                        style={globalStyles.likeView}
+                                        onPress={() => likeAlbum()}
+                                    >
+                                        <Image source={likeIcon} style={globalStyles.likeIcon} />
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity
+                                        style={globalStyles.likeView}
+                                        onPress={() => unlikeAlbum()}>
+                                        <Image source={likeIcon} style={globalStyles.unLikeIcon} />
+                                    </TouchableOpacity>
+                                }
+                            </>
+                            : null
+                        }
                         <Text style={globalStyles.detailsId}>Cover Image:</Text>
                         <Image
                             style={globalStyles.imageId}

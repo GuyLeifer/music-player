@@ -10,7 +10,7 @@ import TopAlbums from './albums/TopAlbums';
 import TopPlaylists from './playlists/TopPlaylists';
 
 import axios from 'axios'
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 
 export default function Home({ navigation }) {
 
@@ -19,6 +19,7 @@ export default function Home({ navigation }) {
     const [topAlbums, setTopAlbums] = useState([]);
     const [topPlaylists, setTopPlaylists] = useState([]);
     const [user, setUser] = useRecoilState(userState);
+    const [chosen, setChosen] = useState('like');
 
     useEffect(() => {
         (async () => {
@@ -29,12 +30,25 @@ export default function Home({ navigation }) {
             const albumsData = await axios.get('http://10.0.2.2:8080/albums/top');
             const playlistsData = await axios.get('http://10.0.2.2:8080/playlists/top');
 
-            songsData.data && setTopSongs(songsData.data[0])
-            artistsData.data && setTopArtists(artistsData.data[0])
-            albumsData.data && setTopAlbums(albumsData.data[0])
-            playlistsData.data && setTopPlaylists(playlistsData.data[0])
+            if (chosen === 'like') {
+                songsData.data && setTopSongs(songsData.data[0])
+                artistsData.data && setTopArtists(artistsData.data[0])
+                albumsData.data && setTopAlbums(albumsData.data[0])
+                playlistsData.data && setTopPlaylists(playlistsData.data[0])
+            }
+            else if (chosen === 'play') {
+                songsData.data && setTopSongs(songsData.data[0])
+                artistsData.data && setTopArtists(artistsData.data[0])
+                albumsData.data && setTopAlbums(albumsData.data[0])
+                playlistsData.data && setTopPlaylists(playlistsData.data[0])
+            } else if (chosen === 'new') {
+                songsData.data && setTopSongs(songsData.data[0])
+                artistsData.data && setTopArtists(artistsData.data[0])
+                albumsData.data && setTopAlbums(albumsData.data[0])
+                playlistsData.data && setTopPlaylists(playlistsData.data[0])
+            }
         })()
-    }, [])
+    }, [chosen])
 
     return (
         <View style={styles.container}>
@@ -42,6 +56,17 @@ export default function Home({ navigation }) {
                 style={styles.scrollView}
             // contentContainerStyle={styles.contentContainer}
             >
+                <View style={styles.viewTop}>
+                    <TouchableOpacity onPress={() => setChosen('like')}>
+                        <Text style={chosen === 'like' ? styles.chosen : styles.text}>Top Liked</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setChosen('play')}>
+                        <Text style={chosen === 'play' ? styles.chosen : styles.text}>Top Played</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setChosen('new')}>
+                        <Text style={chosen === 'new' ? styles.chosen : styles.text}>Newest</Text>
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.homeView}>
                     {topSongs ? (
                         topSongs.length > 0 ? <TopSongs topSongs={topSongs} /> : null
@@ -82,5 +107,21 @@ const styles = StyleSheet.create({
     },
     homeView: {
         height: 300,
+    },
+    viewTop: {
+        margin: "3%",
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    text: {
+        color: '#494f52',
+        fontSize: 18,
+    },
+    chosen: {
+        color: 'white',
+        fontSize: 23,
+        fontWeight: 'bold',
+        textDecorationLine: 'underline',
     }
 })
