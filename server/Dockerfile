@@ -1,9 +1,18 @@
 FROM node:12
 
-WORKDIR /usr/app/server
+RUN ["mkdir", "/install"]
+
+ADD ["./package.json", "/install"]
+
+WORKDIR /install
+RUN npm install
+ENV NODE_PATH=/install/node_modules
+
+WORKDIR /server
+
+ADD /wait_for_it.sh /server/wait_for_it.sh
+RUN chmod +x /server/wait_for_it.sh
 
 COPY . .
 
-RUN npm install
-
-CMD ["npm", "run", "development"]
+CMD ["npm", "run", "dev"]

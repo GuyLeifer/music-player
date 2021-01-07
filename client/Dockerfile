@@ -1,9 +1,15 @@
 FROM node:12
 
-WORKDIR /usr/app/client
+RUN ["mkdir", "/install"]
+
+ADD ["./package.json", "/install"]
+
+WORKDIR /install
+RUN npm install
+ENV NODE_PATH=/install/node_modules
+
+WORKDIR /client
 
 COPY . .
-
-RUN npm install
 
 CMD ["npm", "run", "start"]
