@@ -52,11 +52,12 @@ router.get('/verify', async (req, res) => {
 
 router.get('/:userId', async (req, res) => {
   const user = await User.findByPk(req.params.userId , {
+    attributes: ['id', 'name', 'createdAt', 'updatedAt'],
     include: [
-      {model: InteractionSong, include: {model:Song}, where: {isLiked: true}}, 
-      {model: InteractionArtist, include: {model:Artist}, where: {isLiked: true}}, 
-      {model: InteractionAlbum, include: {model:Album}, where: {isLiked: true}}, 
-      {model: InteractionPlaylist, include: {model:Playlist}, where: {isLiked: true}}
+      {model: InteractionSong, include: {model:Song}, where: {isLiked: true}, required: false}, 
+      {model: InteractionArtist, include: {model:Artist}, where: {isLiked: true}, required: false}, 
+      {model: InteractionAlbum, include: {model:Album}, where: {isLiked: true}, required: false}, 
+      {model: InteractionPlaylist, include: {model:Playlist}, where: {isLiked: true}, required: false}
     ]
   });
   res.json(user)

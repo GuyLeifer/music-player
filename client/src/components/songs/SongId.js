@@ -132,8 +132,8 @@ function SongId(match) {
         }
     }
 
-    const addPlaylistID = async() => {
-        await setPlaylistID(document.getElementById("mySelect").value);
+    const addPlaylistID = async (e) => {
+        await setPlaylistID(e.target.value);
     }
 
     const addToPlaylist = async(playlistId, songId) => {
@@ -216,27 +216,37 @@ function SongId(match) {
                         <YouTube videoId={song.youtubeLink} opts={optsForMainSong} /> 
                     </div>
                     <div>
-                        {playlists && (
-                            <form onSubmit={() => addToPlaylist(playlistID, song.id)}> Add To Your Playlist/s
-                                <select id="mySelect" onChange={() => addPlaylistID()}>
-                                    {playlists.map(playlist => {
-                                        return (
-                                            <option value={playlist.id}>{playlist.name}</option>
-                                        )
-                                    })}
-                                </select>
-                                <input id="inputSubmit" type="submit" value="ADD"/>
-                            </form>
-                        )}
                         <Link to = {`/artist/${song.artistId}?song=${song.id}`}>
                             <div className="songLink">Artist Name: {song.Artist.name}</div>
                         </Link>
                         <Link to = {`/album/${song.albumId}?song=${song.id}`}>
                             <div className="songLink">Album Name: {song.Album.name}</div>
                         </Link>
+                        {playlists && (
+                        <div className="playlistAddDiv">
+                            <form onSubmit={() => addToPlaylist(playlistID, song.id)}>
+                                <div>Add To Your Playlist</div>
+                                <div className="buttons">
+                                    <select id="mySelect" onChange={(e) => addPlaylistID(e)}>
+                                        {playlists.map(playlist => {
+                                            return (
+                                                <option value={playlist.id}>{playlist.name}</option>
+                                            )
+                                        })}
+                                    </select>
+                                    <input id="inputSubmit" type="submit" value="ADD"/>
+                                </div>
+                                <div>want to add a new playlist?  
+                                    <Link to={`/user/${user.id}`}>
+                                        <span className="addPlaylist">Click Here!</span>
+                                    </Link>
+                                </div> 
+                            </form>
+                        </div>
+                        )}
+                        <div>Length: {song.length}</div>
                         <div>Created At: {song.createdAt}</div>
                         <div>Updated At: {song.updatedAt}</div>
-                        <div>Length: {song.length}</div>
                     </div>
                 </div>
                 <div className="lyrics">

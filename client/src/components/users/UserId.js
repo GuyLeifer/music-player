@@ -17,12 +17,12 @@ import Playlist from '../playlists/Playlist';
 import deleteIcon from './images/deleteIcon.png';
 
 // recoil
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userState } from '../../Atoms/userState';
 
 function UserId(match) {
 
-    const [username, setUsername] = useRecoilState(userState);
+    const username = useRecoilValue(userState);
     const [user, setUser] = useState();
     const [userPlaylists, setUserPlaylists] = useState();
     const [newPlaylist, setNewPlaylist] = useState(false);
@@ -40,6 +40,7 @@ function UserId(match) {
     const fetchUser = async() => {
         const id = Number(match.match.params.id);
         const { data } = await axios.get(`/users/${id}`);
+        console.log(data)
         setUser(data);
     };
 
@@ -51,7 +52,8 @@ function UserId(match) {
     };
 
     const deleteUser = async () => {
-        axios.delete(`/users/${user.id}`);
+        await axios.delete(`/users/${user.id}`);
+        await axios.delete(`/elasticsearch/users/${user.id}`);
         window.location.assign('/');
     }
 
@@ -71,7 +73,6 @@ function UserId(match) {
         })
         setNewPlaylist(false);
     }
-
     return (
         <>
         {user && (
@@ -93,7 +94,10 @@ function UserId(match) {
                                 userPlaylists.length > 0 ?
                                 <h3 className="subHeader">User Playlists:</h3>
                                 : null                      
-                        :   null
+                        :   userPlaylists && 
+                            userPlaylists.length > 0 ?
+                            <h3 className="subHeader">User Playlists:</h3>
+                            : null                      
                         }
                         {userPlaylists &&
                             userPlaylists.map(playlist => {
@@ -127,7 +131,7 @@ function UserId(match) {
                     </div>
                 )}
 
-                {user.InteractionSongs && (
+                {user.InteractionSongs && user.InteractionSongs.length > 0 && (
                     <div id="songsOnUserDiv" className="songsOnUserDiv">
                         <h3 className="subHeader">Songs Liked By User:</h3>
                         <Carousel
@@ -147,7 +151,7 @@ function UserId(match) {
                     </div>
                 )}
 
-                {user.InteractionArtists && (
+                {user.InteractionArtists && user.InteractionArtists.length > 0 && (
                     <div id="artistsOnUserDiv" className="artistsOnUserDiv">
                         <h3 className="subHeader">Artists Liked By User:</h3>
                         <Carousel
@@ -167,7 +171,7 @@ function UserId(match) {
                     </div>
                 )}
 
-                {user.InteractionAlbums && (
+                {user.InteractionAlbums && user.InteractionAlbums.length > 0 && (
                     <div id="albumsOnUserDiv" className="albumsOnUserDiv">
                         <h3 className="subHeader">Albums Liked By User:</h3>
                         <Carousel
@@ -187,7 +191,7 @@ function UserId(match) {
                     </div>
                 )}
 
-                {user.InteractionPlaylists && (
+                {user.InteractionPlaylists && user.InteractionPlaylists.length > 0 && (
                     <div id="playlistsOnUserDiv" className="playlistsOnUserDiv">
                         <h3 className="subHeader">Playlists Liked By User:</h3>
                         <Carousel
