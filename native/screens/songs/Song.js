@@ -21,7 +21,7 @@ function Song({ song }) {
                     /> */}
                     {/* <YouTube
                         // You must have an API Key for the player to load in Android
-                        apiKey={"AIzaSyB6XYA4brY4L9FhzAbf4W7QEvxWn6fo2wE"}
+                        apiKey={""}
                         // Un-comment one of videoId / videoIds / playlist.
                         // You can also edit these props while Hot-Loading in development mode to see how
                         // it affects the loaded native module
