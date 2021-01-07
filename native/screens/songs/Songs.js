@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 // components
 import Song from './Song';
 
-function Songs({ songs }) {
+function Songs({ songs, artistId, albumId, playlistId }) {
     const navigation = useNavigation();
 
     return (
@@ -31,7 +31,10 @@ function Songs({ songs }) {
                                 <TouchableOpacity
                                     key={song.title}
                                     onPress={() => navigation.navigate('Song', {
-                                        songId: song.id
+                                        songId: song.id,
+                                        artistId,
+                                        albumId,
+                                        playlistId
                                     })}
                                 >
                                     <Song song={song} />

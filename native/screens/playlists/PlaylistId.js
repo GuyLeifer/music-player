@@ -119,7 +119,7 @@ function PlaylistId({ route }) {
                     <View style={globalStyles.carouselsId}>
                         <View style={globalStyles.carouselId}>
                             <Text style={globalStyles.carouselTitle}>Songs:</Text>
-                            <Songs songs={playlist.map(item => item.Song)} />
+                            <Songs songs={playlist.map(item => item.Song)} playlistId={playlist[0].Playlist.id} />
                         </View>
                     </View>
                 </View>

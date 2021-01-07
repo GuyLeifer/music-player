@@ -113,7 +113,7 @@ function AlbumId({ route }) {
                     <View style={globalStyles.carouselsId}>
                         <View style={globalStyles.carouselId}>
                             <Text style={globalStyles.carouselTitle}>Songs:</Text>
-                            <Songs songs={album.Songs} />
+                            <Songs songs={album.Songs} albumId={album.id} />
                         </View>
                     </View>
                 </View>

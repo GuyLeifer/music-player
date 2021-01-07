@@ -116,7 +116,7 @@ function ArtistId({ route }) {
                         </View>
                         <View style={globalStyles.carouselId}>
                             <Text style={globalStyles.carouselTitle}>Songs:</Text>
-                            <Songs songs={artist.Songs} />
+                            <Songs songs={artist.Songs} artistId={artist.id} />
                         </View>
                     </View>
                 </View>

@@ -204,6 +204,8 @@ function SongId({ route }) {
                                     source={{ uri: song.Artist.coverImg }}
                                 />
                             </TouchableOpacity>
+                        </View>
+                        <View style={globalStyles.marginView}>
                             <TouchableOpacity
                                 key={song.Album.name}
                                 onPress={() => navigation.navigate('Album', {
