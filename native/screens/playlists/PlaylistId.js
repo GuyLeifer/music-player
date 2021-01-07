@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 import Songs from '../songs/Songs';
 
@@ -15,6 +16,7 @@ import { userState } from '../../shared/Atoms/userState';
 function PlaylistId({ route }) {
 
     const { playlistId } = route.params;
+    const navigation = useNavigation();
 
     const [playlist, setPlaylist] = useState();
     const [emptyPlaylist, setEmptyPlaylist] = useState();
@@ -122,6 +124,20 @@ function PlaylistId({ route }) {
                             <Songs songs={playlist.map(item => item.Song)} playlistId={playlist[0].Playlist.id} />
                         </View>
                     </View>
+                    <View>
+                        <Text style={globalStyles.topNameId}>List Of The Songs ({playlist.length}):</Text>
+                        {playlist.map(item =>
+                            <TouchableOpacity
+                                style={styles.TouchableOpacitySong}
+                                onPress={() => navigation.navigate('Song', {
+                                    songId: item.Song.id,
+                                    playlistId: playlist[0].Playlist.id
+                                })}>
+                                <Text style={styles.songTitle}>{item.Song.title}</Text>
+                                <Text style={styles.songLength}>{item.Song.length}</Text>
+                            </TouchableOpacity>
+                        )}
+                    </View>
                 </View>
             </ScrollView>
             :
@@ -129,5 +145,26 @@ function PlaylistId({ route }) {
             </>
     )
 }
+
+const styles = StyleSheet.create({
+    songTitle: {
+        color: 'white',
+        fontSize: 18,
+        flex: 0.7,
+        marginTop: '3%',
+        textAlign: 'center',
+    },
+    songLength: {
+        color: 'white',
+        fontSize: 18,
+        flex: 0.3,
+        marginTop: '3%',
+        textAlign: 'center',
+    },
+    TouchableOpacitySong: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    }
+})
 
 export default PlaylistId

@@ -176,6 +176,7 @@ function SongId({ route }) {
                                                 style={{ backgroundColor: 'white', }}
                                                 onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
                                                 itemStyle={{ color: 'white' }}
+                                            // mode='dropdown'
                                             >
                                                 {playlists.map(playlist =>
                                                     <Picker.Item label={playlist.name} value={playlist.id} />
