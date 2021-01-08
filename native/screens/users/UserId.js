@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, Button, TouchableOpacity, TextInput } from 'react-native';
 import axios from 'axios';
+import { useForm, Controller } from "react-hook-form";
 
 import Songs from '../songs/Songs';
 import Artists from '../artists/Artists';
@@ -19,10 +20,12 @@ import { userState } from '../../shared/Atoms/userState';
 function UserId({ route }) {
     const { userId } = route.params;
     const navigation = useNavigation();
+    const { control, handleSubmit, errors } = useForm();
 
     const [user, setUser] = useState(null);
     const [username, setUsername] = useRecoilState(userState);
     const [userPlaylists, setUserPlaylists] = useState();
+    const [newPlaylist, setNewPlaylist] = useState(false);
 
     useEffect(() => {
         fetchUser();
@@ -43,7 +46,26 @@ function UserId({ route }) {
         setUsername(null);
     }
     const deleteUser = async () => {
+        await axios.delete(`http://10.0.2.2:8080/users/${user.id}`);
+        await axios.delete(`http://10.0.2.2:8080/elasticsearch/users/${user.id}`);
+        navigation.navigate('Home');
+    }
 
+    const createPlaylist = async (data) => {
+        const { name, coverImg } = data;
+        let playlist = await axios.post('http://10.0.2.2:8080/playlists', {
+            userId: username.id,
+            name: name,
+            coverImg: coverImg
+        });
+        playlist = playlist.data;
+
+        // send to 9200 port for elastic search
+        await axios.post('http://10.0.2.2:8080/elasticsearch/playlists', {
+            id: playlist.id,
+            name: playlist.name
+        })
+        setNewPlaylist(false);
     }
 
     return (
@@ -83,6 +105,66 @@ function UserId({ route }) {
                             )}
                         </View>
                     )}
+                    {username ?
+                        username.id === user.id &&
+                        <View style={styles.buttonCreateNew}>
+                            <Button
+                                title="Create a New Playlist"
+                                color="#494f52"
+                                onPress={() => setNewPlaylist(!newPlaylist)}
+                            />
+                        </View>
+                        : null
+                    }
+                    {newPlaylist &&
+                        <View style={styles.formView}>
+                            <View style={styles.centeredView}>
+                                <View>
+                                    <Text style={styles.header}>New Playlist</Text>
+                                    <Controller
+                                        control={control}
+                                        render={({ onChange, onBlur, value }) => (
+                                            <View style={styles.viewLabel}>
+                                                <Text style={styles.label}>Playlist Name:</Text>
+                                                <TextInput
+                                                    style={styles.input}
+                                                    onBlur={onBlur}
+                                                    onChangeText={value => onChange(value)}
+                                                    value={value}
+                                                    placeholder={"name"}
+                                                />
+                                            </View>
+                                        )}
+                                        name="name"
+                                        rules={{ required: true }}
+                                        defaultValue=""
+                                    />
+                                    {errors.emailLogin && <Text>Playlist Name is required.</Text>}
+
+                                    <Controller
+                                        control={control}
+                                        render={({ onChange, onBlur, value }) => (
+                                            <View style={styles.viewLabel}>
+                                                <Text style={styles.label}>Cover Image:</Text>
+                                                <TextInput
+                                                    style={styles.input}
+                                                    onBlur={onBlur}
+                                                    onChangeText={value => onChange(value)}
+                                                    value={value}
+                                                    placeholder="cover Image Link"
+                                                />
+                                            </View>
+                                        )}
+                                        name="coverImg"
+                                        rules={{ required: true }}
+                                        defaultValue=""
+                                    />
+                                    {errors.coverImg && <Text>Cover Image is required.</Text>}
+                                    <Button title="Submit" color='black' onPress={handleSubmit(createPlaylist)} />
+                                </View>
+                            </View>
+                        </View>
+                    }
 
                     {user.InteractionSongs && (
                         <View style={globalStyles.carouselId}>
@@ -116,7 +198,7 @@ function UserId({ route }) {
                         : null
                     }
                 </View>
-            </ScrollView>
+            </ScrollView >
             :
             <>
             </>
@@ -142,6 +224,51 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         height: 60,
         width: 60,
+    },
+    header: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: 'white',
+        letterSpacing: 1,
+        textAlign: 'center',
+    },
+    viewLabel: {
+        padding: 10,
+        borderWidth: 2,
+        borderColor: 'white',
+        margin: '2%',
+    },
+    label: {
+        color: 'white',
+        textAlign: 'center',
+        margin: '2%',
+    },
+    input: {
+        borderWidth: 1,
+        fontSize: 20,
+        width: 200,
+        borderColor: 'white',
+        color: 'white',
+        paddingHorizontal: '5%',
+        textAlign: 'center',
+    },
+    centeredView: {
+        width: 250,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22,
+        padding: 10,
+        backgroundColor: '#494f52',
+    },
+    formView: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    buttonCreateNew: {
+        flex: 0.5,
+        flexDirection: 'row',
+        justifyContent: "center",
+        marginTop: 20,
     }
 })
 

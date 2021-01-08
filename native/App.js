@@ -12,6 +12,7 @@ import Footer from './screens/general/Footer';
 
 import { NavigationContainer } from '@react-navigation/native';
 import DrawerNavigator from "./navigation/drawerNavigator";
+import { navigationRef } from './navigation/rootNavigation';
 
 const getFonts = () => Font.loadAsync({
   'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
@@ -26,11 +27,11 @@ export default function App() {
     return (
       <RecoilRoot>
         <SafeAreaView style={styles.container}>
-          <Header />
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
+            <Header />
             <DrawerNavigator />
+            <Footer />
           </NavigationContainer>
-          <Footer />
         </SafeAreaView>
       </RecoilRoot>
     )

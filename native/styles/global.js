@@ -124,7 +124,9 @@ export const globalStyles = StyleSheet.create({
     },
     addPlText: {
         color: 'white',
-        fontSize: 18
+        fontSize: 18,
+        textAlign: 'center',
+        marginTop: 15,
     },
     addPlView: {
         margin: '5%',

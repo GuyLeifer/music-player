@@ -4,7 +4,6 @@ import { Picker } from '@react-native-picker/picker'
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
-import Albums from '../albums/Albums';
 import Songs from './Songs';
 
 import { globalStyles } from '../../styles/global';
@@ -183,6 +182,10 @@ function SongId({ route }) {
                                                 )}
                                             </Picker>
                                             <Button color="#494f52" title="ADD" onPress={() => addToPlaylist(selectedValue, song.id)} />
+                                            <Text style={globalStyles.addPlText}>Or Add to a New Playlist</Text>
+                                            <Button color="#494f52" title="new playlist" onPress={() => navigation.navigate('User', {
+                                                userId: user.id,
+                                            })} />
                                         </View>
                                     </View>
                                 )}
