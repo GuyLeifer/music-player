@@ -83,6 +83,6 @@ jobs:
       - name: deploy
         run: make deploy
 
-      # # Enable When using ENV_FILE Secret
-      # - name: Remove .env File
-      #   run: make remove-env
+      # Enable When using ENV_FILE Secret
+      - name: Remove .env File
+        run: make remove-env
