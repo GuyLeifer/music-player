@@ -37,37 +37,37 @@ function UserId(match) {
         fetchUserPlaylists();
     }, [user, newPlaylist]);
 
-    const fetchUser = async() => {
+    const fetchUser = async () => {
         const id = Number(match.match.params.id);
-        const { data } = await axios.get(`/users/${id}`);
+        const { data } = await axios.get(`/api/users/${id}`);
         console.log(data)
         setUser(data);
     };
 
     const fetchUserPlaylists = async () => {
         if (user) {
-            const { data } = await axios.get(`/users/playlists/${user.id}`)
+            const { data } = await axios.get(`/api/users/playlists/${user.id}`)
             setUserPlaylists(data.Playlist || data.Playlists)
         }
     };
 
     const deleteUser = async () => {
-        await axios.delete(`/users/${user.id}`);
-        await axios.delete(`/elasticsearch/users/${user.id}`);
+        await axios.delete(`/api/users/${user.id}`);
+        await axios.delete(`/api/elasticsearch/users/${user.id}`);
         window.location.assign('/');
     }
 
     const createPlaylist = async (data) => {
         const { name, coverImg } = data;
-        let playlist = await axios.post('/playlists', {
+        let playlist = await axios.post('/api/playlists', {
             userId: username.id,
             name: name,
             coverImg: coverImg
         });
         playlist = playlist.data;
-        
+
         // send to 9200 port for elastic search
-        await axios.post('/elasticsearch/playlists', {
+        await axios.post('/api/elasticsearch/playlists', {
             id: playlist.id,
             name: playlist.name
         })
@@ -75,152 +75,152 @@ function UserId(match) {
     }
     return (
         <>
-        {user && (
-            <div className="info">
-                <div className="title">User Name: {user.name}</div>
-                <div>Created At: {user.createdAt}</div>
-                <div>Updated At: {user.updatedAt}</div>
-                <a href="#songsOnUserDiv" className="insideLink">Songs Liked By User</a>
-                <a href="#artistsOnUserDiv" className="insideLink">Artists Liked By User</a>
-                <a href="#albumsOnUserDiv" className="insideLink">Albums Liked By User</a>
-                <a href="#playlistsOnUserDiv" className="insideLink">Playlists Liked By User</a>
+            {user && (
+                <div className="info">
+                    <div className="title">User Name: {user.name}</div>
+                    <div>Created At: {user.createdAt}</div>
+                    <div>Updated At: {user.updatedAt}</div>
+                    <a href="#songsOnUserDiv" className="insideLink">Songs Liked By User</a>
+                    <a href="#artistsOnUserDiv" className="insideLink">Artists Liked By User</a>
+                    <a href="#albumsOnUserDiv" className="insideLink">Albums Liked By User</a>
+                    <a href="#playlistsOnUserDiv" className="insideLink">Playlists Liked By User</a>
 
 
-                {userPlaylists && (
-                    <div className="userPlaylists">
-                        {username ? 
-                            username.id === Number(match.match.params.id) ? <h3 className="subHeader">My Playlists:</h3> 
-                            :  userPlaylists && 
-                                userPlaylists.length > 0 ?
-                                <h3 className="subHeader">User Playlists:</h3>
-                                : null                      
-                        :   userPlaylists && 
-                            userPlaylists.length > 0 ?
-                            <h3 className="subHeader">User Playlists:</h3>
-                            : null                      
-                        }
-                        {userPlaylists &&
-                            userPlaylists.map(playlist => {
-                                return (
-                                    <Link to={`/playlist/${playlist.id}?user=${user.id}`}>
-                                        <p className="playlistLink">{playlist.name}</p>
-                                    </Link>
-                                )
-                        })}
-                        {username ? 
-                            username.id === Number(match.match.params.id) && <p className="newPlaylist" onClick={() => setNewPlaylist(!newPlaylist)}>Create a New Playlist:</p>
-                        :   null
-                        }
-                        {newPlaylist && (
-                            <div>
-                                <form className="accountForm" onSubmit={handleSubmit(createPlaylist)}>
-                                    <div className="labelInput">
-                                        <label htmlFor="name">Playlist Name:</label>
-                                        <input className="input" name="name" ref={register({ required: true })} placeholder="Name"/>
-                                        <div className="error">{errors.email && 'Name is required.'}</div>
-                                    </div>
-                                    <div className="labelInput">
-                                        <label htmlFor="coverImg">Cover Image:</label>
-                                        <input className="input" name="coverImg" ref={register({ required: true })} placeholder="Image Link"/>
-                                        <div className="error">{errors.email && 'Cover Image is required.'}</div>
-                                    </div>
-                                    <input className="input" type="submit" value="Create Playlist"/>
-                                </form>
-                            </div>
-                        )}
-                    </div>
-                )}
+                    {userPlaylists && (
+                        <div className="userPlaylists">
+                            {username ?
+                                username.id === Number(match.match.params.id) ? <h3 className="subHeader">My Playlists:</h3>
+                                    : userPlaylists &&
+                                        userPlaylists.length > 0 ?
+                                        <h3 className="subHeader">User Playlists:</h3>
+                                        : null
+                                : userPlaylists &&
+                                    userPlaylists.length > 0 ?
+                                    <h3 className="subHeader">User Playlists:</h3>
+                                    : null
+                            }
+                            {userPlaylists &&
+                                userPlaylists.map(playlist => {
+                                    return (
+                                        <Link to={`/playlist/${playlist.id}?user=${user.id}`}>
+                                            <p className="playlistLink">{playlist.name}</p>
+                                        </Link>
+                                    )
+                                })}
+                            {username ?
+                                username.id === Number(match.match.params.id) && <p className="newPlaylist" onClick={() => setNewPlaylist(!newPlaylist)}>Create a New Playlist:</p>
+                                : null
+                            }
+                            {newPlaylist && (
+                                <div>
+                                    <form className="accountForm" onSubmit={handleSubmit(createPlaylist)}>
+                                        <div className="labelInput">
+                                            <label htmlFor="name">Playlist Name:</label>
+                                            <input className="input" name="name" ref={register({ required: true })} placeholder="Name" />
+                                            <div className="error">{errors.email && 'Name is required.'}</div>
+                                        </div>
+                                        <div className="labelInput">
+                                            <label htmlFor="coverImg">Cover Image:</label>
+                                            <input className="input" name="coverImg" ref={register({ required: true })} placeholder="Image Link" />
+                                            <div className="error">{errors.email && 'Cover Image is required.'}</div>
+                                        </div>
+                                        <input className="input" type="submit" value="Create Playlist" />
+                                    </form>
+                                </div>
+                            )}
+                        </div>
+                    )}
 
-                {user.InteractionSongs && user.InteractionSongs.length > 0 && (
-                    <div id="songsOnUserDiv" className="songsOnUserDiv">
-                        <h3 className="subHeader">Songs Liked By User:</h3>
-                        <Carousel
-                        center
-                        infinite
-                        showArrows
-                        showIndicator
-                        slidesToShow={3}>
-                            {user.InteractionSongs.map((interaction) => {
-                                return (
-                                    <Link to={`/song/${interaction.SongId}?user=${interaction.UserId}`}> 
-                                        <Song song={interaction.Song} />
-                                    </Link> 
-                                )
-                            })}
-                        </Carousel>
-                    </div>
-                )}
+                    {user.InteractionSongs && user.InteractionSongs.length > 0 && (
+                        <div id="songsOnUserDiv" className="songsOnUserDiv">
+                            <h3 className="subHeader">Songs Liked By User:</h3>
+                            <Carousel
+                                center
+                                infinite
+                                showArrows
+                                showIndicator
+                                slidesToShow={3}>
+                                {user.InteractionSongs.map((interaction) => {
+                                    return (
+                                        <Link to={`/song/${interaction.SongId}?user=${interaction.UserId}`}>
+                                            <Song song={interaction.Song} />
+                                        </Link>
+                                    )
+                                })}
+                            </Carousel>
+                        </div>
+                    )}
 
-                {user.InteractionArtists && user.InteractionArtists.length > 0 && (
-                    <div id="artistsOnUserDiv" className="artistsOnUserDiv">
-                        <h3 className="subHeader">Artists Liked By User:</h3>
-                        <Carousel
-                        center
-                        infinite
-                        showArrows
-                        showIndicator
-                        slidesToShow={3}>
-                            {user.InteractionArtists.map((interaction) => {
-                                return (
-                                    <Link to={`/artist/${interaction.ArtistId}?user=${interaction.UserId}`}> 
-                                        <Artist artist={interaction.Artist} />
-                                    </Link> 
-                                )
-                            })}
-                        </Carousel>
-                    </div>
-                )}
+                    {user.InteractionArtists && user.InteractionArtists.length > 0 && (
+                        <div id="artistsOnUserDiv" className="artistsOnUserDiv">
+                            <h3 className="subHeader">Artists Liked By User:</h3>
+                            <Carousel
+                                center
+                                infinite
+                                showArrows
+                                showIndicator
+                                slidesToShow={3}>
+                                {user.InteractionArtists.map((interaction) => {
+                                    return (
+                                        <Link to={`/artist/${interaction.ArtistId}?user=${interaction.UserId}`}>
+                                            <Artist artist={interaction.Artist} />
+                                        </Link>
+                                    )
+                                })}
+                            </Carousel>
+                        </div>
+                    )}
 
-                {user.InteractionAlbums && user.InteractionAlbums.length > 0 && (
-                    <div id="albumsOnUserDiv" className="albumsOnUserDiv">
-                        <h3 className="subHeader">Albums Liked By User:</h3>
-                        <Carousel
-                        center
-                        infinite
-                        showArrows
-                        showIndicator
-                        slidesToShow={3}>
-                            {user.InteractionAlbums.map((interaction) => {
-                                return (
-                                    <Link to={`/album/${interaction.AlbumId}?user=${interaction.UserId}`}> 
-                                        <Album album={interaction.Album} />
-                                    </Link> 
-                                )
-                            })}
-                        </Carousel>
-                    </div>
-                )}
+                    {user.InteractionAlbums && user.InteractionAlbums.length > 0 && (
+                        <div id="albumsOnUserDiv" className="albumsOnUserDiv">
+                            <h3 className="subHeader">Albums Liked By User:</h3>
+                            <Carousel
+                                center
+                                infinite
+                                showArrows
+                                showIndicator
+                                slidesToShow={3}>
+                                {user.InteractionAlbums.map((interaction) => {
+                                    return (
+                                        <Link to={`/album/${interaction.AlbumId}?user=${interaction.UserId}`}>
+                                            <Album album={interaction.Album} />
+                                        </Link>
+                                    )
+                                })}
+                            </Carousel>
+                        </div>
+                    )}
 
-                {user.InteractionPlaylists && user.InteractionPlaylists.length > 0 && (
-                    <div id="playlistsOnUserDiv" className="playlistsOnUserDiv">
-                        <h3 className="subHeader">Playlists Liked By User:</h3>
-                        <Carousel
-                        center
-                        infinite
-                        showArrows
-                        showIndicator
-                        slidesToShow={3}>
-                            {user.InteractionPlaylists.map((interaction) => {
-                                return (
-                                    <Link to={`/playlist/${interaction.PlaylistId}?user=${interaction.UserId}`}> 
-                                        <Playlist playlist={interaction.Playlist} />
-                                    </Link> 
-                                )
-                            })}
-                        </Carousel>
-                    </div>
-                )}
-            </div>
-        )}
-        {username ? 
-            username.id === Number(match.match.params.id) && (
-                <div className="deleteDiv">
-                    <p className="deleteP">Delete Account</p>
-                    <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deleteUser()}/>
+                    {user.InteractionPlaylists && user.InteractionPlaylists.length > 0 && (
+                        <div id="playlistsOnUserDiv" className="playlistsOnUserDiv">
+                            <h3 className="subHeader">Playlists Liked By User:</h3>
+                            <Carousel
+                                center
+                                infinite
+                                showArrows
+                                showIndicator
+                                slidesToShow={3}>
+                                {user.InteractionPlaylists.map((interaction) => {
+                                    return (
+                                        <Link to={`/playlist/${interaction.PlaylistId}?user=${interaction.UserId}`}>
+                                            <Playlist playlist={interaction.Playlist} />
+                                        </Link>
+                                    )
+                                })}
+                            </Carousel>
+                        </div>
+                    )}
                 </div>
-            )
-        :   null
-        }
+            )}
+            {username ?
+                username.id === Number(match.match.params.id) && (
+                    <div className="deleteDiv">
+                        <p className="deleteP">Delete Account</p>
+                        <img className="deletePlaylistIcon" src={deleteIcon} alt="Delete Playlist" onClick={() => deleteUser()} />
+                    </div>
+                )
+                : null
+            }
         </>
     )
 }

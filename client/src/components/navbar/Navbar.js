@@ -57,9 +57,9 @@ function Navbar() {
     }, [])
 
     const fetchUser = async () => {
-        const { data } = await axios.get('/users/verify');
+        const { data } = await axios.get('/api/users/verify');
         if (data.user) {
-            const username = await axios.get(`/users/${data.user.id}`);
+            const username = await axios.get(`/api/users/${data.user.id}`);
             setUser(username.data);
         } else {
             setUser(null);
@@ -68,7 +68,7 @@ function Navbar() {
 
     const onLoginSubmit = async (data) => {
         const { email, password } = data;
-        const res = await axios.post('/users/login', {
+        const res = await axios.post('/api/users/login', {
             email: email,
             password: password,
         })
@@ -84,7 +84,7 @@ function Navbar() {
     };
 
     const logout = async () => {
-        await axios.post('/users/logout');
+        await axios.post('/api/users/logout');
         setUser(null);
         setLogOutShown(false);
         setTimeout(() => {
@@ -106,7 +106,7 @@ function Navbar() {
     const onSignUpSubmit = async (data) => {
         const { name, email, password } = data;
         setLoading(true);
-        const res = await axios.post('/users/signup', {
+        const res = await axios.post('/api/users/signup', {
             name: name,
             email: email,
             password: password,

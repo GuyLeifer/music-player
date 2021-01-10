@@ -37,10 +37,10 @@ function Search({ navigation }) {
         } else {
 
             try {
-                // const { data } = await axios.get(`http://10.0.2.2:8080/search?params=${e}`);
+                // const { data } = await axios.get(`http://10.0.2.2:8080/api/search?params=${e}`);
                 // console.log(data)
                 // setOptions(data);
-                const { data } = await axios.get(`http://10.0.2.2:8080/elasticsearch/all?params=${e}`);
+                const { data } = await axios.get(`http://10.0.2.2:8080/api/elasticsearch/all?params=${e}`);
                 console.log(data)
                 if (data !== undefined) {
                     setSongs(data[0]);

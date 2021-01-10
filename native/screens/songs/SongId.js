@@ -39,12 +39,12 @@ function SongId({ route }) {
     }, [user, song]);
 
     const fetchSong = async () => {
-        const { data } = await axios.get(`http://10.0.2.2:8080/songs/${songId}`);
+        const { data } = await axios.get(`http://10.0.2.2:8080/api/songs/${songId}`);
         setSong(data);
         if (artistId) setArtist(data.Artist);
         if (albumId) setAlbum(data.Album);
         if (playlistId) {
-            const playlistData = await axios.get(`http://10.0.2.2:8080/playlistsongs`);
+            const playlistData = await axios.get(`http://10.0.2.2:8080/api/playlistsongs`);
             const playlistSongs = playlistData.data.filter((item) => item.PlaylistId === playlistId && item.SongId !== songId);
             setPlaylist(playlistSongs);
         }
@@ -52,19 +52,19 @@ function SongId({ route }) {
 
     const fetchIsLikedAndIncrementPlayCount = async () => {
         if (user && song) {
-            const { data } = await axios.get(`http://10.0.2.2:8080/interactions/songs/${user.id}&${song.id}`);
+            const { data } = await axios.get(`http://10.0.2.2:8080/api/interactions/songs/${user.id}&${song.id}`);
             if (data) {
                 setIsLiked(data.isLiked);
                 if (data.playCount === null) {
                     setPlayCount(1);
-                    axios.patch('http://10.0.2.2:8080/interactions/songs/', {
+                    axios.patch('http://10.0.2.2:8080/api/interactions/songs/', {
                         userId: user.id,
                         songId: song.id,
                         playCount: 1
                     })
                 } else {
                     setPlayCount(data.playCount + 1);
-                    axios.patch('http://10.0.2.2:8080/interactions/songs/', {
+                    axios.patch('http://10.0.2.2:8080/api/interactions/songs/', {
                         userId: user.id,
                         songId: song.id,
                         playCount: data.playCount + 1
@@ -73,7 +73,7 @@ function SongId({ route }) {
             } else {
                 setIsLiked(false);
                 setPlayCount(1);
-                axios.post('http://10.0.2.2:8080/interactions/songs/', {
+                axios.post('http://10.0.2.2:8080/api/interactions/songs/', {
                     userId: user.id,
                     songId: song.id,
                     playCount: 1
@@ -85,15 +85,15 @@ function SongId({ route }) {
     };
 
     const likeSong = async () => {
-        const { data } = await axios.get(`http://10.0.2.2:8080/interactions/songs/${user.id}&${song.id}`);
+        const { data } = await axios.get(`http://10.0.2.2:8080/api/interactions/songs/${user.id}&${song.id}`);
         if (data) {
-            await axios.patch('http://10.0.2.2:8080/interactions/songs', {
+            await axios.patch('http://10.0.2.2:8080/api/interactions/songs', {
                 userId: user.id,
                 songId: song.id,
                 isLiked: true
             })
         } else {
-            await axios.post('http://10.0.2.2:8080/interactions/songs', {
+            await axios.post('http://10.0.2.2:8080/api/interactions/songs', {
                 userId: user.id,
                 songId: song.id,
                 isLiked: true
@@ -102,15 +102,15 @@ function SongId({ route }) {
         setIsLiked(true)
     }
     const unlikeSong = async () => {
-        const data = await axios.get(`http://10.0.2.2:8080/interactions/songs/${user.id}&${song.id}`)
+        const data = await axios.get(`http://10.0.2.2:8080/api/interactions/songs/${user.id}&${song.id}`)
         if (data) {
-            await axios.patch('http://10.0.2.2:8080/interactions/songs', {
+            await axios.patch('http://10.0.2.2:8080/api/interactions/songs', {
                 userId: user.id,
                 songId: song.id,
                 isLiked: false
             })
         } else {
-            await axios.post('http://10.0.2.2:8080/interactions/songs', {
+            await axios.post('http://10.0.2.2:8080/api/interactions/songs', {
                 userId: user.id,
                 songId: song.id,
                 isLiked: false
@@ -121,7 +121,7 @@ function SongId({ route }) {
 
     const fetchPlaylists = async () => {
         if (user) {
-            const { data } = await axios.get(`http://10.0.2.2:8080/users/playlists/${user.id}`);
+            const { data } = await axios.get(`http://10.0.2.2:8080/api/users/playlists/${user.id}`);
             setPlaylists(data.Playlist || data.Playlists)
         } else {
             setPlaylists(null);
@@ -129,7 +129,7 @@ function SongId({ route }) {
     }
 
     const addToPlaylist = async (playlistId, songId) => {
-        await axios.post('http://10.0.2.2:8080/playlistsongs', {
+        await axios.post('http://10.0.2.2:8080/api/playlistsongs', {
             "playlistId": Number(playlistId),
             "songId": songId,
         });

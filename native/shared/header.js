@@ -25,7 +25,7 @@ export default function Header({ title }) {
 
         if (emailLogin) {
             console.log("login")
-            const { data } = await axios.post('http://10.0.2.2:8080/users/login', {
+            const { data } = await axios.post('http://10.0.2.2:8080/api/users/login', {
                 email: emailLogin,
                 password: passwordLogin,
             })
@@ -35,7 +35,7 @@ export default function Header({ title }) {
             }
         } else {
             console.log("sign in")
-            const { data } = await axios.post('http://10.0.2.2:8080/users/signup', {
+            const { data } = await axios.post('http://10.0.2.2:8080/api/users/signup', {
                 name: name,
                 email: emailSignin,
                 password: passwordSignin,

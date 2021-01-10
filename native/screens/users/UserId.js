@@ -33,27 +33,27 @@ function UserId({ route }) {
     }, []);
 
     const fetchUser = async () => {
-        const { data } = await axios.get(`http://10.0.2.2:8080/users/${userId}`);
+        const { data } = await axios.get(`http://10.0.2.2:8080/api/users/${userId}`);
         console.log(data)
         setUser(data);
     }
     const fetchUserPlaylists = async () => {
-        const { data } = await axios.get(`http://10.0.2.2:8080/users/playlists/${userId}`)
+        const { data } = await axios.get(`http://10.0.2.2:8080/api/users/playlists/${userId}`)
         setUserPlaylists(data.Playlist || data.Playlists)
     };
     const logout = async () => {
-        await axios.post('http://10.0.2.2:8080/users/logout');
+        await axios.post('http://10.0.2.2:8080/api/users/logout');
         setUsername(null);
     }
     const deleteUser = async () => {
-        await axios.delete(`http://10.0.2.2:8080/users/${user.id}`);
-        await axios.delete(`http://10.0.2.2:8080/elasticsearch/users/${user.id}`);
+        await axios.delete(`http://10.0.2.2:8080/api/users/${user.id}`);
+        await axios.delete(`http://10.0.2.2:8080/api/elasticsearch/users/${user.id}`);
         navigation.navigate('Home');
     }
 
     const createPlaylist = async (data) => {
         const { name, coverImg } = data;
-        let playlist = await axios.post('http://10.0.2.2:8080/playlists', {
+        let playlist = await axios.post('http://10.0.2.2:8080/api/playlists', {
             userId: username.id,
             name: name,
             coverImg: coverImg
@@ -61,7 +61,7 @@ function UserId({ route }) {
         playlist = playlist.data;
 
         // send to 9200 port for elastic search
-        await axios.post('http://10.0.2.2:8080/elasticsearch/playlists', {
+        await axios.post('http://10.0.2.2:8080/api/elasticsearch/playlists', {
             id: playlist.id,
             name: playlist.name
         })

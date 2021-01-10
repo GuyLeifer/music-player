@@ -19,7 +19,7 @@ function Account() {
 
     const onSignUpSubmit = async (data) => {
         const { name, email, password } = data;
-        const res = await axios.post('/users/signup', {
+        const res = await axios.post('/api/users/signup', {
             name: name,
             email: email,
             password: password,
@@ -40,20 +40,20 @@ function Account() {
             <form className="accountForm" onSubmit={handleSubmit(onSignUpSubmit)}>
                 <div>
                     <label htmlFor="name">Full Name:</label>
-                    <input className="input" name="name" ref={register({ required: true })} placeholder="Full Name"/>
+                    <input className="input" name="name" ref={register({ required: true })} placeholder="Full Name" />
                     <div className="error">{errors.name && 'Full name is required.'}</div>
                 </div>
                 <div>
                     <label htmlFor="email">E-mail:</label>
-                    <input className="input" name="email" type="email" ref={register({ required: true })} placeholder="E-mail"/>
+                    <input className="input" name="email" type="email" ref={register({ required: true })} placeholder="E-mail" />
                     <div className="error">{errors.email && 'E-mail is required.'}</div>
                 </div>
                 <div>
                     <label htmlFor="password">Password:</label>
-                    <input className="input" name="password" type="password" ref={register({ required: true })} placeholder="Password"/>
+                    <input className="input" name="password" type="password" ref={register({ required: true })} placeholder="Password" />
                     <div className="error">{errors.password && 'Please enter your password.'}</div>
                 </div>
-                <input className="input" type="submit" value="Sign - Up"/>
+                <input className="input" type="submit" value="Sign - Up" />
             </form>
         </div>
     )

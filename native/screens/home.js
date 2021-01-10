@@ -23,12 +23,12 @@ export default function Home({ navigation }) {
 
     useEffect(() => {
         (async () => {
-            const { data } = await axios.get('http://10.0.2.2:8080/users/verify');
+            const { data } = await axios.get('http://10.0.2.2:8080/api/users/verify');
             setUser(data.user)
-            const songsData = await axios.get('http://10.0.2.2:8080/songs/top');
-            const artistsData = await axios.get('http://10.0.2.2:8080/artists/top');
-            const albumsData = await axios.get('http://10.0.2.2:8080/albums/top');
-            const playlistsData = await axios.get('http://10.0.2.2:8080/playlists/top');
+            const songsData = await axios.get('http://10.0.2.2:8080/api/songs/top');
+            const artistsData = await axios.get('http://10.0.2.2:8080/api/artists/top');
+            const albumsData = await axios.get('http://10.0.2.2:8080/api/albums/top');
+            const playlistsData = await axios.get('http://10.0.2.2:8080/api/playlists/top');
 
             if (chosen === 'like') {
                 songsData.data && setTopSongs(songsData.data[0])

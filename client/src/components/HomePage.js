@@ -24,16 +24,16 @@ function HomePage() {
 
     useEffect(() => {
         (async () => {
-            const songsData = await axios.get('/songs/top');
+            const songsData = await axios.get('/api/songs/top');
             setSongs(songsData.data);
             songsData.data && setTopSongs(songsData.data[0])
-            const artistsData = await axios.get('/artists/top');
+            const artistsData = await axios.get('/api/artists/top');
             setArtists(artistsData.data);
             artistsData.data && setTopArtists(artistsData.data[0])
-            const albumsData = await axios.get('/albums/top');
+            const albumsData = await axios.get('/api/albums/top');
             setAlbums(albumsData.data);
             albumsData.data && setTopAlbums(albumsData.data[0]);
-            const playlistsData = await axios.get('/playlists/top');
+            const playlistsData = await axios.get('/api/playlists/top');
             setPlaylists(playlistsData.data)
             playlistsData.data && setTopPlaylists(playlistsData.data[0]);
         })()
@@ -41,7 +41,7 @@ function HomePage() {
 
     const setTop = useCallback((option) => {
 
-        setTopOption(option);   
+        setTopOption(option);
         // style
         if (option === "like") {
             setTopSongs(songs[0])
@@ -85,28 +85,28 @@ function HomePage() {
     return (
         <div className="homepage">
 
-            <div className="topTitles"> 
+            <div className="topTitles">
                 <h2 id="like" className="chosen" onClick={() => setTop("like")}>Top Liked</h2>
                 <h2 id="play" onClick={() => setTop("play")}>Top Played</h2>
                 <h2 id="new" onClick={() => setTop("new")}>Newest</h2>
             </div>
 
 
-        { topSongs ? (
-            topSongs.length > 0 ? <TopSongs topSongs={topSongs} topOption={topOption}/> : null 
-        ) : ( null )}
+            { topSongs ? (
+                topSongs.length > 0 ? <TopSongs topSongs={topSongs} topOption={topOption} /> : null
+            ) : (null)}
 
-        { topArtists ? (
-            topArtists.length > 0 ? <TopArtists topArtists={topArtists} topOption={topOption}/> : null 
-        ) : ( null )}
+            { topArtists ? (
+                topArtists.length > 0 ? <TopArtists topArtists={topArtists} topOption={topOption} /> : null
+            ) : (null)}
 
-        { topAlbums ? (
-            topAlbums.length > 0 ? <TopAlbums topAlbums={topAlbums} topOption={topOption}/> : null 
-        ) : ( null )}
+            { topAlbums ? (
+                topAlbums.length > 0 ? <TopAlbums topAlbums={topAlbums} topOption={topOption} /> : null
+            ) : (null)}
 
-        { topPlaylists ? (
-            topPlaylists.length > 0 ? <TopPlaylists topPlaylists={topPlaylists} topOption={topOption}/> : null 
-        ) : ( null )}
+            { topPlaylists ? (
+                topPlaylists.length > 0 ? <TopPlaylists topPlaylists={topPlaylists} topOption={topOption} /> : null
+            ) : (null)}
 
         </div>
     )

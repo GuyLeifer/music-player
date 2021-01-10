@@ -49,12 +49,12 @@ function SongId(match) {
 
     const fetchUser = async () => {
         try {
-            const { data } = await axios.get('/users/verify');
-            if(data.user) {
+            const { data } = await axios.get('/api/users/verify');
+            if (data.user) {
                 setUser(data.user);
             } else {
                 setUser(false);
-            }   
+            }
         } catch (err) {
             throw err;
         }
@@ -63,7 +63,7 @@ function SongId(match) {
     const incrementGeneralPlayCount = async () => {
         if (song) {
             try {
-                await axios.patch(`/songs/${song.id}`, {
+                await axios.patch(`/api/songs/${song.id}`, {
                     playCount: 1
                 });
             } catch (err) {
@@ -74,20 +74,20 @@ function SongId(match) {
 
     const fetchIsLikedAndIncrementPlayCount = async () => {
         if (user && song) {
-            const { data } = await axios.get(`/interactions/songs/${user.id}&${song.id}`);
+            const { data } = await axios.get(`/api/interactions/songs/${user.id}&${song.id}`);
             if (data) {
                 setIsLiked(data.isLiked);
-                if(data.playCount === null) {
+                if (data.playCount === null) {
                     setPlayCount(1);
-                    axios.patch('/interactions/songs/', {
-                        userId: user.id, 
+                    axios.patch('/api/interactions/songs/', {
+                        userId: user.id,
                         songId: song.id,
                         playCount: 1
                     })
                 } else {
                     setPlayCount(data.playCount + 1);
-                    axios.patch('/interactions/songs/', {
-                        userId: user.id, 
+                    axios.patch('/api/interactions/songs/', {
+                        userId: user.id,
                         songId: song.id,
                         playCount: data.playCount + 1
                     })
@@ -95,37 +95,37 @@ function SongId(match) {
             } else {
                 setIsLiked(false);
                 setPlayCount(1);
-                    axios.post('/interactions/songs/', {
-                        userId: user.id, 
-                        songId: song.id,
-                        playCount: 1
-                    })
+                axios.post('/api/interactions/songs/', {
+                    userId: user.id,
+                    songId: song.id,
+                    playCount: 1
+                })
             }
         } else {
             setIsLiked(null)
         }
     };
 
-    const fetchSong = async(id, match) => {
-        const { data } = await axios.get(`/songs/${id}`);
+    const fetchSong = async (id, match) => {
+        const { data } = await axios.get(`/api/songs/${id}`);
         setSong(data);
         if (match.location.search.substring(1, 7) === "artist") setArtist(data.Artist);
         if (match.location.search.substring(1, 6) === "album") setAlbum(data.Album);
         if (match.location.search.substring(1, 9) === "playlist") {
-            const { data } = await axios.get(`/playlistsongs`);
+            const { data } = await axios.get(`/api/playlistsongs`);
             const playlistSongs = data.filter((item) => item.PlaylistId === Number(match.location.search.substring(10)) && item.SongId !== Number(match.match.params.id));
             setPlaylist(playlistSongs);
         }
     }
-    const fetchPlaylist = async(match) => {
+    const fetchPlaylist = async (match) => {
         if (match.location.search.substring(1, 9) === "playlist") {
-            const { data } = await axios.get(`/playlistsongs/${match.location.search.substring(10)}&${match.match.params.id}`);
+            const { data } = await axios.get(`/api/playlistsongs/${match.location.search.substring(10)}&${match.match.params.id}`);
             setPlaylist(data);
         }
     }
-    const fetchPlaylists = async() => {
+    const fetchPlaylists = async () => {
         if (user) {
-            const { data } = await axios.get(`/users/playlists/${user.id}`);
+            const { data } = await axios.get(`/api/users/playlists/${user.id}`);
             setPlaylists(data.Playlist || data.Playlists)
         } else {
             setPlaylists(null);
@@ -136,15 +136,15 @@ function SongId(match) {
         await setPlaylistID(e.target.value);
     }
 
-    const addToPlaylist = async(playlistId, songId) => {
-        await axios.post('/playlistsongs', {
+    const addToPlaylist = async (playlistId, songId) => {
+        await axios.post('/api/playlistsongs', {
             "playlistId": Number(playlistId),
             "songId": songId,
         });
     }
 
     const renderPage = async (id) => {
-        const { data } = await axios.get(`/songs/${id}`);
+        const { data } = await axios.get(`/api/songs/${id}`);
         setSong(data);
         window.scrollTo(0, 0);
     };
@@ -158,15 +158,15 @@ function SongId(match) {
     }
 
     const likeSong = async () => {
-        const { data } = await axios.get(`/interactions/songs/${user.id}&${song.id}`);
+        const { data } = await axios.get(`/api/interactions/songs/${user.id}&${song.id}`);
         if (data) {
-            await axios.patch('/interactions/songs', {
+            await axios.patch('/api/interactions/songs', {
                 userId: user.id,
                 songId: song.id,
                 isLiked: true
             })
         } else {
-            await axios.post('/interactions/songs', {
+            await axios.post('/api/interactions/songs', {
                 userId: user.id,
                 songId: song.id,
                 isLiked: true
@@ -175,15 +175,15 @@ function SongId(match) {
         setIsLiked(true)
     }
     const unlikeSong = async () => {
-        const data = await axios.get(`/interactions/songs/${user.id}&${song.id}`)
+        const data = await axios.get(`/api/interactions/songs/${user.id}&${song.id}`)
         if (data) {
-            await axios.patch('/interactions/songs', {
+            await axios.patch('/api/interactions/songs', {
                 userId: user.id,
                 songId: song.id,
                 isLiked: false
             })
         } else {
-            await axios.post('/interactions/songs', {
+            await axios.post('/api/interactions/songs', {
                 userId: user.id,
                 songId: song.id,
                 isLiked: false
@@ -194,83 +194,83 @@ function SongId(match) {
 
     return (
         <>
-        {song && (
-            <div className="info">
-                <div className="title">Song Title: {song.title}</div>
-                <p>Total plays: {song.playCount + 1}</p>
-                {user && (
-                    <div>
-                        {playCount && (
-                            <p className="playCount">Play Count Of The Song In Your Account: <span className="count">{playCount}</span></p>
-                        )}
-                        {!isLiked && (
-                            <img className="likeIcon" onClick={() => likeSong()} src={likeIcon} alt="Like"/>
-                        )}
-                        {isLiked && (
-                            <img className="unlikeIcon" onClick={() => unlikeSong()} src={likeIcon} alt="Unlike"/>
-                        )}
-                    </div>
-                )}
-                <div className="songContainer">
-                    <div>
-                        <YouTube videoId={song.youtubeLink} opts={optsForMainSong} /> 
-                    </div>
-                    <div>
-                        <Link to = {`/artist/${song.artistId}?song=${song.id}`}>
-                            <div className="songLink">Artist Name: {song.Artist.name}</div>
-                        </Link>
-                        <Link to = {`/album/${song.albumId}?song=${song.id}`}>
-                            <div className="songLink">Album Name: {song.Album.name}</div>
-                        </Link>
-                        {playlists && (
-                        <div className="playlistAddDiv">
-                            <form onSubmit={() => addToPlaylist(playlistID, song.id)}>
-                                <div>Add To Your Playlist</div>
-                                <div className="buttons">
-                                    <select id="mySelect" onChange={(e) => addPlaylistID(e)}>
-                                        {playlists.map(playlist => {
-                                            return (
-                                                <option value={playlist.id}>{playlist.name}</option>
-                                            )
-                                        })}
-                                    </select>
-                                    <input id="inputSubmit" type="submit" value="ADD"/>
-                                </div>
-                                <div>want to add a new playlist?  
-                                    <Link to={`/user/${user.id}`}>
-                                        <span className="addPlaylist">Click Here!</span>
-                                    </Link>
-                                </div> 
-                            </form>
+            {song && (
+                <div className="info">
+                    <div className="title">Song Title: {song.title}</div>
+                    <p>Total plays: {song.playCount + 1}</p>
+                    {user && (
+                        <div>
+                            {playCount && (
+                                <p className="playCount">Play Count Of The Song In Your Account: <span className="count">{playCount}</span></p>
+                            )}
+                            {!isLiked && (
+                                <img className="likeIcon" onClick={() => likeSong()} src={likeIcon} alt="Like" />
+                            )}
+                            {isLiked && (
+                                <img className="unlikeIcon" onClick={() => unlikeSong()} src={likeIcon} alt="Unlike" />
+                            )}
                         </div>
-                        )}
-                        <div>Length: {song.length}</div>
-                        <div>Created At: {song.createdAt}</div>
-                        <div>Updated At: {song.updatedAt}</div>
+                    )}
+                    <div className="songContainer">
+                        <div>
+                            <YouTube videoId={song.youtubeLink} opts={optsForMainSong} />
+                        </div>
+                        <div>
+                            <Link to={`/artist/${song.artistId}?song=${song.id}`}>
+                                <div className="songLink">Artist Name: {song.Artist.name}</div>
+                            </Link>
+                            <Link to={`/album/${song.albumId}?song=${song.id}`}>
+                                <div className="songLink">Album Name: {song.Album.name}</div>
+                            </Link>
+                            {playlists && (
+                                <div className="playlistAddDiv">
+                                    <form onSubmit={() => addToPlaylist(playlistID, song.id)}>
+                                        <div>Add To Your Playlist</div>
+                                        <div className="buttons">
+                                            <select id="mySelect" onChange={(e) => addPlaylistID(e)}>
+                                                {playlists.map(playlist => {
+                                                    return (
+                                                        <option value={playlist.id}>{playlist.name}</option>
+                                                    )
+                                                })}
+                                            </select>
+                                            <input id="inputSubmit" type="submit" value="ADD" />
+                                        </div>
+                                        <div>want to add a new playlist?
+                                    <Link to={`/user/${user.id}`}>
+                                                <span className="addPlaylist">Click Here!</span>
+                                            </Link>
+                                        </div>
+                                    </form>
+                                </div>
+                            )}
+                            <div>Length: {song.length}</div>
+                            <div>Created At: {song.createdAt}</div>
+                            <div>Updated At: {song.updatedAt}</div>
+                        </div>
                     </div>
+                    <div className="lyrics">
+                        <h3>Lyrics:</h3>
+                        <div>{song.lyrics}</div>
+                    </div>
+                    <>
+                        {artist && (
+                            <ArtistSongs artist={artist} renderPage={renderPage} />
+                        )}
+                    </>
+                    <>
+                        {album && (
+                            <AlbumSongs album={album} renderPage={renderPage} />
+                        )}
+                    </>
+                    <>
+                        {playlist && (
+                            <PlaylistSongs playlist={playlist} renderPage={renderPage} />
+                        )}
+                    </>
+
                 </div>
-                <div className="lyrics">
-                    <h3>Lyrics:</h3>
-                    <div>{song.lyrics}</div>
-                </div>
-                <>
-                    {artist && (
-                        <ArtistSongs artist={artist} renderPage={renderPage}/>
-                    )}
-                </>
-                <>
-                    {album && (
-                        <AlbumSongs album={album} renderPage={renderPage}/>
-                    )}
-                </>
-                <>
-                    {playlist && (
-                        <PlaylistSongs playlist={playlist} renderPage={renderPage}/>
-                    )}
-                </>
-                
-            </div>
-        )}
+            )}
         </>
     )
 }

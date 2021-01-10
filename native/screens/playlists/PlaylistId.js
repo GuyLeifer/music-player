@@ -29,18 +29,18 @@ function PlaylistId({ route }) {
     }, []);
 
     const fetchPlaylist = async () => {
-        const { data } = await axios.get(`http://10.0.2.2:8080/playlistsongs/${playlistId}`);
+        const { data } = await axios.get(`http://10.0.2.2:8080/api/playlistsongs/${playlistId}`);
         if (data.length > 0) {
             setPlaylist(data);
         } else {
-            const playlistIsEmpty = await axios.get(`http://10.0.2.2:8080/playlists/${playlistId}`)
+            const playlistIsEmpty = await axios.get(`http://10.0.2.2:8080/api/playlists/${playlistId}`)
             setEmptyPlaylist(playlistIsEmpty.data);
         }
     }
 
     const fetchIsLiked = async () => {
         if (user && playlist) {
-            const { data } = await axios.get(`http://10.0.2.2:8080/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`);
+            const { data } = await axios.get(`http://10.0.2.2:8080/api/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`);
             if (data) setIsLiked(data.isLiked);
             else setIsLiked(null)
         } else {
@@ -50,15 +50,15 @@ function PlaylistId({ route }) {
 
     // Like Functions
     const likePlaylist = async () => {
-        const { data } = await axios.get(`http://10.0.2.2:8080/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`)
+        const { data } = await axios.get(`http://10.0.2.2:8080/api/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`)
         if (data) {
-            await axios.patch('http://10.0.2.2:8080/interactions/playlists', {
+            await axios.patch('http://10.0.2.2:8080/api/interactions/playlists', {
                 userId: user.id,
                 playlistId: playlist[0].PlaylistId,
                 isLiked: true
             })
         } else {
-            await axios.post('http://10.0.2.2:8080/interactions/playlists', {
+            await axios.post('http://10.0.2.2:8080/api/interactions/playlists', {
                 userId: user.id,
                 playlistId: playlist[0].PlaylistId,
                 isLiked: true
@@ -67,15 +67,15 @@ function PlaylistId({ route }) {
         setIsLiked(true)
     }
     const unlikePlaylist = async () => {
-        const data = await axios.get(`http://10.0.2.2:8080/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`)
+        const data = await axios.get(`http://10.0.2.2:8080/api/interactions/playlists/${user.id}&${playlist[0].PlaylistId}`)
         if (data) {
-            await axios.patch('http://10.0.2.2:8080/interactions/playlists', {
+            await axios.patch('http://10.0.2.2:8080/api/interactions/playlists', {
                 userId: user.id,
                 playlistId: playlist[0].PlaylistId,
                 isLiked: false
             })
         } else {
-            await axios.post('http://10.0.2.2:8080/interactions/playlists', {
+            await axios.post('http://10.0.2.2:8080/api/interactions/playlists', {
                 userId: user.id,
                 playlistId: playlist[0].PlaylistId,
                 isLiked: false

@@ -6,7 +6,7 @@ const { Album, Song, Artist, Playlist, User } = require('./models');
 const { Client } = require('@elastic/elasticsearch')
 const client = new Client({ node: 'http://localhost:9200' })
 
-const port = process.env.PORT;
+const port = process.env.SERVER_PORT || 8080
 
 const deleteElasticData = async () => {
   await client.indices.delete(

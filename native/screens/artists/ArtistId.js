@@ -27,13 +27,13 @@ function ArtistId({ route }) {
     }, []);
 
     const fetchArtist = async () => {
-        const { data } = await axios.get(`http://10.0.2.2:8080/artists/${artistId}`);
+        const { data } = await axios.get(`http://10.0.2.2:8080/api/artists/${artistId}`);
         setArtist(data);
     }
 
     const fetchIsLiked = async () => {
         if (user && artist) {
-            const { data } = await axios.get(`http://10.0.2.2:8080/interactions/artists/${user.id}&${artist.id}`);
+            const { data } = await axios.get(`http://10.0.2.2:8080/api/interactions/artists/${user.id}&${artist.id}`);
             if (data) setIsLiked(data.isLiked);
             else setIsLiked(null)
         } else {
@@ -43,15 +43,15 @@ function ArtistId({ route }) {
 
     // Like Functions
     const likeArtist = async () => {
-        const { data } = await axios.get(`http://10.0.2.2:8080/interactions/artists/${user.id}&${artist.id}`)
+        const { data } = await axios.get(`http://10.0.2.2:8080/api/interactions/artists/${user.id}&${artist.id}`)
         if (data) {
-            await axios.patch('http://10.0.2.2:8080/interactions/artists', {
+            await axios.patch('http://10.0.2.2:8080/api/interactions/artists', {
                 userId: user.id,
                 artistId: artist.id,
                 isLiked: true
             })
         } else {
-            await axios.post('http://10.0.2.2:8080/interactions/artists', {
+            await axios.post('http://10.0.2.2:8080/api/interactions/artists', {
                 userId: user.id,
                 artistId: artist.id,
                 isLiked: true
@@ -60,15 +60,15 @@ function ArtistId({ route }) {
         setIsLiked(true)
     }
     const unlikeArtist = async () => {
-        const data = await axios.get(`http://10.0.2.2:8080/interactions/artists/${user.id}&${artist.id}`)
+        const data = await axios.get(`http://10.0.2.2:8080/api/interactions/artists/${user.id}&${artist.id}`)
         if (data) {
-            await axios.patch('http://10.0.2.2:8080/interactions/artists', {
+            await axios.patch('http://10.0.2.2:8080/api/interactions/artists', {
                 userId: user.id,
                 artistId: artist.id,
                 isLiked: false
             })
         } else {
-            await axios.post('http://10.0.2.2:8080/interactions/artists', {
+            await axios.post('http://10.0.2.2:8080/api/interactions/artists', {
                 userId: user.id,
                 artistId: artist.id,
                 isLiked: false

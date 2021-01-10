@@ -10,7 +10,7 @@ import { useRecoilState } from 'recoil';
 import { userState } from '../../Atoms/userState';
 
 
-function Song({song}) {
+function Song({ song }) {
 
     const [user, setUser] = useRecoilState(userState);
     const [counterLimit, setCounterLimit] = useState(1);
@@ -21,32 +21,32 @@ function Song({song}) {
     }
 
     const playCounter = async () => {
-        if ( (user) && (counterLimit === 1) ) {
+        if ((user) && (counterLimit === 1)) {
             const userId = user.id
-            await axios.patch('/interactions/songs', {
+            await axios.patch('/api/interactions/songs', {
                 userId: userId,
                 songId: song.id
             })
             setCounterLimit(0);
-        } else if ( (!user) && (counterLimit === 1)) {
-            await axios.patch(`/songs/${song.id}`)
+        } else if ((!user) && (counterLimit === 1)) {
+            await axios.patch(`/api/songs/${song.id}`)
             setCounterLimit(0);
         }
     }
-    
+
     return (
-        song ? 
+        song ?
             <div className="song" >
-                <span className="songTitle">{song.title}</span> 
+                <span className="songTitle">{song.title}</span>
                 <span className="songLength">{song.length}</span>
                 <div>
-                    <YouTube videoId={song.youtubeLink} opts={opts} onPlay={() => playCounter()}/>
+                    <YouTube videoId={song.youtubeLink} opts={opts} onPlay={() => playCounter()} />
                     {/* <iframe src={`https://www.youtube.com/embed/${song.YouTube_Link}`}/> */}
                 </div>
             </div>
-        : 
-        <>
-        </>
+            :
+            <>
+            </>
     )
 }
 

@@ -16,8 +16,8 @@ function Searchbar() {
     const [options, setOptions] = useState([]);
     useEffect(() => {
         (async () => {
-            await axios.delete('/elasticsearch/all')
-            await axios.post('/elasticsearch/all')
+            await axios.delete('/api/elasticsearch/all')
+            await axios.post('/api/elasticsearch/all')
         })()
     }, [])
 
@@ -25,17 +25,17 @@ function Searchbar() {
         try {
             // const { data } = await axios.get(`/search?params=${e.target.value}`);
             // setOptions(data);
-            const { data } = await axios.get(`/elasticsearch/all?params=${e.target.value}`);
+            const { data } = await axios.get(`/api/elasticsearch/all?params=${e.target.value}`);
             console.log(data)
-            if(data !== undefined) {
+            if (data !== undefined) {
                 setOptions(data);
             } else {
                 setOptions([])
             }
-            }
-            catch(err) {
-                console.log(err.massage);
-            }
+        }
+        catch (err) {
+            console.log(err.massage);
+        }
     }
     const goToPage = (type, id) => {
         const link = `/${type}/${id}`;
@@ -44,10 +44,10 @@ function Searchbar() {
 
     return (
         <div className="searchContainer">
-            <img className="search-icon" src={searchIcon} alt="search"/>
-            <input 
+            <img className="search-icon" src={searchIcon} alt="search" />
+            <input
                 id="search"
-                type="search" 
+                type="search"
                 onChange={(e) => changeHandler(e)}
             />
             {/* {options && (
@@ -78,35 +78,35 @@ function Searchbar() {
                         <div>{item._source.id}</div>
                     })
             }) } */}
-            
+
             <div className="options">
-            {options && options.length > 0 && (
-                options.map(index => 
-                    index.length > 0 ?
-                        index.map(item => 
-                            <div 
-                            className={"option " + item._index.substring(0, item._index.length - 1)} 
-                            key={item._index.substring(0, item._index.length - 1) + " " + item._source.id}
-                            onClick={() => goToPage(item._index.substring(0, item._index.length - 1), item._source.id)}
-                            >   
-                                <div className="optionName">{item._source.title || item._source.name}</div>
-                                <div className="optionIconDiv">
-                                    {
-                                    item._index.substring(0, item._index.length - 1) === "song" ? <img className="optionIcon" src={songIcon} alt="songIcon" />
-                                    : item._index.substring(0, item._index.length - 1) === "artist" ? <img className="optionIcon" src={artistIcon} alt="artistIcon" />
-                                    : item._index.substring(0, item._index.length - 1) === "album" ? <img className="optionIcon" src={albumIcon} alt="albumIcon" />
-                                    : item._index.substring(0, item._index.length - 1) === "playlist" ? <img className="optionIcon" src={playlistIcon} alt="playlistIcon" />
-                                    : item._index.substring(0, item._index.length - 1) === "user" ? <img className="optionIcon" src={userIcon} alt="userIcon" />
-                                    : null
-                                }    
+                {options && options.length > 0 && (
+                    options.map(index =>
+                        index.length > 0 ?
+                            index.map(item =>
+                                <div
+                                    className={"option " + item._index.substring(0, item._index.length - 1)}
+                                    key={item._index.substring(0, item._index.length - 1) + " " + item._source.id}
+                                    onClick={() => goToPage(item._index.substring(0, item._index.length - 1), item._source.id)}
+                                >
+                                    <div className="optionName">{item._source.title || item._source.name}</div>
+                                    <div className="optionIconDiv">
+                                        {
+                                            item._index.substring(0, item._index.length - 1) === "song" ? <img className="optionIcon" src={songIcon} alt="songIcon" />
+                                                : item._index.substring(0, item._index.length - 1) === "artist" ? <img className="optionIcon" src={artistIcon} alt="artistIcon" />
+                                                    : item._index.substring(0, item._index.length - 1) === "album" ? <img className="optionIcon" src={albumIcon} alt="albumIcon" />
+                                                        : item._index.substring(0, item._index.length - 1) === "playlist" ? <img className="optionIcon" src={playlistIcon} alt="playlistIcon" />
+                                                            : item._index.substring(0, item._index.length - 1) === "user" ? <img className="optionIcon" src={userIcon} alt="userIcon" />
+                                                                : null
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    :   <> </>  
-                )
-            )}
+                            )
+                            : <> </>
+                    )
+                )}
             </div>
-        </div> 
+        </div>
     )
 }
 

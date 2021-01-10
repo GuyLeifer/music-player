@@ -26,13 +26,13 @@ function AlbumId({ route }) {
     }, []);
 
     const fetchAlbum = async () => {
-        const { data } = await axios.get(`http://10.0.2.2:8080/albums/${albumId}`);
+        const { data } = await axios.get(`http://10.0.2.2:8080/api/albums/${albumId}`);
         console.log(data)
         setAlbum(data);
     }
     const fetchIsLiked = async () => {
         if (user && album) {
-            const { data } = await axios.get(`http://10.0.2.2:8080/interactions/albums/${user.id}&${album.id}`);
+            const { data } = await axios.get(`http://10.0.2.2:8080/api/interactions/albums/${user.id}&${album.id}`);
             if (data) setIsLiked(data.isLiked);
             else setIsLiked(null)
         } else {
@@ -42,15 +42,15 @@ function AlbumId({ route }) {
 
     // Like Functions
     const likeAlbum = async () => {
-        const { data } = await axios.get(`http://10.0.2.2:8080/interactions/albums/${user.id}&${album.id}`)
+        const { data } = await axios.get(`http://10.0.2.2:8080/api/interactions/albums/${user.id}&${album.id}`)
         if (data) {
-            await axios.patch('http://10.0.2.2:8080/interactions/albums', {
+            await axios.patch('http://10.0.2.2:8080/api/interactions/albums', {
                 userId: user.id,
                 albumId: album.id,
                 isLiked: true
             })
         } else {
-            await axios.post('http://10.0.2.2:8080/interactions/albums', {
+            await axios.post('http://10.0.2.2:8080/api/interactions/albums', {
                 userId: user.id,
                 albumId: album.id,
                 isLiked: true
@@ -59,15 +59,15 @@ function AlbumId({ route }) {
         setIsLiked(true)
     }
     const unlikeAlbum = async () => {
-        const data = await axios.get(`http://10.0.2.2:8080/interactions/albums/${user.id}&${album.id}`)
+        const data = await axios.get(`http://10.0.2.2:8080/api/interactions/albums/${user.id}&${album.id}`)
         if (data) {
-            await axios.patch('http://10.0.2.2:8080/interactions/albums', {
+            await axios.patch('http://10.0.2.2:8080/api/interactions/albums', {
                 userId: user.id,
                 albumId: album.id,
                 isLiked: false
             })
         } else {
-            await axios.post('http://10.0.2.2:8080/interactions/albums', {
+            await axios.post('http://10.0.2.2:8080/api/interactions/albums', {
                 userId: user.id,
                 albumId: album.id,
                 isLiked: false
