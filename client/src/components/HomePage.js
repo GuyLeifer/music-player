@@ -36,6 +36,7 @@ function HomePage() {
                 albumsData.data && setTopAlbums(albumsData.data[0]);
                 const playlistsData = await axios.get('/api/playlists/top');
                 setPlaylists(playlistsData.data)
+                console.log(playlistsData.data)
                 playlistsData.data && setTopPlaylists(playlistsData.data[0]);
             }
             catch (err) {

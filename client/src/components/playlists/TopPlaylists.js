@@ -12,7 +12,7 @@ function TopPlaylists({ topPlaylists, topOption }) {
 
     return (
         <>
-            {(topPlaylists && topOption) ?
+            {topPlaylists.length > 0 ?
                 <div className="topPlaylists">
                     <div className="topHeader">Top Playlists</div>
                     {topOption === "new" ? (
