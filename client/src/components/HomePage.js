@@ -24,18 +24,23 @@ function HomePage() {
 
     useEffect(() => {
         (async () => {
-            const songsData = await axios.get('/api/songs/top');
-            setSongs(songsData.data);
-            songsData.data && setTopSongs(songsData.data[0])
-            const artistsData = await axios.get('/api/artists/top');
-            setArtists(artistsData.data);
-            artistsData.data && setTopArtists(artistsData.data[0])
-            const albumsData = await axios.get('/api/albums/top');
-            setAlbums(albumsData.data);
-            albumsData.data && setTopAlbums(albumsData.data[0]);
-            const playlistsData = await axios.get('/api/playlists/top');
-            setPlaylists(playlistsData.data)
-            playlistsData.data && setTopPlaylists(playlistsData.data[0]);
+            try {
+                const songsData = await axios.get('/api/songs/top');
+                setSongs(songsData.data);
+                songsData.data && setTopSongs(songsData.data[0])
+                const artistsData = await axios.get('/api/artists/top');
+                setArtists(artistsData.data);
+                artistsData.data && setTopArtists(artistsData.data[0])
+                const albumsData = await axios.get('/api/albums/top');
+                setAlbums(albumsData.data);
+                albumsData.data && setTopAlbums(albumsData.data[0]);
+                const playlistsData = await axios.get('/api/playlists/top');
+                setPlaylists(playlistsData.data)
+                playlistsData.data && setTopPlaylists(playlistsData.data[0]);
+            }
+            catch (err) {
+                console.error(err.message);
+            }
         })()
     }, [])
 

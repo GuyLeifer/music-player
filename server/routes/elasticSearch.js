@@ -28,7 +28,7 @@ const updateElasticData = async (index, dataArray) => {
             return bulkResponse;
         }
     } catch (err) {
-        return (err.massage)
+        return (err.message)
     }
 }
 
@@ -66,7 +66,7 @@ router.post('/all', async (req, res) => {
         const updateUsers = updateElasticData('users', users);
         res.send(updateSongs, updateArtists, updateAlbums, updatePlaylists, updateUsers)
     } catch (err) {
-        res.send(err.massage)
+        res.send(err.message)
     }
 })
 
@@ -75,7 +75,7 @@ router.delete('/all', async (req, res) => {
         deleteElasticData()
         res.send('all data deleted');
     } catch (err) {
-        res.send(err.massage);
+        res.send(err.message);
     }
 })
 
@@ -93,7 +93,7 @@ router.get('/playlists/:id', async (req, res) => {
         })
         res.send(playlist.body.hits.hits)
     } catch (err) {
-        res.send(err.massage)
+        res.send(err.message)
     }
 })
 router.post('/playlists', async (req, res) => {
@@ -109,7 +109,7 @@ router.post('/playlists', async (req, res) => {
         })
         res.send(playlist)
     } catch (err) {
-        res.send(err.massage)
+        res.send(err.message)
     }
 })
 router.delete('/playlists/:id', async (req, res) => {
@@ -125,7 +125,7 @@ router.delete('/playlists/:id', async (req, res) => {
         })
         res.send(playlist)
     } catch (err) {
-        res.send(err.massage)
+        res.send(err.message)
     }
 })
 router.post('/users', async (req, res) => {
@@ -141,7 +141,7 @@ router.post('/users', async (req, res) => {
         })
         res.send(user)
     } catch (err) {
-        res.send(err.massage)
+        res.send(err.message)
     }
 })
 router.delete('/users/:id', async (req, res) => {
@@ -157,7 +157,7 @@ router.delete('/users/:id', async (req, res) => {
         })
         res.send(user)
     } catch (err) {
-        res.send(err.massage)
+        res.send(err.message)
     }
 })
 

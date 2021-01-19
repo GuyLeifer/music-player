@@ -35,6 +35,7 @@
     "react-native-web": "~0.13.12",
     "react-native-webview": "^11.0.2",
     "react-native-youtube": "^2.0.1",
+    "react-native-youtube-sdk": "^1.0.12",
     "react-router-native": "^5.2.0",
     "recoil-react-native": "0.0.8-patch1"
   },

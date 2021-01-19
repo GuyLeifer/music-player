@@ -16,7 +16,7 @@ function TopSongs({ topSongs, topOption }) {
             {topSongs.length > 0 && (
                 <div>
                     {topOption === "like" ? (
-                        <Carousel         
+                        <Carousel
                             center
                             infinite
                             showArrows
@@ -24,31 +24,31 @@ function TopSongs({ topSongs, topOption }) {
                             slidesToShow={3}>
                             {topSongs.map(interaction => {
                                 return (
-                                    <Link to = {`/song/${interaction.songId}`} key={interaction.songId}>
+                                    <Link to={`/song/${interaction.songId}`} key={interaction.songId}>
                                         <Song song={interaction.Song} />
                                     </Link>
-                                )                  
-                            })} 
+                                )
+                            })}
                         </Carousel>
                     ) : (
-                        <Carousel         
-                            center
-                            infinite
-                            showArrows
-                            showIndicator
-                            slidesToShow={3}>
-                            {topSongs.map(song => {
-                                return (
-                                    <Link to = {`/song/${song.id}`} key={song.id}>
-                                        <Song song={song} />
-                                    </Link>
-                                )                  
-                            })} 
-                        </Carousel> 
-                    )}
+                            <Carousel
+                                center
+                                infinite
+                                showArrows
+                                showIndicator
+                                slidesToShow={3}>
+                                {topSongs.map(song => {
+                                    return (
+                                        <Link to={`/song/${song.id}`} key={song.id}>
+                                            <Song song={song} />
+                                        </Link>
+                                    )
+                                })}
+                            </Carousel>
+                        )}
                 </div>
             )}
-        </div>   
+        </div>
     )
 }
 

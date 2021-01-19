@@ -58,7 +58,7 @@ function Search({ navigation }) {
                 }
             }
             catch (err) {
-                console.log(err.massage);
+                console.log(err.message);
             }
         }
     }

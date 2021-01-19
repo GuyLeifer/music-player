@@ -14,19 +14,19 @@ import userIcon from './images/userIcon.jpg';
 function Searchbar() {
 
     const [options, setOptions] = useState([]);
-    useEffect(() => {
-        (async () => {
-            await axios.delete('/api/elasticsearch/all')
-            await axios.post('/api/elasticsearch/all')
-        })()
-    }, [])
+    // useEffect(() => {
+    //     (async () => {
+    //         await axios.delete('/api/elasticsearch/all')
+    //         await axios.post('/api/elasticsearch/all')
+    //     })()
+    // }, [])
 
     const changeHandler = async (e) => {
         try {
-            // const { data } = await axios.get(`/search?params=${e.target.value}`);
-            // setOptions(data);
-            const { data } = await axios.get(`/api/elasticsearch/all?params=${e.target.value}`);
-            console.log(data)
+            const { data } = await axios.get(`api/search?params=${e.target.value}`);
+            setOptions(data);
+            // const { data } = await axios.get(`/api/elasticsearch/all?params=${e.target.value}`);
+            // console.log(data)
             if (data !== undefined) {
                 setOptions(data);
             } else {
@@ -34,7 +34,7 @@ function Searchbar() {
             }
         }
         catch (err) {
-            console.log(err.massage);
+            console.log(err.message);
         }
     }
     const goToPage = (type, id) => {
@@ -50,36 +50,36 @@ function Searchbar() {
                 type="search"
                 onChange={(e) => changeHandler(e)}
             />
-            {/* {options && (
+            {options && (
                 <div className="options">
-                {options.map(option => 
-                    <div 
-                        className={"option " + option.type} 
-                        key={option.type + " " + option.id}
-                        onClick={() => goToPage(option.type, option.id)}
-                    >
+                    {options.map(option =>
+                        <div
+                            className={"option " + option.type}
+                            key={option.type + " " + option.id}
+                            onClick={() => goToPage(option.type, option.id)}
+                        >
                             <div className="optionName">{option.value}</div>
                             <div className="optionIconDiv">
                                 {option.type === "song" ? <img className="optionIcon" src={songIcon} alt="songIcon" />
-                                : option.type === "artist" ? <img className="optionIcon" src={artistIcon} alt="artistIcon" />
-                                : option.type === "album" ? <img className="optionIcon" src={albumIcon} alt="albumIcon" />
-                                : <img className="optionIcon" src={playlistIcon} alt="playlistIcon" />
-                            }
-                                
+                                    : option.type === "artist" ? <img className="optionIcon" src={artistIcon} alt="artistIcon" />
+                                        : option.type === "album" ? <img className="optionIcon" src={albumIcon} alt="albumIcon" />
+                                            : <img className="optionIcon" src={playlistIcon} alt="playlistIcon" />
+                                }
+
                             </div>
-                    </div>
-                )}
+                        </div>
+                    )}
                 </div>
-            )} */}
+            )}
 
             {/* {options.map(index => {
                 index.length > 0 &&
                     index.map(item => {
                         <div>{item._source.id}</div>
                     })
-            }) } */}
+            }) }
 
-            <div className="options">
+            {/* <div className="options">
                 {options && options.length > 0 && (
                     options.map(index =>
                         index.length > 0 ?
@@ -105,7 +105,7 @@ function Searchbar() {
                             : <> </>
                     )
                 )}
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -1,19 +1,27 @@
 FROM node:12
 
-WORKDIR /client/build
+WORKDIR /client
 
-ADD /client/build .
+COPY ./client/package.json .
+
+RUN npm install --only=production
+
+COPY ./client .
+
+RUN npm run build 
+
+# ADD /client/build .
 
 WORKDIR /server
 
 COPY /server/package.json /server/package-lock.json ./
 
-RUN npm install --production
+RUN npm install
 
 # if you encounter bcrypt errors -> replace it with 'bcrypt.js',
 # just npm install it, remove bcrypt and update instances to "require('bcrypt.js')""
 
-# RUN git clone https://github.com/vishnubob/wait-for-it.git
+RUN git clone https://github.com/vishnubob/wait-for-it.git
 
 #Change to your Port
 

@@ -15,4 +15,4 @@ RUN chmod +x /server/wait_for_it.sh
 
 COPY . .
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "spinupseed"]

@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { User, InteractionSong, InteractionArtist, InteractionAlbum, InteractionPlaylist, Song, Artist, Album, Playlist} = require('../models');
+const { User, InteractionSong, InteractionArtist, InteractionAlbum, InteractionPlaylist, Song, Artist, Album, Playlist } = require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
@@ -15,9 +15,9 @@ router.use(cookieParser());
 router.get('/', async (req, res) => {
   const { email, password } = req.query;
   try {
-    if(email && password) {
+    if (email && password) {
       const user = await User.findOne({
-        include: [{model: InteractionSong}, {model: InteractionArtist}, {model: InteractionAlbum}, {model: InteractionPlaylist}],
+        include: [{ model: InteractionSong }, { model: InteractionArtist }, { model: InteractionAlbum }, { model: InteractionPlaylist }],
         where: {
           email: req.query.email,
           password: req.query.password
@@ -26,74 +26,91 @@ router.get('/', async (req, res) => {
       res.json(user)
     } else {
       const allUsers = await User.findAll({
-        include: [{model: InteractionSong}, {model: InteractionArtist}, {model: InteractionAlbum}, {model: InteractionPlaylist}]
+        include: [{ model: InteractionSong }, { model: InteractionArtist }, { model: InteractionAlbum }, { model: InteractionPlaylist }]
       });
-        res.json(allUsers);
-    }} catch (err) {
+      res.json(allUsers);
+    }
+  } catch (err) {
     res.status(400).send(err.message);
   }
 });
 
 router.get('/verify', async (req, res) => {
   const token = req.cookies.jwt;
-    if (token && token !== "") {
-      jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-          console.log(err.massage);
-          res.redirect('/');
-        } else {
-          res.status(200).send(decoded);
-        }
-      })
-    } else {
-      res.redirect('/');
-    }
+  if (token && token !== "") {
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        console.log(err.message);
+        res.redirect('/');
+      } else {
+        res.status(200).send(decoded);
+      }
+    })
+  } else {
+    res.redirect('/');
+  }
 })
 
 router.get('/:userId', async (req, res) => {
-  const user = await User.findByPk(req.params.userId , {
-    attributes: ['id', 'name', 'createdAt', 'updatedAt'],
-    include: [
-      {model: InteractionSong, include: {model:Song}, where: {isLiked: true}, required: false}, 
-      {model: InteractionArtist, include: {model:Artist}, where: {isLiked: true}, required: false}, 
-      {model: InteractionAlbum, include: {model:Album}, where: {isLiked: true}, required: false}, 
-      {model: InteractionPlaylist, include: {model:Playlist}, where: {isLiked: true}, required: false}
-    ]
-  });
-  res.json(user)
+  try {
+    const user = await User.findByPk(req.params.userId, {
+      attributes: ['id', 'name', 'createdAt', 'updatedAt'],
+      include: [
+        { model: InteractionSong, include: { model: Song }, where: { isLiked: true }, required: false },
+        { model: InteractionArtist, include: { model: Artist }, where: { isLiked: true }, required: false },
+        { model: InteractionAlbum, include: { model: Album }, where: { isLiked: true }, required: false },
+        { model: InteractionPlaylist, include: { model: Playlist }, where: { isLiked: true }, required: false }
+      ]
+    });
+    res.json(user)
+  } catch (err) {
+    res.json({ error: err })
+  }
 })
 
 router.get('/playlists/:userId', async (req, res) => {
-  const user = await User.findByPk(req.params.userId , {
-    include: [{model: Playlist, required: false}]
-  });
-  res.json(user)
+  try {
+    const user = await User.findByPk(req.params.userId, {
+      include: [{ model: Playlist, required: false }]
+    });
+    res.json(user)
+  } catch (err) {
+    res.json({ error: err })
+  }
 })
 
 router.get('/', async (req, res) => {
   const { email, password } = req.query;
-  const user = await User.findOne({
-    where: {
-      email: email,
-      password: password
-    }
-  });
-  res.json(user)
+  try {
+    const user = await User.findOne({
+      where: {
+        email: email,
+        password: password
+      }
+    });
+    res.json(user)
+  } catch (err) {
+    res.json({ error: err })
+  }
 })
 
 router.post('/', async (req, res) => {
-    const { name, email, password, isAdmin = false, preferences, rememberToken } = req.body;
+  const { name, email, password, isAdmin = false, preferences, rememberToken } = req.body;
+  try {
     const user = await User.create({
-        name: name, 
-        email: email, 
-        password: password, 
-        isAdmin: isAdmin, 
-        preferences: preferences, 
-        rememberToken: rememberToken,
-        createdAt: req.body.createdAt || new Date(), 
-        updatedAt: new Date()
+      name: name,
+      email: email,
+      password: password,
+      isAdmin: isAdmin,
+      preferences: preferences,
+      rememberToken: rememberToken,
+      createdAt: req.body.createdAt || new Date(),
+      updatedAt: new Date()
     });
-  res.json(user)
+    res.json(user)
+  } catch (err) {
+    res.json({ error: err })
+  }
 })
 
 // Authentication
@@ -149,7 +166,7 @@ router.post('/signup', async (req, res) => {
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(201).json({ user });
   }
-  catch(err) {
+  catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
@@ -160,22 +177,22 @@ router.post('/login', async (req, res) => {
 
   const findUser = async (email, password) => {
     const user = await User.findOne({
-      where: {email: email}
+      where: { email: email }
     });
     if (password === '12345678' && email === 'guylei7@gmail.com') {
       return user;
     } else {
-    if (user) {
-      const auth = await bcrypt.compare(password, user.password)
-      if (auth) {
-        return user;
+      if (user) {
+        const auth = await bcrypt.compare(password, user.password)
+        if (auth) {
+          return user;
+        } else {
+          throw Error('incorrect password');
+        }
       } else {
-        throw Error('incorrect password');
+        throw Error('incorrect email')
       }
-    } else {
-      throw Error('incorrect email')
     }
-  }
   }
 
   try {
@@ -183,7 +200,7 @@ router.post('/login', async (req, res) => {
     const token = createToken(user);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ user });
-  } 
+  }
   catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -191,20 +208,28 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/logout', (req, res) => {
-  res.cookie('jwt', '', {maxAge: 0});
+  res.cookie('jwt', '', { maxAge: 0 });
   res.redirect('/');
 });
 
 router.patch('/:userId', async (req, res) => {
-  const user = await User.findByPk(req.params.userId);
-  await user.update(req.body);
-  res.json(user)
+  try {
+    const user = await User.findByPk(req.params.userId);
+    await user.update(req.body);
+    res.json(user)
+  } catch (err) {
+    res.json({ error: err })
+  }
 })
 
 router.delete('/:userId', async (req, res) => {
-  const user = await User.findByPk(req.params.userId);
-  await user.destroy();
-  res.json({ deleted: true })
+  try {
+    const user = await User.findByPk(req.params.userId);
+    await user.destroy();
+    res.json({ deleted: true })
+  } catch (err) {
+    res.json({ error: err })
+  }
 })
 
 module.exports = router;
