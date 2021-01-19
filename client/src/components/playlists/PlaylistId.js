@@ -125,10 +125,6 @@ function PlaylistId(match) {
         }
     }
 
-    console.log("user", user)
-    console.log("emptyPlaylist", emptyPlaylist)
-    console.log("playlist", playlist)
-
     return (
         <>
             {playlist && (

@@ -21,8 +21,6 @@ function ArtistId(match) {
         fetchIsLiked();
     }, [user, artist]);
 
-    console.log(user)
-
     const fetchArtist = async () => {
         const { data } = await axios.get(`/api/artists/${match.match.params.id}`);
         setArtist(data);
