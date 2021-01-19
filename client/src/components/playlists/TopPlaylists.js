@@ -8,43 +8,48 @@ import { Link } from 'react-router-dom';
 // components
 import Playlist from './Playlist';
 
-function TopPlaylists( { topPlaylists, topOption }) {
-    
+function TopPlaylists({ topPlaylists, topOption }) {
+
     return (
-        <div className="topPlaylists">
-            <div className="topHeader">Top Playlists</div>
-            {topOption === "new" ? (
-                <Carousel         
-                    center
-                    infinite
-                    showArrows
-                    showIndicator
-                    slidesToShow={3}>
-                    {topPlaylists.map(playlist => {
-                        return (
-                            <Link to = {`/playlist/${playlist.id}`} key={playlist.id}>
-                                <Playlist playlist={playlist} />
-                            </Link>
-                        )
-                    })}
-                </Carousel>      
-            ) : (
-                <Carousel         
-                    center
-                    infinite
-                    showArrows
-                    showIndicator
-                    slidesToShow={3}>
-                    {topPlaylists.map(playlist => {
-                        return (
-                            <Link to = {`/playlist/${playlist.playlistId}`} key={playlist.playlistId}>
-                                <Playlist playlist={playlist.Playlist} key={playlist.playlistId}/>
-                            </Link>
-                        ) 
-                    })}
-                </Carousel>       
-            )}  
-        </div>
+        <>
+            {(topPlaylists && topOption) ?
+                <div className="topPlaylists">
+                    <div className="topHeader">Top Playlists</div>
+                    {topOption === "new" ? (
+                        <Carousel
+                            center
+                            infinite
+                            showArrows
+                            showIndicator
+                            slidesToShow={3}>
+                            {topPlaylists.map(playlist => {
+                                return (
+                                    <Link to={`/playlist/${playlist.id}`} key={playlist.id}>
+                                        <Playlist playlist={playlist} />
+                                    </Link>
+                                )
+                            })}
+                        </Carousel>
+                    ) : (
+                            <Carousel
+                                center
+                                infinite
+                                showArrows
+                                showIndicator
+                                slidesToShow={3}>
+                                {topPlaylists.map(playlist => {
+                                    return (
+                                        <Link to={`/playlist/${playlist.playlistId}`} key={playlist.playlistId}>
+                                            <Playlist playlist={playlist.Playlist} key={playlist.playlistId} />
+                                        </Link>
+                                    )
+                                })}
+                            </Carousel>
+                        )}
+                </div>
+                : <div>Loading...</div>
+            }
+        </>
     )
 }
 
